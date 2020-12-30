@@ -1,6 +1,5 @@
 # Bank-Transaction-and-Loan-Processing-System
-
-************************************************************   STARTUP   ********************************************************************
+INSTALLING
 
 To install, run (in the base folder)
 
@@ -11,7 +10,7 @@ To install, run (in the base folder)
 
 If any code doesn't work in the VSCode integrated terminal (like when setting environmental variables) use the windows terminal instead.
 
-************************************************************   DATABASE   ********************************************************************
+DATABASE INFORMATION
 
 Database used: PostgreSQL
 
