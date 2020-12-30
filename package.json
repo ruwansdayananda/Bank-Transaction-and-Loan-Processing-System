@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/Team-mineski/Bank-Transaction-and-Loan-Processing-System#readme",
   "dependencies": {
+    "config": "^3.3.2",
     "express": "^4.17.1",
+    "joi": "^17.3.0",
     "nodemon": "^2.0.6",
     "pg": "^8.5.1"
   }
