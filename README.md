@@ -18,15 +18,10 @@ GUI for PostgreSQL: https://www.postgresql.org/ftp/pgadmin/pgadmin4/v4.29/window
 
 In order to access the database, you need your unique logins. This is stored in the config/default.json file which you see as 
 {
+
     "user":"",
-    
-    
     "password": "",
-    
-    
     "port": 5432,
-    
-    
     "database": ""
     
 }
