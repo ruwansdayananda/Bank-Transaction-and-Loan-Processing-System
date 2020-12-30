@@ -3,6 +3,7 @@
 ************************************************************   STARTUP   ********************************************************************
 
 To install, run (in the base folder)
+
 1. npm init
 2. npm i express
 3. npm i pg
@@ -13,7 +14,9 @@ If any code doesn't work in the VSCode integrated terminal (like when setting en
 ************************************************************   DATABASE   ********************************************************************
 
 Database used: PostgreSQL
+
 Download PostgreSQLfrom: https://www.postgresql.org/download/windows/
+
 GUI for PostgreSQL: https://www.postgresql.org/ftp/pgadmin/pgadmin4/v4.29/windows/
 
 In order to access the database, you need your unique logins. This is stored in the config/default.json file which you see as 
