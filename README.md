@@ -1,6 +1,7 @@
 # Bank-Transaction-and-Loan-Processing-System
 
 ************************************************************   STARTUP   ********************************************************************
+
 To install, run (in the base folder)
 1. npm init
 2. npm i express
@@ -10,6 +11,7 @@ To install, run (in the base folder)
 If any code doesn't work in the VSCode integrated terminal (like when setting environmental variables) use the windows terminal instead.
 
 ************************************************************   DATABASE   ********************************************************************
+
 Database used: PostgreSQL
 Download PostgreSQLfrom: https://www.postgresql.org/download/windows/
 GUI for PostgreSQL: https://www.postgresql.org/ftp/pgadmin/pgadmin4/v4.29/windows/
