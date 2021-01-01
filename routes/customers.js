@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Customer, validateCustomer } = require('../models/customer');
+const { request } = require('express');
+var path = require("path");
 
 router.post('/', (request, response) => {
     const { error } = validateCustomer(request.body);
@@ -10,5 +12,7 @@ router.post('/', (request, response) => {
     return response.status(200).send("No worries");
 });
 
-
+router.get('/', (request, response) => {
+        response.sendFile(path.join(__dirname, '../views/customer.html'));
+})
 module.exports = router;
