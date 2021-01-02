@@ -3,7 +3,8 @@ INSTALLING
 
 To install, run (in the base folder)
 
-npm init --yes
+1)npm init --yes
+2) npm install
 
 If any code doesn't work in the VSCode integrated terminal (like when setting environmental variables) use the windows terminal instead.
 
@@ -20,10 +21,10 @@ GUI for PostgreSQL: https://www.postgresql.org/ftp/pgadmin/pgadmin4/v4.29/window
 In order to access the database, you need your unique logins. This is stored in the config/default.json file which you see as 
 {
 
-    "user":"",
-    "password": "",
+    "user":"",  //enter your postgres username
+    "password": "", //password
     "port": 5432,
-    "database": ""
+    "database": "" //databse name : create a temp one
     
 }
 
