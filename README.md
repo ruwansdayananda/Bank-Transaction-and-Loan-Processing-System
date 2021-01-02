@@ -36,7 +36,12 @@ Once you clone the repo, add the values to the above properties as they are stor
 
 As soon as you clone the repo, run these commands
 git rm --cached config/default.json
+
+
 git update-index --skip-worktree config/default.json
+
+
 git update-index --assume-unchanged config/default.json
+
 
 Then change like a letter in the config/default.json file just to check its not tracked. If its still tracked, you probably screwed up somewhere, check again. :)
