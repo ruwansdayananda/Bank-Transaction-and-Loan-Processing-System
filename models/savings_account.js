@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 //validation for the savings account creation form
-function validatesSavingsAccForm(account) {
+function validateSavingsAccountForm(account) {
     
     const schema = Joi.object({
         "savings_account_id": Joi.string().required().alphanum().max(30),
@@ -17,4 +17,4 @@ function validatesSavingsAccForm(account) {
     });
     return schema.validate(account);
 }
-exports.validatesSavingsAccForm = validatesSavingsAccForm;
+exports.validateSavingsAccountForm = validateSavingsAccountForm;
