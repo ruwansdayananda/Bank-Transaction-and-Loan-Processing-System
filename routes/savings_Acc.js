@@ -3,6 +3,7 @@ const router = express.Router();
 const {validatesSavingsAccForm} = require('../models/savings_Acc');
 
 
+// route to create new savings account
 router.post('/create', (request,response)=>{
     const {error} = validatesSavingsAccForm(request.body);
     if(error){

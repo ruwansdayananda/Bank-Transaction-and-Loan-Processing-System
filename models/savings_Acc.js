@@ -1,5 +1,6 @@
 const Joi = require('joi');
 
+//validation for the savings account creation form
 function validatesSavingsAccForm(account) {
     
     const schema = Joi.object({
