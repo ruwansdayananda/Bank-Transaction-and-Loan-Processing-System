@@ -5,6 +5,7 @@ const savings_account = require('../routes/savings_account');
 module.exports = function (app) {
 
     app.use(express.json());
+    
     app.use(express.urlencoded({ extended: true }));
 
     //endpoints added
