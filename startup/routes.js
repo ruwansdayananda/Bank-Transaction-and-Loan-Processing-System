@@ -11,6 +11,7 @@ module.exports = function (app) {
     app.use('/customers', customers);
     // app.use('/employees', employees);
 
+    //test
     //savings_acc end point
     app.use('/savings_account',savings_account);
 
