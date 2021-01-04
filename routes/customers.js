@@ -22,7 +22,12 @@ router.post('/corporate', (request, response) => {
     return response.status(200).send("No worries");
 });
 
-router.get('/', (request, response) => {
+router.get('/personal', (request, response) => {
         response.sendFile(path.join(__dirname, '../views/customer.html'));
-})
+});
+
+router.get('/corporate', (request, response) => {
+    response.sendFile(path.join(__dirname, '../views/corporate.html'));
+});
+
 module.exports = router;
