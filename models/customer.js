@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-function validateCustomer(customer) {
+function validateIndividual(customer) {
     const schema = Joi.object({
 
         "individual_id": Joi.string()
@@ -56,5 +56,5 @@ function validateCorporate(company) {
     return schema.validate(company);
 }
 
-exports.validateCustomer = validateCustomer;
+exports.validateIndividual = validateIndividual;
 exports.validateCorporate = validateCorporate;
