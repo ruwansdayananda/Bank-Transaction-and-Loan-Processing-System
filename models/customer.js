@@ -14,14 +14,14 @@ function validateCustomer(customer) {
                 'any.required': `"customer_id" is a required field`
             }),
         
-        "full_name": Joi.string(30).pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
-        "address": Joi.string(50).required(),
+        "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
+        "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
         "date_of_birth": Joi.date().greater('1974-01-01').less('2003-12-31').required(),
         "residential_contact_no": Joi.string().required().min(10),
         "personal_contact_no": Joi.string().required().min(10),
         "date_joined": Joi.string().required(),
-        "email_address": Joi.string(30).required(),
+        "email_address": Joi.string().required(),
         "password": Joi.string().min(5).max(1024).required(),
     });
     return schema.validate(customer);
@@ -41,15 +41,15 @@ function validateCorporate(customer) {
                 'any.required': `"corporate_id" is a required field`
             }),
 
-        "company_registration_number": Joi.string(40).required(),
-        "company_name":Joi.string(20).min(3).required(),
-        "company_email_address": Joi.string(30).max(319).required(),
-        "address":Joi.string(50).required(),
+        "company_registration_number": Joi.string().required(),
+        "company_name":Joi.string().min(3).required(),
+        "company_email_address": Joi.string().max(319).required(),
+        "address":Joi.string().required(),
         "date_of_establishment":Joi.date().required(),    //Constranins must be checked
         "contact_no":Joi.string().required().min(10),
         "date_joined":Joi.date().required(),     // Constraints must be checked
-        "correspondent":Joi.string(30).alphanum().required(),
-        "correspondent_email_address":Joi.string(30).max(319).required(),
+        "correspondent":Joi.string().alphanum().required(),
+        "correspondent_email_address":Joi.string().max(319).required(),
         "password": Joi.string().min(5).max(1024).required(),
         
     });
