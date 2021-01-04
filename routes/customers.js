@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Customer, validateCustomer } = require('../models/customer');
+const { Customer, validateCustomer, validateCorporate } = require('../models/customer');
 const { request } = require('express');
 var path = require("path");
 
