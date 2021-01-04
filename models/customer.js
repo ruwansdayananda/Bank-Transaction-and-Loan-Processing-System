@@ -15,6 +15,7 @@ function validateIndividual(customer) {
             }),
         
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
+        
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
         "date_of_birth": Joi.date().greater('1974-01-01').less('2003-12-31').required(),
