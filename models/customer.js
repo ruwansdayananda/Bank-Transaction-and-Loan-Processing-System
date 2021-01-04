@@ -7,7 +7,7 @@ function validateCustomer(customer) {
             // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
             .required().min(15)
             .messages({         //how to define custom messages
-                'string.base': `"customer_id" should be text`,
+                'string.base': `"individual_id" should be text`,
                 'string.empty': `"customer_id" cannot be an empty field`,
                 'string.regex': `"asdasda`,
                 'string.min': `"customer_id" should have a minimum length of 15`,
@@ -27,7 +27,7 @@ function validateCustomer(customer) {
     return schema.validate(customer);
 }
 
-function validateCorporate(customer) {
+function validateCorporate(company) {
     const schema = Joi.object({
 
         "corporate_id": Joi.string()
@@ -53,7 +53,7 @@ function validateCorporate(customer) {
         "password": Joi.string().min(5).max(1024).required(),
         
     });
-    return schema.validate(customer);
+    return schema.validate(company);
 }
 
 exports.validateCustomer = validateCustomer;
