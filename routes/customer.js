@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Customer, validateCustomer, validateCorporate } = require('../models/customer');
+const { Customer, validateIndividual, validateCorporate } = require('../models/customer');
 const { request } = require('express');
 var path = require("path");
 
@@ -23,7 +23,7 @@ router.post('/corporate', (request, response) => {
 });
 
 router.get('/individual', (request, response) => {
-        response.sendFile(path.join(__dirname, '../views/customer.html'));
+        response.sendFile(path.join(__dirname, '../views/individual.html'));
 });
 
 router.get('/corporate', (request, response) => {
