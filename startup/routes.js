@@ -21,5 +21,4 @@ module.exports = function (app) {
 
     //loan end point added
     app.use('/loan',loan);
-
 }
