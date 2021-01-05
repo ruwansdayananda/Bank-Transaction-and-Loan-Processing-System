@@ -37,6 +37,5 @@ function validateOnlineLoan(onlineLoan) {
     
 }
 
-
 exports.validateNormalLoan = validateNormalLoan;
 exports.validateOnlineLoan = validateOnlineLoan;
