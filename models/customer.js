@@ -1,6 +1,8 @@
 const Joi = require('joi');
 
 function validateIndividual(customer) {
+    const now = Date.now();
+    const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
     const schema = Joi.object({
 
         "individual_id": Joi.string()
@@ -17,7 +19,7 @@ function validateIndividual(customer) {
         
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
-        "date_of_birth": Joi.date().greater('1974-01-01').less('2003-12-31').required(),
+        "date_of_birth": Joi.date().greater('1974-01-01').less(cutoffDate).required(),
         "residential_contact_no": Joi.string().required().min(10),
         "personal_contact_no": Joi.string().required().min(10),
         "date_joined": Joi.string().required(),
