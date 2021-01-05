@@ -45,7 +45,7 @@ router.post('/individual', (request, response) => {
     insert_customer
         .then(result => {
             insert_individual_customer
-                .then(result => console.log(result))
+                .then(result => console.log("Success"))
                 .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
