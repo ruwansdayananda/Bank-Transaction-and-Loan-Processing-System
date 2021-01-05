@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-function validateCustomer(customer) {
+function validateIndividual(customer) {
     const schema = Joi.object({
 
         "individual_id": Joi.string()
@@ -8,13 +8,13 @@ function validateCustomer(customer) {
             .required().min(15)
             .messages({         //how to define custom messages
                 'string.base': `"individual_id" should be text`,
-                'string.empty': `"customer_id" cannot be an empty field`,
-                'string.regex': `"asdasda`,
+                'string.empty': `"individual_id" cannot be an empty field`,
                 'string.min': `"customer_id" should have a minimum length of 15`,
-                'any.required': `"customer_id" is a required field`
+                'any.required': `"individual_id" is a required field`
             }),
         
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
+        
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
         "date_of_birth": Joi.date().greater('1974-01-01').less('2003-12-31').required(),
@@ -56,5 +56,5 @@ function validateCorporate(company) {
     return schema.validate(company);
 }
 
-exports.validateCustomer = validateCustomer;
+exports.validateIndividual = validateIndividual;
 exports.validateCorporate = validateCorporate;
