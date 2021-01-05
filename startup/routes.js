@@ -1,5 +1,6 @@
 const express = require('express');
 const customer = require('../routes/customer');
+const employee = require('../routes/employee');
 const savings_account = require('../routes/savings_account');
 
 module.exports = function (app) {
@@ -10,6 +11,9 @@ module.exports = function (app) {
 
     //endpoints added
     app.use('/customer', customer);
+
+    //employee endpoint added
+    app.use('/employee', employee);
 
     //savings_acc end point
     app.use('/savings_account',savings_account);
