@@ -8,10 +8,9 @@ function validateIndividual(customer) {
             .required().min(15)
             .messages({         //how to define custom messages
                 'string.base': `"individual_id" should be text`,
-                'string.empty': `"customer_id" cannot be an empty field`,
-                'string.regex': `"asdasda`,
+                'string.empty': `"individual_id" cannot be an empty field`,
                 'string.min': `"customer_id" should have a minimum length of 15`,
-                'any.required': `"customer_id" is a required field`
+                'any.required': `"individual_id" is a required field`
             }),
         
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
