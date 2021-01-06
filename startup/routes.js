@@ -22,3 +22,4 @@ module.exports = function (app) {
 // /employee_functionalities/loan/normal
 // /employee_functionalities/loan/online
 // /employee_functionalities/savings_account/create
+// /employee_functionalities/checking_account/create
