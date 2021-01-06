@@ -4,7 +4,7 @@ const Joi = require('joi');
 function validateSavingsAccountForm(account) {
     
     const schema = Joi.object({
-        "savings_account_id": Joi.string().required().alphanum().max(30),
+        "savings_account_id": Joi.string().required().max(30),
         "branch_id": Joi.number().integer().required(),
         "customer_id":Joi.string().required().min(15),
         "savings_plan_id":Joi.number().integer().required(),
