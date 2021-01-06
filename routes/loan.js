@@ -4,9 +4,7 @@ const {validateNormalLoan,validateOnlineLoan} = require('../models/loan');
 var path = require('path');
 
 
-router.get('/onlineLoan', (request,response) => {
-    response.send("onlineloan");
-});
+
 
 router.get('/normalLoan', (request,response) => {
     // response.sendFile(path.join(__dirname, '../views/normalLoan.html'));
@@ -22,6 +20,10 @@ router.post('/normalLoan', (request,response) => {
 
     return response.status(200).send(request.body);
     
+});
+
+router.get('/onlineLoan', (request, response) => {
+    response.send("onlineloan");
 });
 
 router.post('/onlineLoan', (request,response) => {
