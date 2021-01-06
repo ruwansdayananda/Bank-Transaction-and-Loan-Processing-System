@@ -5,11 +5,14 @@ var path = require('path');
 
 
 router.get('/onlineLoan', (request,response) => {
-    response.sendFile(path.join(__dirname, '../views/onlineLoan.html'));
+    response.send("onlineloan");
 });
 
 router.get('/normalLoan', (request,response) => {
-    response.sendFile(path.join(__dirname, '../views/normalLoan.html'));
+    // response.sendFile(path.join(__dirname, '../views/normalLoan.html'));
+    
+    //dummy response 
+    response.send("normalloan");
 });
 
 router.post('/normalLoan', (request,response) => {
