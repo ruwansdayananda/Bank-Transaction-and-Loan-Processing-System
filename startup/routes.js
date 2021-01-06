@@ -1,8 +1,10 @@
 const express = require('express');
-const customer = require('../routes/customer');
-const employee = require('../routes/employee');
-const loan = require('../routes/loan');
-const savings_account = require('../routes/savings_account');
+// const customer = require('../routes/customer');
+// const employee = require('../routes/employee');
+// const loan = require('../routes/loan');
+// const savings_account = require('../routes/savings_account');
+
+const routes = require('../routes')
 
 module.exports = function (app) {
 
@@ -10,15 +12,13 @@ module.exports = function (app) {
     
     app.use(express.urlencoded({ extended: true }));
 
-    //endpoints added
-    app.use('/customer', customer);
-
-    //employee endpoint added
-    app.use('/employee', employee);
-
-    //savings_acc end point
-    app.use('/savings_account',savings_account);
-
-    //loan end point added
-    app.use('/loan',loan);
+    app.use('/', routes);
 }
+
+
+// /employee_functionalities/customer/corporate
+// /employee_functionalities/customer/individual
+// /branch_manager_functionalities/employee/create
+// /employee_functionalities/loan/normal
+// /employee_functionalities/loan/online
+// /employee_functionalities/savings_account/create

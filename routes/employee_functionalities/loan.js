@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const {validateNormalLoan,validateOnlineLoan} = require('../models/loan');
+const {validateNormalLoan,validateOnlineLoan} = require('../../models/loan');
 var path = require('path');
 
 
 
 
-router.get('/normalLoan', (request,response) => {
+router.get('/normal', (request,response) => {
     // response.sendFile(path.join(__dirname, '../views/normalLoan.html'));
     
     //dummy response 
-    response.send("normalloan");
+    response.send("normal loan");
 });
 
-router.post('/normalLoan', (request,response) => {
+router.post('/normal', (request,response) => {
     const {error} = validateNormalLoan(request.body);
 
     if(error) return response.status(404).send(error.details[0].message);
@@ -22,11 +22,11 @@ router.post('/normalLoan', (request,response) => {
     
 });
 
-router.get('/onlineLoan', (request, response) => {
-    response.send("onlineloan");
+router.get('/online', (request, response) => {
+    response.send("online loan");
 });
 
-router.post('/onlineLoan', (request,response) => {
+router.post('/online', (request,response) => {
     const {error} = validateOnlineLoan(request.body);
 
     if(error) return response.status(404).send(error.details[0].message);

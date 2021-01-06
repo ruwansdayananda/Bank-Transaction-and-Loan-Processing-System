@@ -1,12 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const { Customer, validateIndividual, validateCorporate } = require('../models/customer');
-const { pool } = require('../startup/mysql_database');
-const { request } = require('express');
+const {Customer, validateIndividual,validateCorporate} = require('../../models/customer');
+const {pool} = require('../../startup/mysql_database');
+const {request} = require('express');
 var path = require("path");
 
+// GET REQUESTS
+router.get('/individual', (request, response) => {
+    response.sendFile(path.join(__dirname, '../../views/individual.html'));
+});
+
+router.get('/corporate', (request, response) => {
+    response.sendFile(path.join(__dirname, '../../views/corporate.html'));
+});
+
+// POST REQUESTS 
 router.post('/individual', (request, response) => {
-    const {error} = validateIndividual(request.body);
+    const {
+        error
+    } = validateIndividual(request.body);
     if (error) {
         return response.status(404).send(error.details[0].message);
     }
@@ -38,9 +50,9 @@ router.post('/individual', (request, response) => {
                 request.body.password
             ],
             function (error, results, fields) {
-            if (error) reject(error);
-            else resolve(results);
-        });
+                if (error) reject(error);
+                else resolve(results);
+            });
     });
     insert_customer
         .then(result => {
@@ -49,7 +61,7 @@ router.post('/individual', (request, response) => {
                 .catch(error => console.log(error.message));
         })
         .catch(error => console.log(error.message));
-    
+
     return response.status(200).send("No worries");
 });
 
@@ -63,24 +75,6 @@ router.post('/corporate', (request, response) => {
     return response.status(200).send("No worries");
 });
 
-router.get('/individual', (request, response) => {
-    
-    
-    response.sendFile(path.join(__dirname, '../views/individual.html'));
-});
 
-router.get('/corporate', (request, response) => {
-    response.sendFile(path.join(__dirname, '../views/corporate.html'));
-});
 
 module.exports = router;
-
-function test() {
-    return new Promise((resolve, reject) => {
-         const query = pool.query('SELECT * FROM branch', function (error, results, fields) {
-             if (error) reject(error);
-             else resolve(results);
-        });
-    }
-    );
-}

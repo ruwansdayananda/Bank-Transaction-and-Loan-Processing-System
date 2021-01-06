@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {validateSavingsAccountForm} = require('../models/savings_account');
+const {validateSavingsAccountForm} = require('../../models/savings_account');
 
 
 // route to create new savings account
