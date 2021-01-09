@@ -32,6 +32,7 @@ router.post('/create', (request,response)=>{
     //promise.then and .catch
     insert_checking_account
         .then(result=>{console.log("Success !");
+        // return statement is not working outside the then and catch
         return response.status(200).send("No worries");
     })
         .catch(error=>console.log(error.message));
