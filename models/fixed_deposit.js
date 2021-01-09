@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 
-function validateFixedDepositForm(account) {
+function validateFixedDeposit(account) {
     
     const schema = Joi.object({
         "fixed_deposit_id": Joi.number().integer().required(),
@@ -16,4 +16,4 @@ function validateFixedDepositForm(account) {
     });
     return schema.validate(account);
 }
-exports.validateFixedDepositForm = validateFixedDepositForm;
+exports.validateFixedDeposit = validateFixedDeposit;

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const {validateSavingsAccountForm} = require('../../models/fixed_deposit');
+const {validateFixedDeposit} = require('../../models/fixed_deposit');
 
 
 // route to create new savings account
 router.post('/create', (request,response)=>{
-    const {error} = validateFixedDepositForm(request.body);
+    const {error} = validateFixedDeposit(request.body);
     if(error){
         return response.status(400).send(error.message);
     }
