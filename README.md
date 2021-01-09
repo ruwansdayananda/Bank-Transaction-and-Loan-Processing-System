@@ -10,36 +10,13 @@ If any code doesn't work in the VSCode integrated terminal (like when setting en
 
 DATABASE INFORMATION
 
-Database used: PostgreSQL
+Database used: MySQL
 
-Download PostgreSQLfrom: https://www.postgresql.org/download/windows/
+CURRENTLY IMPLEMENTED ROUTES
 
-GUI for PostgreSQL: https://www.postgresql.org/ftp/pgadmin/pgadmin4/v4.29/windows/
-
-==================================IMPORTANT===============================
-
-In order to access the database, you need your unique logins. This is stored in the config/default.json file which you see as 
-{
-
-    "user":"",  //enter your postgres username
-    "password": "", //password
-    "port": 5432,
-    "database": "" //databse name : create a temp one
+1. Customer
+    - /customer/individual
+    - /customer/corporate
     
-}
-
-Once you clone the repo, add the values to the above properties as they are stored in your database info (For the port, 5432 should be the default value, but if you changed that too, update that value too.
-
-===============DON'T COMMIT THIS FILE WHEN YOU PUBLISH CHANGES============
-
-As soon as you clone the repo, run these commands
-git rm --cached config/default.json
-
-
-git update-index --skip-worktree config/default.json
-
-
-git update-index --assume-unchanged config/default.json
-
-
-Then change like a letter in the config/default.json file just to check its not tracked. If its still tracked, you probably screwed up somewhere, check again. :)
+2. Bank Accounts
+    - /savings_account/create

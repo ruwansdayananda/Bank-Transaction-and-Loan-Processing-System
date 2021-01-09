@@ -1,7 +1,7 @@
 {
   "name": "Bank-Transaction-and-Loan-Processing-System",
   "version": "1.0.0",
-  "description": "",
+  "description": "INSTALLING",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +21,7 @@
     "config": "^3.3.2",
     "express": "^4.17.1",
     "joi": "^17.3.0",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.6",
     "path": "^0.12.7",
     "pg": "^8.5.1",
