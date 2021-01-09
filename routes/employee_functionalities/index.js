@@ -3,10 +3,12 @@ const customer = require('./customer');
 const normal_loan = require('./normal_loan');
 const savings_account = require('./savings_account');
 const checking_account = require('./checking_account');
+const savings_account = require('./fixed_deposit');
 
 const routes = require('express').Router();
 routes.use('/customer', customer);
 routes.use('/savings_account', savings_account);
+routes.use('/fixed_deposit', fixed_deposit);
 routes.use('/loan', normal_loan);
 routes.use('/checking_account',checking_account);
 
