@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const pug=require('pug');
 const {
-    employee,
     validateEmployee
 } = require('../../models/employee');
 

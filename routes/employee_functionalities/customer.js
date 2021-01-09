@@ -1,26 +1,59 @@
+// Express stuff
 const express = require('express');
 const router = express.Router();
-const {Customer, validateIndividual,validateCorporate} = require('../../models/customer');
-const {pool} = require('../../startup/mysql_database');
-const {request} = require('express');
 var path = require("path");
+// Model
+const { validateIndividual, validateCorporate } = require('../../models/customer');
+
+// DB connection
+const { pool } = require('../../startup/mysql_database');
+
+// Middleware
+const employee = require('../../middleware/employee');
+const auth = require('../../middleware/auth');
 
 // GET REQUESTS
-router.get('/individual', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/individual.html'));
+router.get('/individual', [auth, employee], (request, response) => {
+    const get_customer_id = new Promise((resolve, reject) => {
+        const query = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'individual_customer';",
+            function (error, results, fields) {
+                if (error) reject(error);
+                else resolve(results);
+            });
+    });
+    var id;
+    get_customer_id
+        .then(result => {
+            console.log(result);
+            id = (result[0].AUTO_INCREMENT).toString();
+            console.log(id);
+            return response.render('individual', {
+                id: id
+            });
+
+        })
+        .catch(error => {
+            return response.status(400).send("Error");
+        });
+    // response.send(200);
+    
+
+    // response.sendFile(path.join(__dirname, '../../views/individual.html'));
 });
 
-router.get('/corporate', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/corporate.html'));
+router.get('/corporate', [auth, employee], (request, response) => {
+    
+    response.sendFile(path.join(__dirname, '../views/corporate.html'));
 });
 
 // POST REQUESTS 
-router.post('/individual', (request, response) => {
+router.post('/individual', [auth, employee], (request, response) => {
     const {
         error
     } = validateIndividual(request.body);
+
     if (error) {
-        return response.status(404).send(error.details[0].message);
+        return response.status(400).send(error.details[0].message);
     }
     console.log(request);
 
@@ -34,7 +67,10 @@ router.post('/individual', (request, response) => {
                 if (error) reject(error);
                 else resolve(results);
             });
-    });
+    }
+    
+    );
+
     const insert_individual_customer = new Promise((resolve, reject) => {
         const query = pool.query('INSERT INTO individual_customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
@@ -65,7 +101,7 @@ router.post('/individual', (request, response) => {
     return response.status(200).send("No worries");
 });
 
-router.post('/corporate', (request, response) => {
+router.post('/corporate', [auth, employee], (request, response) => {
     const {
         error
     } = validateCorporate(request.body);

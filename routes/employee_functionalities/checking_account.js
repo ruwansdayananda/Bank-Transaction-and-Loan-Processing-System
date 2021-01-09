@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {validateCheckingAccountForm} = require('../../models/checking_account');
-
+const pug=require('pug');
 
 // route to create new checking account
 router.post('/create', (request,response)=>{
@@ -12,5 +12,13 @@ router.post('/create', (request,response)=>{
     return response.send(request.body);
 
 });
+
+/**
+ * @todo this is just to check pug out, delete after
+ */
+
+router.get('/', (request, response) => {
+    response.render('index.html');
+})
 
 module.exports = router;

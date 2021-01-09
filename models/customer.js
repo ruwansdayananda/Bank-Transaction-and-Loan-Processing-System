@@ -3,20 +3,10 @@ const Joi = require('joi');
 function validateIndividual(customer) {
     const now = Date.now();
     const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
-    const schema = Joi.object({
 
-        "individual_id": Joi.string()
-            // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
-            .required().min(15)
-            .messages({         //how to define custom messages
-                'string.base': `"individual_id" should be text`,
-                'string.empty': `"individual_id" cannot be an empty field`,
-                'string.min': `"customer_id" should have a minimum length of 15`,
-                'any.required': `"individual_id" is a required field`
-            }),
-        
+    const schema = Joi.object({
+        "individual_id": Joi.number().integer().min(100001).required(),
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
-        
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
         "date_of_birth": Joi.date().greater('1974-01-01').less(cutoffDate).required(),

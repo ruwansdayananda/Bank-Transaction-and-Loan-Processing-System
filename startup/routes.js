@@ -3,14 +3,17 @@ const express = require('express');
 // const employee = require('../routes/employee');
 // const loan = require('../routes/loan');
 // const savings_account = require('../routes/savings_account');
-
-const routes = require('../routes')
+const path = require('path');
+const routes = require('../routes');
 
 module.exports = function (app) {
 
     app.use(express.json());
     
     app.use(express.urlencoded({ extended: true }));
+
+    app.set('views', path.join(__dirname, '../views'));
+    app.set('view engine', 'pug');
 
     app.use('/', routes);
 }
