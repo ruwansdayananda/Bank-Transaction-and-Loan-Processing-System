@@ -5,15 +5,15 @@ function validateIndividual(customer) {
     const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
     const schema = Joi.object({
 
-        "individual_id": Joi.string()
-            // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
-            .required().min(15)
-            .messages({         //how to define custom messages
-                'string.base': `"individual_id" should be text`,
-                'string.empty': `"individual_id" cannot be an empty field`,
-                'string.min': `"customer_id" should have a minimum length of 15`,
-                'any.required': `"individual_id" is a required field`
-            }),
+        // "individual_id": Joi.string()
+        //     // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
+        //     .required().min(15)
+        //     .messages({         //how to define custom messages
+        //         'string.base': `"individual_id" should be text`,
+        //         'string.empty': `"individual_id" cannot be an empty field`,
+        //         'string.min': `"customer_id" should have a minimum length of 15`,
+        //         'any.required': `"individual_id" is a required field`
+        //     }),
         
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
         
@@ -25,6 +25,7 @@ function validateIndividual(customer) {
         "date_joined": Joi.string().required(),
         "email_address": Joi.string().required(),
         "password": Joi.string().min(5).max(1024).required(),
+        "account_type":Joi.string().required()
     });
     return schema.validate(customer);
 }
@@ -32,16 +33,16 @@ function validateIndividual(customer) {
 function validateCorporate(company) {
     const schema = Joi.object({
 
-        "corporate_id": Joi.string()
-            // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
-            .required().min(20)
-            .messages({         //how to define custom messages
-                'string.base': `"corporate_id" should be text`,
-                'string.empty': `"corporate_id" cannot be an empty field`,
-                'string.regex': `"asdasda`,
-                'string.min': `"corporate_id" should have a minimum length of 15`,
-                'any.required': `"corporate_id" is a required field`
-            }),
+        // "corporate_id": Joi.string()
+        //     // .pattern(new RegExp('^SC.*SCR$')) //this regex means that the customer id has to start with SC and end with SCR with total 15 characters
+        //     .required().min(20)
+        //     .messages({         //how to define custom messages
+        //         'string.base': `"corporate_id" should be text`,
+        //         'string.empty': `"corporate_id" cannot be an empty field`,
+        //         'string.regex': `"asdasda`,
+        //         'string.min': `"corporate_id" should have a minimum length of 15`,
+        //         'any.required': `"corporate_id" is a required field`
+        //     }),
 
         "company_registration_number": Joi.string().required(),
         "company_name":Joi.string().min(3).required(),
@@ -53,6 +54,7 @@ function validateCorporate(company) {
         "correspondent":Joi.string().alphanum().required(),
         "correspondent_email_address":Joi.string().max(319).required(),
         "password": Joi.string().min(5).max(1024).required(),
+        "account_type":Joi.string().required()
         
     });
     return schema.validate(company);
