@@ -6,6 +6,7 @@ const checking_account = require('./checking_account');
 const fixed_deposit = require('./fixed_deposit');
 
 const routes = require('express').Router();
+
 routes.use('/customer', customer);
 routes.use('/savings_account', savings_account);
 routes.use('/fixed_deposit', fixed_deposit);
