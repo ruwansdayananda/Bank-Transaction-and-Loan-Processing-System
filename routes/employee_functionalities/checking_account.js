@@ -25,7 +25,7 @@ router.post('/create', async (request,response)=>{
 
     try {
 
-        await Create_checking_account(_.pick(request.body, ["customer_id", "started_date", "bank_balance", "branch_id"]));
+        await create_checking_account(_.pick(request.body, ["customer_id", "started_date", "bank_balance", "branch_id"]));
         
     } catch (error) {
         return response.status(400).send(error.message);
@@ -38,7 +38,7 @@ router.post('/create', async (request,response)=>{
 });
 
 
-function Create_checking_account(body) {
+function create_checking_account(body) {
     return new Promise((resolve, reject) => {
         const result = pool.query("CALL create_checking_account (?,?,?,?)",
             [
