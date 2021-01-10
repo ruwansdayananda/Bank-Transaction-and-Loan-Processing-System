@@ -87,21 +87,8 @@ BEGIN
     INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
     `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
     (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
-    commit;
-END$$
-
-BEGIN
-    DECLARE id INT DEFAULT 0;
-    START TRANSACTION;
-        SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer'; 
-        SELECT id;
-        INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Corporate");
-        INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
-    `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
-    (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
     COMMIT;
 END$$
-
 
 -- ACCOUNT STUFF
 DELIMITER $$
