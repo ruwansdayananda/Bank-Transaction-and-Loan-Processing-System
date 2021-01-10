@@ -11,34 +11,10 @@ const { pool } = require('../../startup/mysql_database');
 // Middleware
 const employee = require('../../middleware/employee');
 const auth = require('../../middleware/auth');
-
+const bcrypt = require('bcrypt');
+const _ = require('lodash');
 // GET REQUESTS
 router.get('/individual', [auth, employee], (request, response) => {
-    const get_customer_id = new Promise((resolve, reject) => {
-        const query = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'individual_customer';",
-            function (error, results, fields) {
-                if (error) reject(error);
-                else resolve(results);
-            });
-    });
-    var id;
-    get_customer_id
-        .then(result => {
-            console.log(result);
-            id = (result[0].AUTO_INCREMENT).toString();
-            console.log(id);
-            return response.render('individual', {
-                id: id
-            });
-
-        })
-        .catch(error => {
-            return response.status(400).send("Error");
-        });
-    // response.send(200);
-    
-
-    // response.sendFile(path.join(__dirname, '../../views/individual.html'));
 });
 
 router.get('/corporate', [auth, employee], (request, response) => {
@@ -47,7 +23,10 @@ router.get('/corporate', [auth, employee], (request, response) => {
 });
 
 // POST REQUESTS 
-router.post('/individual', [auth, employee], (request, response) => {
+/**
+ * @todo add authentication
+ */
+router.post('/individual', async (request, response) => {
     const {
         error
     } = validateIndividual(request.body);
@@ -55,53 +34,21 @@ router.post('/individual', [auth, employee], (request, response) => {
     if (error) {
         return response.status(400).send(error.details[0].message);
     }
-    console.log(request);
 
-    const insert_customer = new Promise((resolve, reject) => {
-        const query = pool.query('INSERT INTO customer VALUES (?, ?)',
-            [
-                request.body.individual_id,
-                "Individual"
-            ],
-            function (error, results, fields) {
-                if (error) reject(error);
-                else resolve(results);
-            });
+    const salt = await bcrypt.genSalt(10);
+    request.body.password = await bcrypt.hash(request.body.password, salt);
+    try {
+        const result = await createIndividualCustomer(_.pick(request.body,
+                    ["full_name", "address", "national_ID", "date_of_birth", "personal_contact_no", "residential_contact_no", "date_joined", "email", "password"]));
+
+    } catch (error) {
+        console.log(error);
+        return response.status(400).send(error.sql);
     }
-    
-    );
-
-    const insert_individual_customer = new Promise((resolve, reject) => {
-        const query = pool.query('INSERT INTO individual_customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [
-                request.body.individual_id,
-                request.body.full_name,
-                request.body.address,
-                request.body.national_ID,
-                request.body.date_of_birth,
-                request.body.residential_contact_no,
-                request.body.personal_contact_no,
-                request.body.date_joined,
-                request.body.email_address,
-                request.body.password
-            ],
-            function (error, results, fields) {
-                if (error) reject(error);
-                else resolve(results);
-            });
-    });
-    insert_customer
-        .then(result => {
-            insert_individual_customer
-                .then(result => console.log("Success"))
-                .catch(error => console.log(error.message));
-        })
-        .catch(error => console.log(error.message));
-
-    return response.status(200).send("No worries");
+    return response.status(200).send(request.body);
 });
 
-router.post('/corporate', [auth, employee], (request, response) => {
+router.post('/corporate', (request, response) => {
     const {
         error
     } = validateCorporate(request.body);
@@ -111,6 +58,29 @@ router.post('/corporate', [auth, employee], (request, response) => {
     return response.status(200).send("No worries");
 });
 
+function createIndividualCustomer(body) {
+    return new Promise((resolve, reject) => {
+        const result = pool.query("CALL create_individual_customer (?,?,?,?,?,?,?,?,?)",
+            [
+                body.full_name,
+                body.address,
+                body.national_ID,
+                body.date_of_birth,
+                body.personal_contact_no,
+                body.residential_contact_no,
+                body.date_joined,
+                body.email,
+                body.password
+            ],
+            function (error, results, fields) {
+                if (error) {
+                    reject(result);
+                };
+                resolve(console.log("Done"));
+            }
+        )
+    })
+}
 
 
 module.exports = router;
