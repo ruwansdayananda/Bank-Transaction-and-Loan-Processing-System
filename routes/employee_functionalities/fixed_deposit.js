@@ -25,8 +25,6 @@ router.post('/create', async (request,response)=>{
 
 });
 
-module.exports = router;
-
 function createFixedDeposit(body) {
 
     return new Promise((resolve, reject) => {
@@ -38,8 +36,6 @@ function createFixedDeposit(body) {
                 body.customer_id,
                 body.deposit_amount,
                 body.started_date,
-
-
             ],
             function (error, results, fields) {
                 if (error) {
@@ -49,6 +45,10 @@ function createFixedDeposit(body) {
             }
         )
     })
-    
+
 }
+
+module.exports = router;
+
+
 
