@@ -9,8 +9,7 @@ function validateFixedDeposit(account) {
         "savings_account_id"        : Joi.number().integer().required(),
         "customer_id"               : Joi.number().integer().required(),
         "deposit_amount"            : Joi.number().required().positive().precision(2),
-        "started_date"              : Joi.date().required(),
-        
+        "started_date"              : Joi.date().required()
 
     });
     return schema.validate(account);
