@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const pug=require('pug');
+const pug = require('pug');
 const {
     validateEmployee
 } = require('../../models/employee');
-const { validateIndividual, validateCorporate } = require('../../models/customer');
+const {
+    validateIndividual,
+    validateCorporate
+} = require('../../models/customer');
 const {
     pool
 } = require('../../startup/mysql_database');
@@ -29,34 +32,29 @@ router.post('/create', async (request, response) => {
     }
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
-    console.log("Before")
-    try
-    {
-        const result = await getEmployee(request);
+    try {
+        const result = await getEmployee(_.pick(request.body, ["full_name", "address", "branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
 
+    } catch (error) {
+        return response.status(400).send(error.message);
     }
-    catch (error) {
-        response.status(400).send(error.message);
-    }
-    // console.log(result);
-    console.log("After")
     return response.status(200).send(request.body);
 });
 
 
 
-function getEmployee(request) {
+function getEmployee(body) {
     return new Promise((resolve, reject) => {
         const result = pool.query("CALL create_employee (?,?,?,?,?,?,?,?)",
             [
-                request.body.full_name,
-                request.body.address,
-                request.body.branch_id,
-                request.body.date_of_birth,
-                request.body.salary,
-                request.body.date_of_employment,
-                request.body.email,
-                request.body.password
+                body.full_name,
+                body.address,
+                body.branch_id,
+                body.date_of_birth,
+                body.salary,
+                body.date_of_employment,
+                body.email,
+                body.password
             ],
             function (error, results, fields) {
                 if (error) {
@@ -65,8 +63,7 @@ function getEmployee(request) {
                 resolve(console.log("Done"));
             }
         )
-    }
-    )
+    })
 }
 
 
