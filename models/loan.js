@@ -28,6 +28,7 @@ function validateOnlineLoan(onlineLoan) {
         "created_date"      : Joi.date().required()
     });
 
+
     return schema.validate(onlineLoan);
     
 }
