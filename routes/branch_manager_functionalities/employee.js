@@ -33,7 +33,7 @@ router.post('/create', async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
-        const result = await createtEmployee(_.pick(request.body, ["full_name", "address", "branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
+        const result = await createEmployee(_.pick(request.body, ["full_name", "address", "branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
 
     } catch (error) {
         return response.status(400).send(error.message);
@@ -43,7 +43,7 @@ router.post('/create', async (request, response) => {
 
 
 
-function createtEmployee(body) {
+function createEmployee(body) {
     return new Promise((resolve, reject) => {
         const result = pool.query("CALL create_employee (?,?,?,?,?,?,?,?)",
             [
