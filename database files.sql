@@ -132,14 +132,14 @@ CREATE TABLE `fixed_deposit` (
   `fixed_deposit_id` INT NOT NULL AUTO_INCREMENT,
   `fixed_deposit_plan_id` INT NOT NULL,
   `branch_id` INT NOT NULL,
-  `savings_account_id` VARCHAR(30) NOT NULL,
+  `savings_account_id` INT NOT NULL,
   `customer_id` INT NOT NULL,
   `deposit_amount` NUMERIC(12,2) NOT NULL,
   `started_date` DATE NOT NULL,
   PRIMARY KEY (`fixed_deposit_id`),
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`),
   FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`fixed_deposit_plan_id`) REFERENCES fixed_deposit_plan(`fixed_deposit_plan_id`)  ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`fixed_deposit_plan_id`) REFERENCES fixed_deposit_plan(`fixed_deposit_plan_id`)  ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`savings_account_id`) REFERENCES savings_account(`savings_account_id`)  ON DELETE CASCADE ON UPDATE CASCADE
 
 );
