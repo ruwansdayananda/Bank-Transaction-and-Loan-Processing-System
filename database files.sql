@@ -18,7 +18,7 @@ CREATE TABLE `branch_manager` (
   `salary` NUMERIC(9,2) NOT NULL,
   `date_of_employment`  DATE NOT NULL,
   `branch_id` INT NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`manager_id`),
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -32,7 +32,7 @@ CREATE TABLE `employee` (
   `date_of_birth` DATE NOT NULL,
   `salary` NUMERIC(9,2) NOT NULL,
   `date_of_employment` DATE NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`employee_id`),
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -40,13 +40,13 @@ CREATE TABLE `employee` (
 
 CREATE TABLE `customer`(
   customer_id INT NOT NULL,
-  account_type VARCHAR(10) NOT NULL,
+  account_type VARCHAR(25) NOT NULL,
   PRIMARY KEY (`customer_id`),
   CHECK (account_type IN ('individual_customer','corporate_customer'))
 );
 
 CREATE TABLE `individual_customer` (
-  `individual_id` INT NOT NULL AUTO_INCREMENT ,
+  `customer_id` INT NOT NULL AUTO_INCREMENT ,
   `full_name` VARCHAR(20) NOT NULL,
   `address` VARCHAR(100) NOT NULL,
   `national_ID` VARCHAR(10) NOT NULL,
@@ -54,10 +54,10 @@ CREATE TABLE `individual_customer` (
   `residential_contact_no` VARCHAR(10) NOT NULL,
   `personal_contact_no` VARCHAR(10) NOT NULL,
   `date_joined` DATE NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`individual_id` ),
-  FOREIGN KEY(`individual_id`) REFERENCES customer(`customer_id`)
+  PRIMARY KEY (`customer_id` ),
+  FOREIGN KEY(`customer_id`) REFERENCES customer(`customer_id`)
   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -65,10 +65,10 @@ ALTER TABLE individual_customer AUTO_INCREMENT= 100001;
 
 
 CREATE TABLE `corporate_customer` (
-  `corporate_id` INT NOT NULL AUTO_INCREMENT,
+  `customer_id` INT NOT NULL AUTO_INCREMENT,
   `company_registration_number` VARCHAR(40) NOT NULL,
   `company_name` VARCHAR(20) NOT NULL,
-  `company_email_address` VARCHAR(50) NOT NULL,
+  `company_email` VARCHAR(50) NOT NULL UNIQUE,
   `address` VARCHAR(100) NOT NULL,
   `date_of_establishment` DATE NOT NULL,
   `contact_no` VARCHAR(10) NOT NULL,
@@ -76,8 +76,8 @@ CREATE TABLE `corporate_customer` (
   `correspondent` VARCHAR(20) NOT NULL,
   `correspondent_email` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`corporate_id` ),
-  FOREIGN KEY(`corporate_id`) REFERENCES customer(`customer_id`)
+  PRIMARY KEY (`customer_id` ),
+  FOREIGN KEY(`customer_id`) REFERENCES customer(`customer_id`)
   ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE corporate_customer AUTO_INCREMENT= 200001;
@@ -163,23 +163,22 @@ CREATE TABLE `loan_plan`(
 
 CREATE TABLE `loan`(
   `loan_id` INT NOT NULL,
-  `loan_type` VARCHAR(10) NOT NULL,
+  `loan_type` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`loan_id`),
   CHECK (loan_type IN ('normal_loan','online_loan'))
 );
 
 CREATE TABLE `normal_loan` (
-  `normal_loan_id` INT NOT NULL AUTO_INCREMENT,
+  `loan_id` INT NOT NULL AUTO_INCREMENT,
   `loan_plan_id` INT NOT NULL,
   `account_id` VARCHAR(30) NOT NULL,
   `customer_id` INT NOT NULL,
   `branch_id` INT NOT NULL,
   `loan_installment` NUMERIC(12,2) NOT NULL,
-  `type` VARCHAR(10) NOT NULL,
   `created_date` DATE NOT NULL,
   `loan_amount` NUMERIC(12,2) NOT NULL,
-  PRIMARY KEY (`normal_loan_id`),
-  FOREIGN KEY (`normal_loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (`loan_id`),
+  FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -187,17 +186,16 @@ CREATE TABLE `normal_loan` (
 ALTER TABLE normal_loan AUTO_INCREMENT= 400001;
 
 CREATE TABLE `online_loan` (
-  `online_loan_id` INT NOT NULL AUTO_INCREMENT,
+  `loan_id` INT NOT NULL AUTO_INCREMENT,
   `loan_plan_id` INT NOT NULL,
   `fixed_deposit_id`  INT NOT NULL,
   `customer_id` INT NOT NULL,
   `branch_id` INT NOT NULL,
   `loan_installment` NUMERIC(12,2) NOT NULL,
-  `type` VARCHAR(10) NOT NULL,
   `loan_amount` NUMERIC(8,2) NOT NULL,
   `created_date` DATE NOT NULL,
-  PRIMARY KEY (`online_loan_id`),
-  FOREIGN KEY (`online_loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  PRIMARY KEY (`loan_id`),
+  FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`fixed_deposit_id`) REFERENCES fixed_deposit(`fixed_deposit_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CHECK ((`loan_amount` < 500000.00))
@@ -208,7 +206,7 @@ CREATE TABLE `loan_installment` (
   `installment_id` INT NOT NULL AUTO_INCREMENT,
   `loan_id` INT NOT NULL,
   `due_date` DATE NOT NULL,
-  `status` VARCHAR(10) NOT NULL,
+  `status` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`installment_id`),
   FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
