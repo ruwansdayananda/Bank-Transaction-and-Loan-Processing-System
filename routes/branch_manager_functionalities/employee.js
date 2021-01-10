@@ -34,7 +34,6 @@ router.post('/create', async (request, response) => {
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
         const result = await createEmployee(_.pick(request.body, ["full_name", "address", "branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
-
     } catch (error) {
         return response.status(400).send(error.message);
     }

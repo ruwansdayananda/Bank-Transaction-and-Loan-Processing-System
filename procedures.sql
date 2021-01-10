@@ -5,9 +5,6 @@
 
 -- TBD --
 
-
-
-
 -- COMPLETED PROCEDURES THAT RUN FINE --
 -- BRANCH MANAGER STUFF
 DELIMITER $$
@@ -57,16 +54,17 @@ CREATE OR REPLACE PROCEDURE `create_individual_customer` (
     IN `residential_contact_no` VARCHAR(10),
     IN `personal_contact_no` VARCHAR(10),
     IN `date_joined` DATE,
-    IN `email_address` VARCHAR(50),
-    IN `password` VARCHAR(30))
+    IN `email` VARCHAR(50),
+    IN `password` VARCHAR(50))
 
 BEGIN
     DECLARE id INT DEFAULT 0;
-    SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'individual_customer';    -- id = 10004
-    SELECT id;
-    INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Individual");
-    INSERT INTO `individual_customer` (`full_name`,`address`,`national_ID`,`date_of_birth` ,`residential_contact_no`,`personal_contact_no`,`date_joined`,`email_address`,`password`) VALUES (full_name,address,national_ID,date_of_birth,residential_contact_no,personal_contact_no,date_joined,email_address,password);
-    commit;
+    START TRANSACTION;
+        SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'individual_customer'; 
+        SELECT id;
+        INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Individual");
+        INSERT INTO `individual_customer` (`full_name`,`address`,`national_ID`,`date_of_birth` ,`residential_contact_no`,`personal_contact_no`,`date_joined`,`email`,`password`) VALUES (full_name,address,national_ID,date_of_birth,residential_contact_no,personal_contact_no,date_joined,email,password);
+        COMMIT;
 END$$
 
 DELIMITER $$
@@ -91,6 +89,19 @@ BEGIN
     (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
     commit;
 END$$
+
+BEGIN
+    DECLARE id INT DEFAULT 0;
+    START TRANSACTION;
+        SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer'; 
+        SELECT id;
+        INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Corporate");
+        INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
+    `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
+    (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
+    COMMIT;
+END$$
+
 
 -- ACCOUNT STUFF
 DELIMITER $$
@@ -139,42 +150,38 @@ END$$
 
 
 -- LOGIN STUFF
-
 DELIMITER $$
-CREATE OR REPLACE  PROCEDURE `login_branch_manager` (
-  IN `email` VARCHAR(50),
-  IN `password` VARCHAR(50))
-BEGIN
-    
-    set AUTOCOMMIT = 0;
-    DECLARE pw VARCHAR(50);
-    SELECT password INTO pw FROM `branch_manager` WHERE `email` = email;
-    RETURN pw;
+CREATE OR REPLACE FUNCTION `login_branch_manager` 
+(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+BEGIN 
+  DECLARE pw VARCHAR(50);
+  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email;
+  RETURN pw;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_employee` (
-  IN `email` VARCHAR(20))
-BEGIN
-    set AUTOCOMMIT = 0;
-    SELECT * FROM `employee` WHERE `email` = email;
-    commit;
+CREATE OR REPLACE FUNCTION `login_employee` 
+(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+BEGIN 
+  DECLARE pw VARCHAR(50);
+  SELECT `password` INTO pw FROM `employee` WHERE `email` = email;
+  RETURN pw;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_corporate_customer` (
-  IN `email` VARCHAR(20))
-BEGIN
-    set AUTOCOMMIT = 0;
-    SELECT * FROM `corporate_customer` WHERE `email` = email;
-    commit;
+CREATE OR REPLACE FUNCTION `login_individual_customer` 
+(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+BEGIN 
+  DECLARE pw VARCHAR(50);
+  SELECT `password` INTO pw FROM `individual_customer` WHERE `email` = email;
+  RETURN pw;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_individual_customer` (
-  IN `email` VARCHAR(20))
-BEGIN
-    set AUTOCOMMIT = 0;
-    SELECT * FROM `individual_customer` WHERE `email` = email;
-    commit;
+CREATE OR REPLACE FUNCTION `login_corporate_customer` 
+(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+BEGIN 
+  DECLARE pw VARCHAR(50);
+  SELECT `password` INTO pw FROM `corporate_customer` WHERE `email` = email;
+  RETURN pw;
 END$$
