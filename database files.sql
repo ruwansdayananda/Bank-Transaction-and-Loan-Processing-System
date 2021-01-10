@@ -121,7 +121,7 @@ CREATE TABLE `checking_account` (
 ALTER TABLE checking_account AUTO_INCREMENT= 700001;
 
 CREATE TABLE `fixed_deposit_plan`(
-  `fixed_deposit_plan_id` INT NOT NULL,
+  `fixed_deposit_plan_id` INT NOT NULL AUTO_INCREMENT ,
   `plan_name` VARCHAR(10) NOT NULL,
   `interest_rate` NUMERIC(4,2) NOT NULL,
   `account_period_in_months` INT NOT NULL,
@@ -140,6 +140,8 @@ CREATE TABLE `fixed_deposit` (
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`),
   FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`fixed_deposit_plan_id`) REFERENCES fixed_deposit_plan(`fixed_deposit_plan_id`)  ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`savings_account_id`) REFERENCES savings_account(`savings_account_id`)  ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 ALTER TABLE fixed_deposit AUTO_INCREMENT= 800001;
 
@@ -150,6 +152,8 @@ CREATE TABLE `transaction` (
   `receiving _account_id` VARCHAR(30) NOT NULL,
   `transaction_amount` NUMERIC(10,2) NOT NULL,
   PRIMARY KEY (`transaction_id`)
+  --FOREIGN key how? checking n savings both
+
 );
 ALTER TABLE transaction AUTO_INCREMENT= 90000001;
 
@@ -182,6 +186,7 @@ CREATE TABLE `normal_loan` (
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  -- account id links to ??
 );
 ALTER TABLE normal_loan AUTO_INCREMENT= 400001;
 
