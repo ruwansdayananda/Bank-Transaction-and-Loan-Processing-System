@@ -106,7 +106,7 @@ CREATE OR REPLACE PROCEDURE `create_savings_account` (
 BEGIN
     INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
     `no_of_monthly_withdrawals`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
-    (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
+    (branch_id,customer_id,started_date,bank_balance,no_of_monthly_withdrawals,savings_plan_id,max_withdrawal_limit,source_of_funds);
     commit;
 END$$
 

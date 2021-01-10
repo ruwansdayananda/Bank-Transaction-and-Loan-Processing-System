@@ -5,9 +5,8 @@ function validateCheckingAccountForm(account){
 
     const schema = Joi.object({
 
-        "checking_account_id" : Joi.string().required().max(30),
         "branch_id" : Joi.number().integer().required(),
-        "customer_id" : Joi.string().required().min(15),
+        "customer_id" : Joi.number().required(),
         "started_date" : Joi.date().required(),
         "bank_balance" : Joi.number().positive().precision(2),
 
