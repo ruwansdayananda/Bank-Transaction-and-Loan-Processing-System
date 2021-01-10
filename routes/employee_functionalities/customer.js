@@ -42,7 +42,6 @@ router.post('/individual', async (request, response) => {
                     ["full_name", "address", "national_ID", "date_of_birth", "personal_contact_no", "residential_contact_no", "date_joined", "email", "password"]));
 
     } catch (error) {
-        console.log(error);
         return response.status(400).send(error.sql);
     }
     return response.status(200).send(request.body);

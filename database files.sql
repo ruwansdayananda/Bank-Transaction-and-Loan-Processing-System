@@ -152,12 +152,14 @@ CREATE TABLE `loan_plan`(
     `loan_period_in_years` INT NOT NULL,
     PRIMARY KEY (`loan_plan_id`)
   );
+
 CREATE TABLE `loan`(
     `loan_id` INT NOT NULL,
     `loan_type` VARCHAR(25) NOT NULL,
     PRIMARY KEY (`loan_id`),
     CHECK (loan_type IN ('Normal', 'Online'))
   );
+  
 CREATE TABLE `normal_loan` (
     `loan_id` INT NOT NULL AUTO_INCREMENT,
     `loan_plan_id` INT NOT NULL,

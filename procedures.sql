@@ -81,13 +81,14 @@ CREATE OR REPLACE PROCEDURE `create_corporate_customer` (
   IN `password` VARCHAR(30))
 BEGIN
     DECLARE new_id INT DEFAULT 0;
-    SELECT AUTO_INCREMENT INTO new_id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer';
-    SELECT new_id;
-    INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Corporate");
-    INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
-    `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
-    (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
-    COMMIT;
+    START TRANSACTION;
+      SELECT AUTO_INCREMENT INTO new_id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer';
+      SELECT new_id;
+      INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Corporate");
+      INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
+      `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
+      (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
+      COMMIT;
 END$$
 
 -- ACCOUNT STUFF
@@ -134,7 +135,25 @@ BEGIN
     commit;
 END$$
 
-
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `create_normal_loan` (
+  IN `loan_plan_id` INT,
+  IN `account_id` VARCHAR(30),
+  IN `customer_id` INT ,
+  IN `branch_id` INT,
+  IN `loan_installment` NUMERIC(12, 2),
+  IN `created_date` DATE,
+  IN `loan_amount` NUMERIC(12, 2))
+BEGIN
+    DECLARE id INT DEFAULT 0;
+    START TRANSACTION;
+      SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'normal_loan';
+      SELECT id;
+      INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Normal");
+      INSERT INTO `normal_loan`(`loan_plan_id`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
+      VALUES (loan_plan_id, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
+    COMMIT;
+END$$
 
 -- LOGIN STUFF
 DELIMITER $$
