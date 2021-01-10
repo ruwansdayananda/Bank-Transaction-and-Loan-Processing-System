@@ -16,7 +16,7 @@ router.post('/create', async (request,response)=>{
     }
 
     try {
-        await create_fixed_deposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","started_date"]));
+        await createFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","started_date"]));
         
     } catch (error) {
         response.status(400).send(error.message);
@@ -27,7 +27,7 @@ router.post('/create', async (request,response)=>{
 
 module.exports = router;
 
-function create_fixed_deposit(body) {
+function createFixedDeposit(body) {
 
     return new Promise((resolve, reject) => {
         const result = pool.query("CALL create_fixed_deposit (?,?,?,?,?,?)",
@@ -45,7 +45,7 @@ function create_fixed_deposit(body) {
                 if (error) {
                     reject(error);
                 };
-                resolve(console.log("succesful"));
+                resolve(console.log("Succesful"));
             }
         )
     })
