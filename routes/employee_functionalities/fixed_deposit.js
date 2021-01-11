@@ -44,7 +44,7 @@ function createFixedDeposit(body) {
                 resolve(console.log("Succesful"));
             }
         )
-    })
+    });
 
 }
 

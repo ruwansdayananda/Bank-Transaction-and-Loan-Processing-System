@@ -11,6 +11,6 @@ routes.use('/customer', customer);
 routes.use('/savings_account', savings_account);
 routes.use('/fixed_deposit', fixed_deposit);
 routes.use('/loan', normal_loan);
-routes.use('/checking_account',checking_account);
+routes.use('/checking_account', checking_account);
 
 module.exports = routes;
