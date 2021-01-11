@@ -183,7 +183,7 @@ CREATE OR REPLACE FUNCTION `login_branch_manager`
 (`email` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email;
+  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email LIMIT 1;
   RETURN pw;
 END$$
 
@@ -192,7 +192,7 @@ CREATE OR REPLACE FUNCTION `login_employee`
 (`email` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `employee` WHERE `email` = email;
+  SELECT `password` INTO pw FROM `employee` WHERE `email` = email LIMIT 1;
   RETURN pw;
 END$$
 
@@ -201,7 +201,7 @@ CREATE OR REPLACE FUNCTION `login_individual_customer`
 (`email` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `individual_customer` WHERE `email` = email;
+  SELECT DISTINCT `password` INTO pw FROM `individual_customer` WHERE `email` = email LIMIT 1;
   RETURN pw;
 END$$
 
@@ -210,6 +210,6 @@ CREATE OR REPLACE FUNCTION `login_corporate_customer`
 (`email` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `corporate_customer` WHERE `email` = email;
+  SELECT `password` INTO pw FROM `corporate_customer` WHERE `email` = email LIMIT 1;
   RETURN pw;
 END$$

@@ -1,6 +1,6 @@
-const employee = require('./employee');
 const routes = require('express').Router();
 
-routes.use('/employee', employee);
+routes.use('/employee', require('./employee'));
+routes.use('/login', require('./login'));
 
 module.exports = routes;

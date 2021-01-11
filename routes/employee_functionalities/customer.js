@@ -18,7 +18,6 @@ router.get('/individual', [auth, employee], (request, response) => {
 });
 
 router.get('/corporate', [auth, employee], (request, response) => {
-    
     response.sendFile(path.join(__dirname, '../views/corporate.html'));
 });
 

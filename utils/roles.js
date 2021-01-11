@@ -1,7 +1,8 @@
 const ROLES = {
     Branch_Manager: 0,
-    Employee: 1,
-    Customer: 2
+    Individual: 1,
+    Corporate: 2,
+    Employee:3
 }
 
 exports.ROLES = ROLES;
