@@ -23,13 +23,9 @@ router.post('/create', async (request,response)=>{
         return response.status(400).send(error.message);
     }
 
-    try {
-
-        await create_checking_account(_.pick(request.body, ["customer_id", "started_date", "bank_balance", "branch_id"]));
-        
-    } catch (error) {
+    try { await create_checking_account(_.pick(request.body, ["customer_id", "started_date", "bank_balance", "branch_id"])); }
+    catch (error) {
         return response.status(400).send(error.message);
-        
     }
 
     return response.send(request.body);
