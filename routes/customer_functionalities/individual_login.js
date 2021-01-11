@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
-const {
-    pool
-} = require('../../startup/mysql_database');
+const {pool} = require('../../startup/mysql_database');
 const router = express.Router();
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
@@ -16,7 +14,7 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 }
 
 router.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/login.html'));
+    response.sendFile(path.join(__dirname, '../../views/customer_functionalities/individual_login.html'));
 })
 
 // route to authenticate login details 
@@ -32,11 +30,16 @@ router.post('/', async (request, response) => {
     try
     {
         password = await getPassword(email);
+         if (!password) {
+             return response.status(400).send("User not registered");
+         }
         const validPassword = bcrypt.compare(request.body.password, password);
 
         if (!validPassword) {
             return response.status(400).send("Invalid e-mail or password"); //Not 404 because you dont want to give that much info to the client
         }
+        const token = generateAuthToken(email, 1);
+        localStorage.setItem('token', token);
         return response.status(200).send("OK");
     }
     catch (error) {
