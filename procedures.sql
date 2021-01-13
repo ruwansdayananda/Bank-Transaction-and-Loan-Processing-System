@@ -71,23 +71,23 @@ DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_corporate_customer` (
   IN `company_registration_number` VARCHAR(40) ,
   IN `company_name` VARCHAR(20),
-  IN `company_email_address` VARCHAR(50),
+  IN `company_email` VARCHAR(50),
   IN `address` VARCHAR(100),
   IN `date_of_establishment` DATE,
   IN `contact_no` VARCHAR(10) ,
   IN `date_joined` DATE,
   IN `correspondent` VARCHAR(20) ,
-  IN `correspondent_email_address` VARCHAR(50),
-  IN `password` VARCHAR(30))
+  IN `correspondent_email` VARCHAR(50),
+  IN `password` VARCHAR(50))
 BEGIN
-    DECLARE new_id INT DEFAULT 0;
+    DECLARE id INT DEFAULT 0;
     START TRANSACTION;
-      SELECT AUTO_INCREMENT INTO new_id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer';
-      SELECT new_id;
+      SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer';
+      SELECT id;
       INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Corporate");
-      INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email_address`,`address` ,
-      `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email_address`,`password`) VALUES 
-      (company_registration_number,company_name,company_email_address,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email_address,password);
+      INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`company_email`,`address` ,
+      `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email`,`password`) VALUES 
+      (company_registration_number,company_name,company_email,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email,password);
       COMMIT;
 END$$
 

@@ -22,9 +22,7 @@ router.get('/', (request, response) => {
 })
 // route to authenticate login details 
 router.post('/', async (request, response) => {
-    const {
-        error
-    } = validateLogIn(request.body);
+    const {error} = validateLogIn(request.body);
     if (error) {
         return response.status(400).send(error.message);
     }
@@ -46,8 +44,6 @@ router.post('/', async (request, response) => {
     } catch (error) {
         return response.status(500).send("Server error");
     }
-
-
 });
 
 function validateLogIn(login) {
