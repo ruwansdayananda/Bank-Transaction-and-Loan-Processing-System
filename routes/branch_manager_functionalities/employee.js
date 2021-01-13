@@ -1,16 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const pug = require('pug');
-const {
-    validateEmployee
-} = require('../../models/employee');
-const {
-    validateIndividual,
-    validateCorporate
-} = require('../../models/customer');
-const {
-    pool
-} = require('../../startup/mysql_database');
+const {validateEmployee} = require('../../models/employee');
+const {pool} = require('../../startup/mysql_database');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 
@@ -18,15 +9,13 @@ var path = require("path");
 
 // GET REQUESTS
 router.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee.html'));
+    response.sendFile(path.join(__dirname, '../../views/branch_manager_functionalities/employee.html'));
 });
 
 // POST REQUESTS
 
 router.post('/create', async (request, response) => {
-    const {
-        error
-    } = validateEmployee(request.body);
+    const { error } = validateEmployee(request.body);
     if (error) {
         return response.status(404).send(error.details[0].message);
     }

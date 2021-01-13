@@ -21,6 +21,8 @@ CREATE TABLE `branch_manager` (
   PRIMARY KEY (`manager_id`),
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+ALTER TABLE branch_manager ADD INDEX  (`email`);
+
 CREATE TABLE `employee` (
   `employee_id` INT NOT NULL AUTO_INCREMENT,
   `full_name` VARCHAR(30) NOT NULL,
@@ -34,14 +36,20 @@ CREATE TABLE `employee` (
   PRIMARY KEY (`employee_id`),
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+ALTER TABLE employee ADD INDEX  (`email`);
+
 CREATE TABLE `customer`(
   customer_id INT NOT NULL,
-  account_type VARCHAR(25) NOT NULL,
+  account_type ENUM("Individual", "Corporate"),
   PRIMARY KEY (`customer_id`),
   CHECK (
     account_type IN ('Individual', 'Corporate')
   )
 );
+
+ALTER TABLE customer ADD INDEX  (`account_type`);
+ALTER TABLE customer MODIFY COLUMN account_type ENUM("Individual","Corporate");
+
 CREATE TABLE `individual_customer` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
   `full_name` VARCHAR(20) NOT NULL,
@@ -56,7 +64,11 @@ CREATE TABLE `individual_customer` (
   PRIMARY KEY (`customer_id`),
   FOREIGN KEY(`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 ALTER TABLE individual_customer AUTO_INCREMENT = 100001;
+ALTER TABLE individual_customer ADD INDEX  (`email`);
+
+
 CREATE TABLE `corporate_customer` (
     `customer_id` INT NOT NULL AUTO_INCREMENT,
     `company_registration_number` VARCHAR(40) NOT NULL,
@@ -73,6 +85,10 @@ CREATE TABLE `corporate_customer` (
     FOREIGN KEY(`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE corporate_customer AUTO_INCREMENT = 200001;
+ALTER TABLE corporate_customer ADD INDEX  (`company_email`);
+ALTER TABLE corporate_customer ADD INDEX (`correspondent_email`);
+
+
 CREATE TABLE `savings_account_plan`(
     `savings_plan_id` INT NOT NULL,
     `plan_name` VARCHAR(10) NOT NULL,
@@ -96,6 +112,8 @@ CREATE TABLE `savings_account` (
     FOREIGN KEY (`savings_plan_id`) REFERENCES savings_account_plan(`savings_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE savings_account AUTO_INCREMENT = 600001;
+ALTER TABLE savings_account ADD INDEX  (`branch_id`);
+ALTER TABLE savings_account ADD INDEX  (`customer_id`);
 
 CREATE TABLE `checking_account` (
     `checking_account_id` INT NOT NULL AUTO_INCREMENT,
@@ -108,6 +126,8 @@ CREATE TABLE `checking_account` (
     FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE checking_account AUTO_INCREMENT = 700001;
+ALTER TABLE checking_account ADD INDEX  (`branch_id`);
+ALTER TABLE checking_account ADD INDEX  (`customer_id`);
 
 CREATE TABLE `fixed_deposit_plan`(
   `fixed_deposit_plan_id` INT NOT NULL AUTO_INCREMENT ,
@@ -132,18 +152,24 @@ CREATE TABLE `fixed_deposit` (
   FOREIGN KEY (`savings_account_id`) REFERENCES savings_account(`savings_account_id`)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE fixed_deposit AUTO_INCREMENT= 800001;
+ALTER TABLE fixed_deposit ADD INDEX  (`customer_id`);
+ALTER TABLE fixed_deposit ADD INDEX  (`branch_id`);
 
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
   `initiating_account_id` VARCHAR(30) NOT NULL,
-  `receiving _account_id` VARCHAR(30) NOT NULL,
+  `receiving_account_id` VARCHAR(30) NOT NULL,
   `transaction_amount` NUMERIC(10,2) NOT NULL,
   PRIMARY KEY (`transaction_id`)
   --FOREIGN key how? checking n savings both
 
 );
 ALTER TABLE transaction AUTO_INCREMENT= 90000001;
+ALTER TABLE transaction ADD INDEX  (`initiating_account_id`);
+ALTER TABLE transaction ADD INDEX  (`receiving_account_id`);
+ALTER TABLE transaction ADD INDEX  (`date`);
+
 
 CREATE TABLE `loan_plan`(
     `loan_plan_id` INT NOT NULL AUTO_INCREMENT,
@@ -155,10 +181,11 @@ CREATE TABLE `loan_plan`(
 
 CREATE TABLE `loan`(
     `loan_id` INT NOT NULL,
-    `loan_type` VARCHAR(25) NOT NULL,
+    `loan_type` ENUM("Normal", "Online"),
     PRIMARY KEY (`loan_id`),
     CHECK (loan_type IN ('Normal', 'Online'))
   );
+ALTER TABLE loan MODIFY COLUMN loan_type ENUM("Normal","Online");
   
 CREATE TABLE `normal_loan` (
     `loan_id` INT NOT NULL AUTO_INCREMENT,
@@ -176,7 +203,10 @@ CREATE TABLE `normal_loan` (
     FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE -- account id links to ??
   );
 ALTER TABLE normal_loan AUTO_INCREMENT = 400001;
-           
+ALTER TABLE normal_loan ADD INDEX  (`account_id`);
+ALTER TABLE normal_loan ADD INDEX  (`customer_id`);
+ALTER TABLE normal_loan ADD INDEX  (`branch_id`);
+
 CREATE TABLE `online_loan` (
     `loan_id` INT NOT NULL AUTO_INCREMENT,
     `loan_plan_id` INT NOT NULL,
@@ -193,6 +223,10 @@ CREATE TABLE `online_loan` (
     CHECK ((`loan_amount` < 500000.00))
   );
 ALTER TABLE online_loan AUTO_INCREMENT = 500001;
+ALTER TABLE online_loan ADD INDEX  (`fixed_deposit_id`);
+ALTER TABLE online_loan ADD INDEX  (`customer_id`);
+ALTER TABLE online_loan ADD INDEX  (`branch_id`);
+
 CREATE TABLE `loan_installment` (
     `installment_id` INT NOT NULL AUTO_INCREMENT,
     `loan_id` INT NOT NULL,
@@ -202,3 +236,5 @@ CREATE TABLE `loan_installment` (
     FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE loan_installment AUTO_INCREMENT = 30000001;
+ALTER TABLE loan_installment ADD INDEX  (`status`);
+ALTER TABLE loan_installment MODIFY COLUMN status ENUM("Due","Paid","Late");
