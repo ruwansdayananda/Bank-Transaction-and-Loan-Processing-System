@@ -7,7 +7,7 @@ module.exports = function (request, response, next) {
      * @todo employeeta karanna puluwan okkoma tika branch managertath karanna puluwan widihatai dala thiyenne
      * eka adjust karanna onidaaaaaaaaa
      */
-    if (request.user.privilege_level !=1) return response.status(403).send("Access denied");
+    if (request.privilege_level !=1) return response.status(403).send("Access denied");
 
     next();
 

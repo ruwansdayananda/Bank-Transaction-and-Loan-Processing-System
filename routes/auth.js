@@ -6,10 +6,6 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const { generateAuthToken } = require('../models/user');
-if (typeof localStorage === "undefined" || localStorage === null) {
-    var LocalStorage = require('node-localstorage').LocalStorage;
-    localStorage = new LocalStorage('./scratch');
-}
 
 router.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, '../views/login.html'));
