@@ -1,39 +1,50 @@
-const Joi = require('joi');
+const routes = require('express').Router();
+class Customer{
 
-function validateIndividual(customer) {
-    const now = Date.now();
-    const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
+    static enterOnlineLoan(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount,
+                    body.created_date,
 
-    const schema = Joi.object({
-        "full_name"                 : Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
-        "address"                   : Joi.string().required(),
-        "national_ID"               : Joi.string().required().min(10),
-        "date_of_birth"             : Joi.date().greater('1974-01-01').less(cutoffDate).required(),
-        "residential_contact_no"    : Joi.string().required().min(10),
-        "personal_contact_no"       : Joi.string().required().min(10),
-        "date_joined"               : Joi.string().required(),
-        "email"                     : Joi.string().email().required(),
-        "password"                  : Joi.string().min(5).max(1024).required(),
-    });
-    return schema.validate(customer);
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
+
+    static createOnlineLoan(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount,
+                    body.created_date,
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
 }
-
-function validateCorporate(company) {
-    const schema = Joi.object({
-        "company_registration_number"   : Joi.string().required(),
-        "company_name"                  : Joi.string().min(3).required(),
-        "company_email"                 : Joi.string().email().required(),
-        "address"                       : Joi.string().required(),
-        "date_of_establishment"         : Joi.date().required(),    //Constranins must be checked
-        "contact_no"                    : Joi.string().required().min(10),
-        "date_joined"                   : Joi.date().required(),     // Constraints must be checked
-        "correspondent"                 : Joi.string().alphanum().required(),
-        "correspondent_email"           : Joi.string().email().required(),
-        "password"                      : Joi.string().min(5).max(1024).required(),
-        
-    });
-    return schema.validate(company);
-}
-
-exports.validateIndividual = validateIndividual;
-exports.validateCorporate = validateCorporate;
+module.exports = Customer;

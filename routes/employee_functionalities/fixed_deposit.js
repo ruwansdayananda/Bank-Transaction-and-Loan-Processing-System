@@ -1,52 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const {validateFixedDeposit} = require('../../models/fixed_deposit');
+const { createFixedDeposit } = require('../../controllers/employee_functionalities/fixed_deposit');
 
-const _ = require('lodash');
-const {
-    pool
-} = require('../../startup/mysql_database');
-
+/**
+ * @todo : add html file
+ */
 
 // route to create new savings account
-router.post('/create', async (request,response)=>{
-    const {error} = validateFixedDeposit(request.body);
-    if(error){
-        return response.status(400).send(error.message);
-    }
+router.post('/create', createFixedDeposit);
 
-    try {
-        await createFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","started_date"]));
-        
-    } catch (error) {
-        response.status(400).send(error.message);
-    }
-    return response.send(request.body);
-
-});
-
-function createFixedDeposit(body) {
-
-    return new Promise((resolve, reject) => {
-        const result = pool.query("CALL create_fixed_deposit (?,?,?,?,?,?)",
-            [
-                body.fixed_deposit_plan_id,
-                body.branch_id,
-                body.savings_account_id,
-                body.customer_id,
-                body.deposit_amount,
-                body.started_date,
-            ],
-            function (error, results, fields) {
-                if (error) {
-                    reject(error);
-                };
-                resolve(console.log("Succesful"));
-            }
-        )
-    });
-
-}
 
 module.exports = router;
 

@@ -3,10 +3,6 @@ module.exports = function (request, response, next) {
     //auth sets the user
     //basically we define that the operation after this middleware function can only be done if the user is an employee
 
-    /**
-     * @todo employeeta karanna puluwan okkoma tika branch managertath karanna puluwan widihatai dala thiyenne
-     * eka adjust karanna onidaaaaaaaaa
-     */
     if (request.privilege_level !=1) return response.status(403).send("Access denied");
 
     next();
