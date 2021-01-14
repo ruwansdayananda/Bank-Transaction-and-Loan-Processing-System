@@ -4,17 +4,19 @@ const {validateEmployee} = require('../../models/employee');
 const {pool} = require('../../startup/mysql_database');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-
+const isLoggedIn = require('../../middleware/login');
 var path = require("path");
+const employee = require('../../middleware/employee');
 
 // GET REQUESTS
-router.get('/', (request, response) => {
+router.get('/create', [isLoggedIn],(request, response) => {
     response.sendFile(path.join(__dirname, '../../views/branch_manager_functionalities/employee.html'));
 });
 
 // POST REQUESTS
 
-router.post('/create', async (request, response) => {
+// URL:localhost:3000/branch_manager/employee/create
+router.post('/create', [isLoggedIn, employee], async (request, response) => {
     const { error } = validateEmployee(request.body);
     if (error) {
         return response.status(404).send(error.details[0].message);

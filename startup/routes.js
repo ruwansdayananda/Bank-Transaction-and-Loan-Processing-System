@@ -1,14 +1,35 @@
 const express = require('express');
-// const customer = require('../routes/customer');
-// const employee = require('../routes/employee');
-// const loan = require('../routes/loan');
-// const savings_account = require('../routes/savings_account');
+const config = require('config');
 const path = require('path');
 const routes = require('../routes');
-
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
+var crypto = require('crypto');
+var uuid = require('node-uuid');
 module.exports = function (app) {
 
     app.use(express.json());
+    const options = {
+        user: config.get("user"),
+        host: config.get("host"),
+        password: config.get("password"),
+        port: config.get("port"),
+        database: config.get("database")
+    }
+    app.use(session({
+        genid: (req) => {
+            console.log('Inside the session middleware')
+            console.log(req.sessionID)
+            return uuid() // use UUIDs for session IDs
+        },
+        secret: config.get('jwtPrivateKey'),
+        resave: false,
+        store: new MySQLStore(options),
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000*60*60
+        }
+    }));
     
     app.use(express.urlencoded({ extended: true }));
 
@@ -17,12 +38,3 @@ module.exports = function (app) {
 
     app.use('/', routes);
 }
-
-
-// /employee_functionalities/customer/corporate
-// /employee_functionalities/customer/individual
-// /branch_manager_functionalities/employee/create
-// /employee_functionalities/loan/normal
-// /employee_functionalities/loan/online
-// /employee_functionalities/savings_account/create
-// /employee_functionalities/checking_account/create

@@ -10,16 +10,16 @@ const { pool } = require('../../startup/mysql_database');
 
 // Middleware
 const employee = require('../../middleware/employee');
-const auth = require('../../middleware/auth');
+const login = require('../../middleware/login');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 // GET REQUESTS
-router.get('/individual', [auth, employee], (request, response) => {
+router.get('/individual', [login, employee], (request, response) => {
     response.sendFile(path.join(__dirname, '../../views/employee_functionalities/individual.html'));
 
 });
 
-router.get('/corporate', [auth, employee], (request, response) => {
+router.get('/corporate', [login, employee], (request, response) => {
     response.sendFile(path.join(__dirname, '../../views/employee_functionalities/corporate.html'));
 
 });

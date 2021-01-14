@@ -71,7 +71,7 @@ DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_corporate_customer` (
   IN `company_registration_number` VARCHAR(40) ,
   IN `company_name` VARCHAR(20),
-  IN `company_email` VARCHAR(50),
+  IN `corporate_email` VARCHAR(50),
   IN `address` VARCHAR(100),
   IN `date_of_establishment` DATE,
   IN `contact_no` VARCHAR(10) ,
@@ -180,36 +180,37 @@ END$$
 -- LOGIN STUFF
 DELIMITER $$
 CREATE OR REPLACE FUNCTION `login_branch_manager` 
-(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email LIMIT 1;
+  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email_value LIMIT 1;
   RETURN pw;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE FUNCTION `login_employee` 
-(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `employee` WHERE `email` = email LIMIT 1;
+  SELECT `password` INTO pw FROM `employee` WHERE `email` = email_value LIMIT 1;
   RETURN pw;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE FUNCTION `login_individual_customer` 
-(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT DISTINCT `password` INTO pw FROM `individual_customer` WHERE `email` = email LIMIT 1;
+  SELECT `password` INTO pw FROM `individual_customer` WHERE `email` = email_value LIMIT 1;
   RETURN pw;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE FUNCTION `login_corporate_customer` 
-(`email` VARCHAR(50)) RETURNS VARCHAR(50) 
+(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
 BEGIN 
   DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `corporate_customer` WHERE `email` = email LIMIT 1;
+  SELECT `password` INTO pw FROM `corporate_customer` WHERE `corporate_email` = email_value LIMIT 1;
   RETURN pw;
 END$$
+

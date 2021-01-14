@@ -1,11 +1,12 @@
 
-// vscode integrated terminal eke mokakhari code ekak wada natthan file explorer eke cmd open karalama execute
-
-// gahana routes should be added to the startup folder
-
 const express = require('express');
 const app = express();
 const config = require('config');
+const dotenv = require('dotenv');
+
+dotenv.config({
+    path: './config/config.env'
+});
 
 // require('./startup/mysql_database');
 require('./startup/routes')(app);   //calling the function
