@@ -2,7 +2,7 @@ const { pool } = require('../startup/mysql_database');
 
 function getPassword(email, procedure) {
     return new Promise((resolve, reject) => {
-        const result = pool.query("SELECT " + procedure + " (?) AS pw",
+        const result = pool.query("CALL " + procedure + " (?)",
             [
                 email
             ],
@@ -12,7 +12,9 @@ function getPassword(email, procedure) {
                 };
                 console.log(result.sql);
                 console.log(results);
-                resolve(results[0].pw);
+                console.log(results[0]);
+                console.log(results[0][0]);
+                resolve(results[0][0].password);
             }
         )
     });

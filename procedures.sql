@@ -178,39 +178,31 @@ BEGIN
 END$$
 
 -- LOGIN STUFF
+
 DELIMITER $$
-CREATE OR REPLACE FUNCTION `login_branch_manager` 
-(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
-BEGIN 
-  DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `branch_manager` WHERE `email` = email_value LIMIT 1;
-  RETURN pw;
+CREATE OR REPLACE PROCEDURE `login_employee` 
+(`email_value` VARCHAR(50))
+BEGIN
+    SELECT * FROM `employee` WHERE `email`= email_value;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION `login_employee` 
-(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
-BEGIN 
-  DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `employee` WHERE `email` = email_value LIMIT 1;
-  RETURN pw;
+CREATE OR REPLACE PROCEDURE `login_branch_manager` 
+(IN `email_value` VARCHAR(50))
+BEGIN
+    SELECT * FROM `branch_manager` WHERE `email`= email_value;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION `login_individual_customer` 
-(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
-BEGIN 
-  DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `individual_customer` WHERE `email` = email_value LIMIT 1;
-  RETURN pw;
+CREATE OR REPLACE PROCEDURE `login_individual_customer` 
+(IN `email_value` VARCHAR(50))
+BEGIN
+    SELECT * FROM `individual_customer` WHERE `email`= email_value;
 END$$
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION `login_corporate_customer` 
-(`email_value` VARCHAR(50)) RETURNS VARCHAR(50) 
-BEGIN 
-  DECLARE pw VARCHAR(50);
-  SELECT `password` INTO pw FROM `corporate_customer` WHERE `corporate_email` = email_value LIMIT 1;
-  RETURN pw;
+CREATE OR REPLACE PROCEDURE `login_corporate_customer` 
+(IN `email_value` VARCHAR(50))
+BEGIN
+    SELECT * FROM `corporate_customer` WHERE `corporate_email`= email_value;
 END$$
-
