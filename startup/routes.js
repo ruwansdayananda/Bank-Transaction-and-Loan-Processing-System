@@ -2,13 +2,17 @@ const express = require('express');
 const config = require('config');
 const path = require('path');
 const routes = require('../routes');
+
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
-var crypto = require('crypto');
 var uuid = require('node-uuid');
+
+var crypto = require('crypto');
 module.exports = function (app) {
 
     app.use(express.json());
+
+    
     const options = {
         user: config.get("user"),
         host: config.get("host"),
@@ -16,6 +20,7 @@ module.exports = function (app) {
         port: config.get("port"),
         database: config.get("database")
     }
+
     app.use(session({
         genid: (req) => {
             console.log('Inside the session middleware')

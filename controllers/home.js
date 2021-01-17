@@ -12,10 +12,10 @@ router.get('/', [isLoggedIn], (request, response) => {
         return response.sendFile(path.join(__dirname, '../views/employee_functionalities/home.html'));
     }
     if (request.privilege_level == 3) {
-        return response.sendFile(path.join(__dirname, '../views/corporate_customer_functionalities/home.html'));
+        return response.sendFile(path.join(__dirname, '../views/customer_functionalities/home.html'));
     }
     if (request.privilege_level == 4) {
-        return response.sendFile(path.join(__dirname, '../views/individual_customer_functionalities/home.html'));
+        return response.sendFile(path.join(__dirname, '../views/customer_functionalities/home.html'));
     }
 })
 

@@ -18,7 +18,7 @@ function generateAuthToken(payload) {
     const token = jwt.sign(payload, config.get('jwtPrivateKey'), {
         expiresIn: process.env.ONE_HOUR
     });
-    console.log(token);
+    // console.log(token);
     return token;
 }
 
@@ -33,26 +33,25 @@ const login = async (request, response) => {
     var redirect;
     if (request.body.privilege_level == 1)
     {
-        procedure = "login_branch_manager";
+        procedure = "branch_manager";
         redirect = '../views/branch_manager_functionalities/home.html';
     }
     if (request.body.privilege_level == 2)
     {
-        procedure = "login_employee";
+        procedure = "employee";
         redirect = '../views/employee_functionalities/home.html';
 
     }
     if (request.body.privilege_level == 3)
     {
-        procedure = "login_corporate_customer";
+        procedure = "corporate_customer";
         redirect = '../views/customer_functionalities/home.html';
 
     }
     if (request.body.privilege_level == 4)
     {
-        procedure = "login_individual_customer";
+        procedure = "individual_customer";
         redirect = '../views/customer_functionalities/home.html';
-
     }
 
     try {
@@ -74,7 +73,9 @@ const login = async (request, response) => {
         const token = generateAuthToken(payload);
         console.log(token);
         request.session.token = token;
+
         return response.status(200).sendFile(path.join(__dirname, redirect));
+        
     } catch (error) {
         console.log(error.message);
         return response.status(500).send(error.message);
