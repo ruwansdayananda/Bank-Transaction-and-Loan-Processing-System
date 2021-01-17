@@ -7,7 +7,7 @@ const path = require('path');
 // URL: localhost:3000/employee/savings_account/create
 // Method: GET
 // route to create new savings account
-router.get('/create', [isLoggedIn, isEmployee], (req, res) => {
+router.get('/', [isLoggedIn, isEmployee], (req, res) => {
     response.sendFile(path.join(__dirname, '../../views/employee_functionalities/savings_account.html'));
 });
 
@@ -15,7 +15,7 @@ router.get('/create', [isLoggedIn, isEmployee], (req, res) => {
 // URL: localhost:3000/employee/savings_account/create
 // Method: POST
 // route to create new savings account
-router.post('/create', [isLoggedIn, isEmployee], createSavingsAccount);
+router.post('/', [isLoggedIn, isEmployee], createSavingsAccount);
 
 
 module.exports = router;

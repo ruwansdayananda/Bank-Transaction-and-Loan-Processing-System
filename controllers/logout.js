@@ -7,4 +7,4 @@ const logout = (req, res) => {
     }
 
 
-mofule.exports.logout = logout;
+module.exports.logout = logout;
