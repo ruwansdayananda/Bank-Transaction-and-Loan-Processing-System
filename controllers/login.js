@@ -59,7 +59,8 @@ const login = async (request, response) => {
          if (!password) {
              return response.status(400).send("User not registered");
         }
-        const validPassword = bcrypt.compare(request.body.password, password);
+        const validPassword = await bcrypt.compare(request.body.password, password);
+        console.log(validPassword);
 
         if (!validPassword) {
             return response.status(400).send("Invalid e-mail or password"); //Not 404 because you dont want to give that much info to the client
@@ -71,7 +72,7 @@ const login = async (request, response) => {
         };
 
         const token = generateAuthToken(payload);
-        console.log(token);
+        // console.log(token);
         request.session.token = token;
 
         return response.status(200).sendFile(path.join(__dirname, redirect));
