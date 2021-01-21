@@ -16,11 +16,38 @@
     </head>
 
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+        <form action="/employee/savings_account" method="POST">
 
-        <script src="" async defer></script>
+            Full Name: <input type="text" id="full_name" name="full_name" required>
+            <br>
+
+            Address: <input type="text" id="address" name="address" required>
+            <br>
+
+            National ID: <input type="text" id="national_ID" name="national_ID" required>
+            <br>
+
+            Date of Birth: <input type="text" id="date_of_birth" name="date_of_birth" required>
+            <br>
+
+            Residential Contact Number:<input type="text" id="residential_contact_no" name="residential_contact_no"
+                required>
+            <br>
+
+            Private Contact Number: <input type="text" id="personal_contact_no" name="personal_contact_no" required>
+            <br>
+
+            Date Joined: <input type="text" id="date_joined" name="date_joined" required>
+            <br>
+
+            E-mail Address: <input type="email" id="email" name="email" required>
+            <br>
+
+            Password: <input type="password" id="password" name="password" required>
+            <br>
+
+            <input type="submit">
+        </form>
     </body>
 
 </html>

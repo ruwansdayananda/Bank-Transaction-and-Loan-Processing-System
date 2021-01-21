@@ -4,7 +4,7 @@ const router = express.Router();
 
 // localhost:3000/branch_manager/login
 router.get('/', (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/branch_manager/login.html'));
+    response.render('branch_manager/login');
 });
 
 module.exports = router;

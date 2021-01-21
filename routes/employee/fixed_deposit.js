@@ -10,7 +10,7 @@ const path = require('path');
  */
 
 router.get('/', (req, res) => {
-    return response.sendFile(path.join(__dirname, '../../views/employee/fixed_deposit.html'));
+    return response.render('employee/fixed_deposit');
 
 });
 

@@ -6,7 +6,7 @@ const isLoggedIn = require('../../middleware/login');
 
 
 router.get('/normal', [isLoggedIn, isEmployee], (request, response) => {
-    response.send("normal loan");
+    response.render("employee/normal_loan");
 });
 
 router.post('/normal', [isLoggedIn, isEmployee], createNormalLoan);

@@ -7,7 +7,6 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 var uuid = require('node-uuid');
 
-var crypto = require('crypto');
 module.exports = function (app) {
 
     app.use(express.json());
@@ -39,7 +38,7 @@ module.exports = function (app) {
     app.use(express.urlencoded({ extended: true }));
 
     app.set('views', path.join(__dirname, '../views'));
-    app.set('view engine', 'pug');
+    app.set('view engine', 'ejs');
 
     app.use('/', routes);
 }

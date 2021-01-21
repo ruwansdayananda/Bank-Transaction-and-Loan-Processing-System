@@ -8,12 +8,12 @@ const { createCorporateCustomer, createIndividualCustomer } = require('../../con
 
 // GET REQUESTS
 router.get('/individual', [isLoggedIn, isEmployee], (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee/individual.html'));
+    response.render('employee/individual');
 
 });
 
 router.get('/corporate', [isLoggedIn, isEmployee], (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee/corporate.html'));
+    response.render('employee/corporate');
 
 });
 

@@ -8,7 +8,7 @@ const path = require('path');
 // Method: GET
 // route to create new savings account
 router.get('/', [isLoggedIn, isEmployee], (req, res) => {
-    response.sendFile(path.join(__dirname, '../../views/employee/savings_account.html'));
+    response.render('employee/savings_account');
 });
 
 

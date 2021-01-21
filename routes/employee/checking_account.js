@@ -6,7 +6,7 @@ const path = require('path');
 const {createCheckingAccount} = require('../../controllers/employee/checking_account')
 
 router.get('/', [isLoggedIn, isEmployee], (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee/checking_account.html'));
+    response.render('employee/checking_account');
 });
 
 // route to create new checking account
