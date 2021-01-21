@@ -114,6 +114,7 @@ CREATE TABLE `savings_account` (
 ALTER TABLE savings_account AUTO_INCREMENT = 600001;
 ALTER TABLE savings_account ADD INDEX  (`branch_id`);
 ALTER TABLE savings_account ADD INDEX  (`customer_id`);
+ALTER TABLE `savings_account` CHANGE `no_of_monthly_withdrawals` `no_of_withdrawals_remaining` INT(11) NOT NULL;
 
 CREATE TABLE `checking_account` (
     `checking_account_id` INT NOT NULL AUTO_INCREMENT,
