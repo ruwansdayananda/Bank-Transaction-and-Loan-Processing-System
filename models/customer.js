@@ -1,4 +1,5 @@
-const routes = require('express').Router();
+const { pool } = require('../startup/mysql_database');
+
 class Customer{
 
     static enterOnlineLoan(body) {
@@ -45,6 +46,74 @@ class Customer{
                 }
             )
         })
+    }
+
+    static getAllSavingsAccounts(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM allsavingsaccounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+
+    static getAllCheckingAccounts(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT  (?,?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount,
+                    body.created_date,
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+
+    }
+
+    static getAllFixedDeposits(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT  (?,?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount,
+                    body.created_date,
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+
     }
 }
 module.exports = Customer;

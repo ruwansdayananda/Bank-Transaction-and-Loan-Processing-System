@@ -6,7 +6,7 @@ function getPassword(email, table) {
         field = 'corporate_email';
     }
     return new Promise((resolve, reject) => {
-        const result = pool.query(`SELECT password FROM ${table} WHERE ${field}=?`,
+        const result = pool.query(`SELECT * FROM ${table} WHERE ${field}=?`,
             [
                 email
             ],
@@ -21,7 +21,7 @@ function getPassword(email, table) {
                     console.log(result.sql);
                     console.log(results);
                     console.log(results[0]);
-                    resolve(results[0].password);
+                    resolve(results[0]);
                     
                 }
                 

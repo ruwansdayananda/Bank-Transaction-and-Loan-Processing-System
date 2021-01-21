@@ -23,54 +23,76 @@ function generateAuthToken(payload) {
 }
 
 const login = async (request, response) => {
-    if (!(request.session.token))
-    {
+    // if (!(request.session.token))
+    // {
         const { error } = validateLogIn(request.body);
         if (error) {
-            return response.status(400).send(error.message);
+            return response.status(400).send(error);
         }
-        const email = request.body.email;
         var password;
         var procedure;
-        if (request.body.privilege_level == 1)
-        {
+        var payload;
+        if (request.body.privilege_level == 1) {
             procedure = "branch_manager";
             redirect = 'branch_manager/home';
         }
-        if (request.body.privilege_level == 2)
-        {
+        if (request.body.privilege_level == 2) {
             procedure = "employee";
             redirect = 'employee/home';
 
         }
-        if (request.body.privilege_level == 3)
-        {
+        if (request.body.privilege_level == 3) {
             procedure = "corporate_customer";
-            redirect = 'customer/home';
-
+            redirect = 'customer/home'; e_level: request.body.privilege_level;
         }
-        if (request.body.privilege_level == 4)
-        {
+        if (request.body.privilege_level == 4) {
             procedure = "individual_customer";
             redirect = 'customer/home';
         }
 
         try {
-            password = await getPassword(email, procedure);
-            if (!password) {
+            result = await getPassword(request.body.email, procedure);
+            if (!result) {
                 return response.status(400).send("User not registered");
             }
-            const validPassword = await bcrypt.compare(request.body.password, password);
-            console.log(validPassword);
+            const validPassword = await bcrypt.compare(request.body.password, result.password);
 
             if (!validPassword) {
                 return response.status(400).send("Invalid e-mail or password"); //Not 404 because you dont want to give that much info to the client
             }
+            if (request.body.privilege_level == 1) {
+                payload = {
+                    manager_id: result.manager_id,
+                    email: request.body.email,
+                    privilege_level: request.body.privilege_level,
+                    branch_id: result.branch_id
+                };
+            }
+            if (request.body.privilege_level == 2) {
+                payload = {
+                    employee_id: result.employee_id,
+                    email: request.body.email,
+                    privilege_level: request.body.privilege_level,
+                    branch_id: result.branch_id
+                };
 
-            const payload = {
-                email: email,
-                privilege_level: request.body.privilege_level
-            };
+            }
+            if (request.body.privilege_level == 3) {
+                payload = {
+                    customer_id: result.customer_id,
+                    email: request.body.corporate_email,
+                    name: result.company_name,
+                    privilege_level: request.body.privilege_level
+                };
+            }
+            if (request.body.privilege_level == 4) {
+                payload = {
+                    customer_id: result.customer_id,
+                    email: request.body.email,
+                    name: result.full_name,
+                    privilege_level: request.body.privilege_level
+                };
+            }
 
             const token = generateAuthToken(payload);
             // console.log(token);
@@ -79,28 +101,28 @@ const login = async (request, response) => {
             
         } catch (error) {
             console.log(error.message);
-            return response.status(500).send(error.message);
+            return response.status(500).send(error);
         }
-    }
-    else {
-        var redirect;
+    // }
+    // else {
+    //     var redirect;
 
-        if (request.privilege_level == 1) {
-            redirect = 'branch_manager/home';
-        }
-        if (request.privilege_level == 2) {
-            redirect = 'employee/home';
+    //     if (request.privilege_level == 1) {
+    //         redirect = 'branch_manager/home';
+    //     }
+    //     if (request.privilege_level == 2) {
+    //         redirect = 'employee/home';
 
-        }
-        if (request.privilege_level == 3) {
-            redirect = 'customer/home';
+    //     }
+    //     if (request.privilege_level == 3) {
+    //         redirect = 'customer/home';
 
-        }
-        if (request.privilege_level == 4) {
-            redirect = 'customer/home';
-        }
-            return response.status(200).render(redirect);
-    }
+    //     }
+    //     if (request.privilege_level == 4) {
+    //         redirect = 'customer/home';
+    //     }
+    //     return response.status(200).render(redirect);
+    // }
 }
 exports.validateLogIn = validateLogIn;
 exports.generateAuthToken = generateAuthToken;
