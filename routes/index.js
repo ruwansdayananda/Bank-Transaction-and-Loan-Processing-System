@@ -9,8 +9,8 @@ routes.use('/', home);
 routes.use('/login', login);
 routes.use('/logout', logout);
 
-routes.use('/employee', require('./employee_functionalities'))
-routes.use('/customer', require('./customer_functionalities'))
-routes.use('/branch_manager', require('./branch_manager_functionalities'))
+routes.use('/employee', require('./employee'))
+routes.use('/customer', require('./customer'))
+routes.use('/branch_manager', require('./branch_manager'))
 
 module.exports = routes;
