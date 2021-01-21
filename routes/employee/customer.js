@@ -4,16 +4,16 @@ var path = require("path");
 const isEmployee = require('../../middleware/employee');
 const isLoggedIn = require('../../middleware/login');
 
-const { createCorporateCustomer, createIndividualCustomer } = require('../../controllers/employee_functionalities/customer');
+const { createCorporateCustomer, createIndividualCustomer } = require('../../controllers/employee/customer');
 
 // GET REQUESTS
 router.get('/individual', [isLoggedIn, isEmployee], (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee_functionalities/individual.html'));
+    response.render('employee/individual');
 
 });
 
 router.get('/corporate', [isLoggedIn, isEmployee], (request, response) => {
-    response.sendFile(path.join(__dirname, '../../views/employee_functionalities/corporate.html'));
+    response.render('employee/corporate');
 
 });
 

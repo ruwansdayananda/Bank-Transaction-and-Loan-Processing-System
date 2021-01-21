@@ -14,10 +14,17 @@ function getPassword(email, table) {
                 if (error) {
                     reject(error);
                 };
-                console.log(result.sql);
-                console.log(results);
-                console.log(results[0]);
-                resolve(results[0].password);
+                if (!results) {
+                    resolve(null);
+                }
+                else {
+                    console.log(result.sql);
+                    console.log(results);
+                    console.log(results[0]);
+                    resolve(results[0].password);
+                    
+                }
+                
             }
         )
     });
