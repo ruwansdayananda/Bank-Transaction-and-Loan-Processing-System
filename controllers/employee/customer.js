@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const Joi = require('joi');
 const Employee = require('../../models/Employee');
+const Customer = require('../../models/Customer');
 
 // =================================VALIDATIONS=================================================//
 
@@ -80,7 +81,52 @@ const createCorporateCustomer =  async (request, response) => {
     return response.status(200).send(request.body);
 };
 
+const searchForCustomer = async (request, response) => {
+    try {
+        const savingsAccounts = await Employee.findCustomerSavingsAccount(request.params.id);
+        if ((!(savingsAccounts)) || savingsAccounts.length == 0) {
+            return response.render('employee/savings_account', {
+                hasErrors: true,
+                error_message: "This customer has no savings accounts created. Open a savings account before creating a fixed deposit"
+            });
+        }
+        else {
+            return response.render('employee/savings_account', {
+                hasErrors: false,
+                accounts: savingsAccounts
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        return response.status(500).send("Internal Server Error");
+    }
+}
+
+const findCustomerProfile = async (req, res) => {
+    const privilege_level = req.body.privilege_level;
+
+    const profile = await Customer.getProfileInformation(req.body.customer_id,privilege_level);
+    const savings_accounts = await Customer.getAllSavingsAccounts(req.body.customer_id);
+    const checking_accounts = await Customer.getAllCheckingAccounts(req.body.customer_id);
+    const fixed_deposits = await Customer.getAllFixedDeposits(req.body.customer_id);
+
+    if (!profile || profile.length == 0) {
+        return res.render('employee/customer_profile_and_functions', {
+            customerExists: false
+        });
+    }
+    return res.render('employee/customer_profile_and_functions', {
+        customerExists: true,
+        profile: profile,
+        privilege_level:privilege_level,
+        savings_accounts: savings_accounts,
+        fixed_deposits: fixed_deposits,
+        checking_accounts:checking_accounts
+    });
+}
 
 
 module.exports.createCorporateCustomer = createCorporateCustomer;
+module.exports.findCustomerProfile = findCustomerProfile;
 module.exports.createIndividualCustomer = createIndividualCustomer;

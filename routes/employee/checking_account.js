@@ -3,11 +3,9 @@ const router = express.Router();
 const isLoggedIn = require('../../middleware/login');
 const isEmployee = require('../../middleware/employee');
 const path = require('path');
-const {createCheckingAccount} = require('../../controllers/employee/checking_account')
+const {createCheckingAccount, getCheckingAccountForm} = require('../../controllers/employee/checking_account')
 
-router.get('/', [isLoggedIn, isEmployee], (request, response) => {
-    response.render('employee/checking_account');
-});
+router.get('/', [isLoggedIn, isEmployee], getCheckingAccountForm);
 
 // route to create new checking account
 // URL localhost:3000/employee/checking_account

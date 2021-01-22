@@ -4,20 +4,72 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>New Fixed Deposit</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="">
         <h1>Fixed Deposit Creation Page</h1>
     </head>
+
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="" async defer></script>
+        <div>
+        <form action="/employee/savings_account" method="POST">
+            <table class="table table-bordered">
+                <thead>
+                    <th scope="col">Select:</th>
+                    <th scope="col">Plan Name</th>
+                    <th scope="col">Interest Rate</th>
+                    <th scope="col">Account Period (in Months)</th>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < plans.length; i++){ %>
+                    <tr>
+                        <td><input type="radio" name="fixed_deposit_plan_id" id="fixed_deposit_plan_id"
+                                value="<%= plans[i].fixed_deposit_plan_id %>"></td>
+
+                        <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
+
+                        <td><input type="text" value="<%= plans[i].interest_rate %>" readonly></td>
+
+                        <td><input type="text" name="account_period_in_months" id="account_period_in_months"
+                                value="<%= plans[i].account_period_in_months %>" readonly></td>
+
+                    </tr>
+
+                    <% } %>
+                </tbody>
+            </table>
+            <br>
+            <br>
+
+            Account ID: <%=id%>
+            <br>
+
+            Customer ID: <input type="text" id="customer_id" name="customer_id" required>
+            <br>
+            
+            Date: <input type="date" id="started_date" name="started_date" min=<%=date%> required>
+            <br>
+
+            Linked Savings Account: <input type="text" id="savings_account_id" name="savings_account_id" required>
+            <br>
+
+            Deposit: <input type="number" id="deposit_amount" name="deposit_amount" required>
+            <br>
+            
+            <input type="text" id="branch_id" name="branch_id" value=<%=branch_id%> hidden required>
+            <br>
+
+            <input type="submit">
+        </form>
+        </div>
+
     </body>
+
 </html>

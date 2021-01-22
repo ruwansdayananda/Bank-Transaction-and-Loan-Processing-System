@@ -8,9 +8,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>New Savings Account</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="">
         <h1>Savings Account Creation Page</h1>
     </head>
@@ -19,12 +21,12 @@
         <form action="/employee/savings_account" method="POST">
 
 
-            <table>
+            <table class="table table-bordered">
                 <thead>
-                    <th>Select:</th>
-                    <th>Plan Name</th>
-                    <th>Interest Rate</th>
-                    <th>Minimum Required Account Balance</th>
+                    <th scope="col">Select:</th>
+                    <th scope="col">Plan Name</th>
+                    <th scope="col">Interest Rate</th>
+                    <th scope="col">Minimum Required Account Balance</th>
                 </thead>
                 <tbody>
                     <% for(var i=0; i < plans.length; i++){ %>

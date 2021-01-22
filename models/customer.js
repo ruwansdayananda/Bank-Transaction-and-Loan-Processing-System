@@ -105,5 +105,32 @@ class Customer{
         })
 
     }
+
+    static getProfileInformation(customerID, privilege_level) {
+        let query;
+        if (privilege_level == 3) {
+            query = "SELECT * FROM corporate_customer WHERE customer_id=?"
+        }
+        else {
+            query = "SELECT * FROM individual_customer WHERE customer_id=?"
+        }
+
+        return new Promise((resolve, reject) => {
+            const result = pool.query(query,
+                [
+                    customerID
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
 }
 module.exports = Customer;

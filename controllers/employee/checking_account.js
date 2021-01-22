@@ -20,6 +20,10 @@ function validateCheckingAccountForm(account) {
 
 }
 
+const getCheckingAccountForm = (req, res) => {
+    
+}
+
 
 const createCheckingAccount = async (request,response)=>{
     const {error} = validateCheckingAccountForm(request.body);
@@ -40,3 +44,4 @@ const createCheckingAccount = async (request,response)=>{
 }
 
 module.exports.createCheckingAccount = createCheckingAccount;
+module.exports.getCheckingAccountForm = getCheckingAccountForm;
