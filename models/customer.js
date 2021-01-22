@@ -70,46 +70,36 @@ class Customer{
 
     static getAllCheckingAccounts(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT  (?,?,?,?,?,?,?)",
+            const result = pool.query("SELECT * FROM allcheckingaccounts WHERE customer_id=?",
                 [
-                    body.loan_plan_id,
-                    body.fixed_deposit_id,
-                    body.customer_id,
-                    body.branch_id,
-                    body.loan_installment,
-                    body.loan_amount,
-                    body.created_date,
+                    customerID
 
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(error);
                         reject(error);
                     };
-                    resolve(console.log("succesful"));
+                    console.log(results);
+                    resolve(results);
                 }
             )
         })
-
     }
 
     static getAllFixedDeposits(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT  (?,?,?,?,?,?,?)",
+            const result = pool.query("SELECT * FROM allfixeddeposits WHERE customer_id=?",
                 [
-                    body.loan_plan_id,
-                    body.fixed_deposit_id,
-                    body.customer_id,
-                    body.branch_id,
-                    body.loan_installment,
-                    body.loan_amount,
-                    body.created_date,
-
+                    customerID
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(error);
                         reject(error);
                     };
-                    resolve(console.log("succesful"));
+                    console.log(results);
+                    resolve(results);
                 }
             )
         })

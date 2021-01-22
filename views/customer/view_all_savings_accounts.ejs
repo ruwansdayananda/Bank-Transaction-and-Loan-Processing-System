@@ -11,20 +11,21 @@
     </head>
 
     <body>
-        <%if (savings_accounts.length==0){%>
+        <%if (accounts.length==0){%>
         You do not have any savings accounts.
+        Please visit your nearest Bank A branch to open a savings account.
         <%} else{%>
-                <% for(var i=0; i < savings_accounts.length; i++) { %>
+                <% for(var i=0; i < accounts.length; i++) { %>
                    
-                     <h3><%= savings_accounts[i].savings_account_id  %></h3>
+                     <h3><%= accounts[i].savings_account_id  %></h3>
                      <br>
-                     Branch Name:<%= savings_accounts[i].branch_name  %>
+                     Branch Name:<%= accounts[i].branch_name  %>
                      <br>
-                     Bank Balance:<%= savings_accounts[i].bank_balance  %>
+                     Bank Balance:<%= accounts[i].bank_balance  %>
                      <br>
-                     Plan Name:<%= savings_accounts[i].plan_name  %>
+                     Plan Name:<%= accounts[i].plan_name  %>
                      <br>
-                     Remaining number of withdrawals for the month: <%= savings_accounts[i].no_of_withdrawals_remaining  %>
+                     Remaining number of withdrawals for the month: <%= accounts[i].no_of_withdrawals_remaining  %>
                      <br>
                      <br>
                      <br>

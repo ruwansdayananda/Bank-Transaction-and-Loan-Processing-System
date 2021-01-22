@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Fixed Deposits</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <h1>Fixed Deposits</h1>
+    </head>
+
+    <body>
+        <%if (accounts.length==0){%>
+        You do not have any fixed deposits. 
+        Please visit your nearest Bank A branch to open a fixed deposit.
+        <%} else{%>
+                <% for(var i=0; i < accounts.length; i++) { %>
+                   
+                     <h3><%= accounts[i].plan_name  %></h3>
+                     <br>
+                     Branch Name:<%= accounts[i].branch_name  %>
+                     <br>
+                     Deposit Amount:<%= accounts[i].deposit_amount  %>
+                     <br>
+                     Interest Rate:<%= accounts[i].interest_rate  %>
+                     <br>
+                     Account Period (in months):<%= accounts[i].account_period_in_months  %>
+                     <br>
+                     <br>
+                     <br>
+             <%}%>
+        <%}%>
+        
+    </body>
+</html>

@@ -11,7 +11,6 @@ module.exports = function (request, response, next) {
     try {
         const decoded = jwt.verify(token, config.get("jwtPrivateKey")); //this gives the payload
         request.user = decoded;
-        console.log(request.user);
         next(); //calls the route handler
     } catch (error) {
         console.log(token);

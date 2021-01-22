@@ -18,32 +18,54 @@
     <body>
         <form action="/employee/savings_account" method="POST">
 
-            Full Name: <input type="text" id="full_name" name="full_name" required>
+
+            <table>
+                <thead>
+                    <th>Select:</th>
+                    <th>Plan Name</th>
+                    <th>Interest Rate</th>
+                    <th>Minimum Required Account Balance</th>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < plans.length; i++){ %>
+                    <tr>
+                        <td><input type="radio" name="savings_plan_id" id="savings_plan_id" value="<%= plans[i].savings_plan_id %>"></td>
+
+                        <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
+
+                        <td><input type="text" value="<%= plans[i].interest_rate %>" readonly></td>
+
+                        <td><input type="text" name="minimum_balance" id="minimum_balance" value="<%= plans[i].minimum_required_balance %>" readonly></td>
+                                
+                    </tr>
+
+                    <% } %>
+                </tbody>
+            </table>
+            <br>
             <br>
 
-            Address: <input type="text" id="address" name="address" required>
+            Account ID: <%=id%>
             <br>
 
-            National ID: <input type="text" id="national_ID" name="national_ID" required>
+            Customer ID: <input type="text" id="customer_id" name="customer_id" required>
+            <br>
+            
+            Date: <input type="date" id="started_date" name="started_date" min=<%=date%> required>
             <br>
 
-            Date of Birth: <input type="text" id="date_of_birth" name="date_of_birth" required>
+            Deposit: <input type="number" id="bank_balance" name="bank_balance" min="document.getElementById('minimum_balance').value;" required>
             <br>
 
-            Residential Contact Number:<input type="text" id="residential_contact_no" name="residential_contact_no"
-                required>
+            Max Withdrawal Limit: <input type="text" id="max_withdrawal_limit" name="max_withdrawal_limit" required>
             <br>
 
-            Private Contact Number: <input type="text" id="personal_contact_no" name="personal_contact_no" required>
+            Source of Funds: <input type="text" id="source_of_funds" name="source_of_funds" required>
             <br>
 
-            Date Joined: <input type="text" id="date_joined" name="date_joined" required>
+            <input type="text" id="no_of_withdrawals_remaining" name="no_of_withdrawals_remaining" value='5' readonly hidden>
             <br>
-
-            E-mail Address: <input type="email" id="email" name="email" required>
-            <br>
-
-            Password: <input type="password" id="password" name="password" required>
+            <input type="text" id="branch_id" name="branch_id" value=<%=branch_id%> hidden required>
             <br>
 
             <input type="submit">

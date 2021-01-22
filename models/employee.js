@@ -1,3 +1,5 @@
+const { pool } = require('../startup/mysql_database');
+
 class Employee {
 
     static enterCheckingAccount(body) {
@@ -74,7 +76,7 @@ class Employee {
                     body.customer_id,
                     body.started_date,
                     body.bank_balance,
-                    body.no_of_monthly_withdrawals,
+                    body.no_of_withdrawals_remaining,
                     body.savings_plan_id,
                     body.max_withdrawal_limit,
                     body.source_of_funds,
@@ -83,6 +85,7 @@ class Employee {
                     if (error) {
                         reject(error);
                     };
+                    console.log(result.sql);
                     resolve(console.log("succesful"));
                 }
             )
@@ -138,6 +141,38 @@ class Employee {
                 }
             )
         })
+    }
+
+    static getAllSavingsAccountPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM savings_account_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+
+    static getSavingsAccountID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'savings_account'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
     }
 
 }
