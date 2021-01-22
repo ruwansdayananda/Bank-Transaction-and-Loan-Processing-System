@@ -5,15 +5,15 @@ const getAllSavingsAccounts = async (req, res) => {
     console.log(req.user.privilege_level);
     const accounts = await Customer.getAllSavingsAccounts(customerID);
     return res.render('customer/view_all_savings_accounts', {
-        savings_accounts: accounts
+        accounts: accounts
     });
 }
 
 const getAllCheckingAccounts = async (req, res) => {
     const customerID = req.session.customer_id;
     const accounts = await Customer.getAllCheckingAccounts(customerID);
-    return res.render('customer/view_all_savings_accounts', {
-        savings_accounts: accounts
+    return res.render('customer/view_all_checking_accounts', {
+        accounts: accounts
     });
 }
 
@@ -21,7 +21,7 @@ const getAllFixedDeposits = async (req, res) => {
     const customerID = req.session.customer_id;
     const accounts = await Customer.getAllFixedDeposits(customerID);
     return res.render('customer/view_all_fixed_deposits', {
-        savings_accounts: accounts
+        accounts: accounts
     });
 }
 

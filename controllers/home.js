@@ -9,13 +9,13 @@ router.get('/', [isLoggedIn], (request, response) => {
         return response.render('branch_manager/home');
     }
     if (request.privilege_level == 2) {
-        return response.sendFile('employee/home');
+        return response.render('employee/home');
     }
     if (request.privilege_level == 3) {
-        return response.sendFile('customer/home');
+        return response.render('customer/home');
     }
     if (request.privilege_level == 4) {
-        return response.sendFile('customer/home');
+        return response.render('customer/home');
     }
 })
 

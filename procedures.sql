@@ -120,14 +120,14 @@ CREATE OR REPLACE PROCEDURE `create_savings_account` (
   IN `customer_id` INT,
   IN `started_date` DATE ,
   IN `bank_balance` NUMERIC(12,2),
-  IN `no_of_monthly_withdrawals` INT,
+  IN `no_of_withdrawals_remaining` INT,
   IN `savings_plan_id` INT ,
   IN `max_withdrawal_limit` NUMERIC (9,2) ,
   IN `source_of_funds` VARCHAR(20) )
 BEGIN
     INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
-    `no_of_monthly_withdrawals`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
-    (branch_id,customer_id,started_date,bank_balance,no_of_monthly_withdrawals,savings_plan_id,max_withdrawal_limit,source_of_funds);
+    `no_of_withdrawals_remaining`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
+    (branch_id,customer_id,started_date,bank_balance,no_of_withdrawals_remaining,savings_plan_id,max_withdrawal_limit,source_of_funds);
     commit;
 END$$
 

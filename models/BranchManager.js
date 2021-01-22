@@ -1,3 +1,5 @@
+const { pool } = require('../startup/mysql_database');
+
 class BranchManager {
 
     static enterEmployee(body) {

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Checking Accounts</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <h1>Checking Accounts</h1>
+    </head>
+
+    <body>
+        <%if (accounts.length==0){%>
+        You do not have any checking accounts. 
+        Please visit your nearest Bank A branch to open a checking account.
+        <%} else{%>
+                <% for(var i=0; i < accounts.length; i++) { %>
+                   
+                     <h3><%= accounts[i].checking_account_id  %></h3>
+                     <br>
+                     Branch Name:<%= accounts[i].branch_name  %>
+                     <br>
+                     Bank Balance:<%= accounts[i].bank_balance  %>
+                     <br>
+                     <br>
+                     <br>
+             <%}%>
+        <%}%>
+        
+    </body>
+</html>
