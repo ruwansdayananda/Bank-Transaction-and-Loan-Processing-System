@@ -175,6 +175,54 @@ class Employee {
 
     }
 
+    static getAllFixedDepositPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM fixed_deposit_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    static getFixedDepositID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'fixed_deposit'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    static findCustomerSavingsAccount(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM allsavingsaccounts WHERE customer_id=?",
+                [customerID],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
 }
 
 module.exports = Employee;

@@ -55,10 +55,10 @@ CREATE TABLE `individual_customer` (
   `full_name` VARCHAR(20) NOT NULL,
   `address` VARCHAR(100) NOT NULL,
   `national_ID` VARCHAR(10) NOT NULL,
-  `date_of_birth` DATE NOT NULL,
+  `date_of_birth` TEXT NOT NULL,
   `residential_contact_no` VARCHAR(10) NOT NULL,
   `personal_contact_no` VARCHAR(10) NOT NULL,
-  `date_joined` DATE NOT NULL,
+  `date_joined` TEXT NOT NULL,
   `email` VARCHAR(50) NOT NULL UNIQUE,
   `password` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`customer_id`),
@@ -75,9 +75,9 @@ CREATE TABLE `corporate_customer` (
     `company_name` VARCHAR(20) NOT NULL,
     `company_email` VARCHAR(50) NOT NULL UNIQUE,
     `address` VARCHAR(100) NOT NULL,
-    `date_of_establishment` DATE NOT NULL,
+    `date_of_establishment` TEXT NOT NULL,
     `contact_no` VARCHAR(10) NOT NULL,
-    `date_joined` DATE NOT NULL,
+    `date_joined` TEXT NOT NULL,
     `correspondent` VARCHAR(20) NOT NULL,
     `correspondent_email` VARCHAR(50) NOT NULL,
     `password` VARCHAR(50) NOT NULL,
@@ -114,6 +114,8 @@ CREATE TABLE `savings_account` (
 ALTER TABLE savings_account AUTO_INCREMENT = 600001;
 ALTER TABLE savings_account ADD INDEX  (`branch_id`);
 ALTER TABLE savings_account ADD INDEX  (`customer_id`);
+ALTER TABLE `savings_account` CHANGE `started_date` `started_date` TEXT NOT NULL;
+
 ALTER TABLE `savings_account` CHANGE `no_of_monthly_withdrawals` `no_of_withdrawals_remaining` INT(11) NOT NULL;
 
 CREATE TABLE `checking_account` (
@@ -129,6 +131,7 @@ CREATE TABLE `checking_account` (
 ALTER TABLE checking_account AUTO_INCREMENT = 700001;
 ALTER TABLE checking_account ADD INDEX  (`branch_id`);
 ALTER TABLE checking_account ADD INDEX  (`customer_id`);
+ALTER TABLE `checking_account` CHANGE `started_date` `started_date` TEXT NOT NULL;
 
 CREATE TABLE `fixed_deposit_plan`(
   `fixed_deposit_plan_id` INT NOT NULL AUTO_INCREMENT ,
@@ -155,10 +158,11 @@ CREATE TABLE `fixed_deposit` (
 ALTER TABLE fixed_deposit AUTO_INCREMENT= 800001;
 ALTER TABLE fixed_deposit ADD INDEX  (`customer_id`);
 ALTER TABLE fixed_deposit ADD INDEX  (`branch_id`);
+ALTER TABLE `fixed_deposit` CHANGE `started_date` `started_date` TEXT NOT NULL;
 
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
+  `date` TEXT NOT NULL,
   `initiating_account_id` VARCHAR(30) NOT NULL,
   `receiving_account_id` VARCHAR(30) NOT NULL,
   `transaction_amount` NUMERIC(10,2) NOT NULL,

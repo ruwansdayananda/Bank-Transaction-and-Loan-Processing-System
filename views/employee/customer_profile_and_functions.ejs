@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Customer Profile</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <% if (customerExists) {%>
+            <h2>Customer Profile Information</h2>
+            <!-- individual customer -->
+            <% if (privilege_level==4) {%>
+                Customer ID:  <%= profile[0].customer_id%> <br>
+                Full Name:  <%= profile[0].full_name%> <br>
+                Address: <%= profile[0].address%> <br>
+                NIC: <%= profile[0].national_ID%> <br>
+                DOB: <%= profile[0].date_of_birth%> <br>
+                Residential Contact No.:<%= profile[0].residential_contact_no%> <br>
+                Personal Contact No.:<%= profile[0].personal_contact_no%> <br>
+                Date Joined:<%= profile[0].date_joined%> <br>
+                Email Address:<%= profile[0].email%> <br>
+            <%} else{%>
+                <!-- corporate customer -->
+
+
+            <%}%>
+                <!-- Savings Accounts -->
+            <br>   
+            <h2>Savings Accounts</h2>
+
+            <% if (savings_accounts.length>0) {%>
+                <table>
+                    <thead>
+                        <th>Savings Account ID</th>
+                        <th>Branch Name</th>
+                        <th>Bank Balance</th>
+                        <th>Plan Name</th>
+                        <th>No. of Remaining Withdrawals</th>
+
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i<savings_accounts.length;i++) {%>
+                            <tr>
+                                <td><%= savings_accounts[i].savings_account_id%></td>
+                                <td><%= savings_accounts[i].branch_name%></td>
+                                <td><%= savings_accounts[i].bank_balance%></td>
+                                <td><%= savings_accounts[i].plan_name%></td>
+                                <td><%= savings_accounts[i].no_of_withdrawals_remaining%></td>
+                          </tr>
+                            <%}%>
+
+                    </tbody>
+                </table>
+                
+                <%} else{%>
+                    No savings accounts created.
+                <%}%>
+
+                <h2>Checking Accounts</h2>
+
+                <% if (checking_accounts.length>0) {%>
+                <table>
+                    <thead>
+                        <th>Checking Account ID</th>
+                        <th>Branch Name</th>
+                        <th>Bank Balance </th>
+
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i<checking_accounts.length;i++) {%>
+                        <tr>
+                            <td><%= checking_accounts[i].checking_account_id%></td>
+                            <td><%= checking_accounts[i].branch_name%></td>
+                            <td><%= checking_accounts[i].bank_balance%></td>
+                        </tr>
+                        <%}%>
+
+                    </tbody>
+                </table>
+                <%}  else{%>
+                No checking accounts created.
+                <%}%>
+                
+                    <!-- Fixed Deposits -->
+                <h2>Fixed Deposits</h2>
+
+                <% if (fixed_deposits.length>0) {%>
+                <table>
+                    <thead>
+                        <th>Fixed Deposit ID</th>
+                        <th>Linked Savings Account ID</th>
+                        <th>Branch Name</th>
+                        <th>Deposited Amount</th>
+                        <th>Plan Name</th>
+                        <th>Account Period (in Months) </th>
+                        <th>Interest Rate</th>
+
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i<fixed_deposits.length;i++) {%>
+                        <tr>
+                            <td><%= fixed_deposits[i].fixed_deposit_id%></td>
+                            <td><%= fixed_deposits[i].savings_account_id%></td>
+                            <td><%= fixed_deposits[i].branch_name%></td>
+                            <td><%= fixed_deposits[i].deposit_amount%></td>
+                            <td><%= fixed_deposits[i].plan_name%></td>
+                            <td><%= fixed_deposits[i].account_period_in_months%></td>
+                            <td><%= fixed_deposits[i].interest_rate%></td>
+                        </tr>
+                        <%}%>
+
+                    </tbody>
+                </table>
+                
+                <%} else{%>
+                        No savings accounts created.
+                        <%}%>
+
+
+        <%} else{%>
+            This customer does not exist. Create a customer profile before creating accounts.
+            <br>
+            <form action="/employee/customer/individual" method="GET">
+                <input type="submit" value="Create an Individual Customer Profile">
+            </form>
+            <br>
+
+            <form action="/employee/customer/corporate" method="GET">
+                <input type="submit" value="Create a Corporate Customer Profile">
+            </form>
+            <br>
+
+            <%}%>
+
+    </body>
+</html>

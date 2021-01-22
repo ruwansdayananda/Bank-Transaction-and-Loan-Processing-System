@@ -15,6 +15,9 @@ if (!config.has('jwtPrivateKey')) {
     console.error("FATAL ERROR : jwtPrivateKey not defined");
     process.exit(1);
 }
+
+app.use(express.static('public'));
+
 console.log(config.get('jwtPrivateKey'));
 
 const port = process.env.PORT || 3000;

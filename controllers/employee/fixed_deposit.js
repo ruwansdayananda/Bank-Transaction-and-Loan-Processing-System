@@ -2,6 +2,7 @@
 const Joi = require('joi');
 const _ = require('lodash');
 const Employee = require('../../models/Employee');
+const Lookup = require('../../models/Lookup');
 
 function validateFixedDeposit(account) {
 
@@ -16,6 +17,23 @@ function validateFixedDeposit(account) {
     });
     return schema.validate(account);
 }
+
+const getFixedDepositForm = async (request, response) => {
+    try {
+        const plans = await Employee.getAllFixedDepositPlans();
+        const id = await Employee.getFixedDepositID();
+        const date = Lookup.getDate();
+        console.log(id);
+        return response.status(200).render('employee/fixed_deposit', {
+            plans: plans,
+            id: id[0].AUTO_INCREMENT,
+            branch_id: request.user.branch_id,
+            date: date
+        });
+    } catch (error) {
+        return response.status(500).send(error.message);
+    }
+};
 
 
 // route to create new savings account
@@ -34,6 +52,7 @@ const createFixedDeposit = async (request,response)=>{
 
 };
 
+module.exports.getFixedDepositForm = getFixedDepositForm;
 module.exports.createFixedDeposit = createFixedDeposit;
 
 

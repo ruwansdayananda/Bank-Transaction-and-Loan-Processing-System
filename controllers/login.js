@@ -103,26 +103,6 @@ const login = async (request, response) => {
             console.log(error.message);
             return response.status(500).send(error);
         }
-    // }
-    // else {
-    //     var redirect;
-
-    //     if (request.privilege_level == 1) {
-    //         redirect = 'branch_manager/home';
-    //     }
-    //     if (request.privilege_level == 2) {
-    //         redirect = 'employee/home';
-
-    //     }
-    //     if (request.privilege_level == 3) {
-    //         redirect = 'customer/home';
-
-    //     }
-    //     if (request.privilege_level == 4) {
-    //         redirect = 'customer/home';
-    //     }
-    //     return response.status(200).render(redirect);
-    // }
 }
 exports.validateLogIn = validateLogIn;
 exports.generateAuthToken = generateAuthToken;
