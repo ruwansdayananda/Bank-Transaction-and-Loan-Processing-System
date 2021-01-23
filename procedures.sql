@@ -315,6 +315,8 @@ CREATE OR REPLACE PROCEDURE `savings_account_money_withdrawal` (
 BEGIN
   DECLARE account_balance decimal(12, 2) DEFAULT 0;
   DECLARE max_amount decimal(9, 2) DEFAULT 0;
+  DECLARE withdrawals_left INT DEFAULT 0;
+  DECLARE minimum_balance decimal(6, 2) DEFAULT 0;
   SELECT IFNULL(bank_balance,0)
   INTO   account_balance
   FROM   savings_account
@@ -325,15 +327,104 @@ BEGIN
   FROM   savings_account
   WHERE  savings_account_id= account_id_1;
 
+  SELECT IFNULL(no_of_withdrawals_remaining,0)
+  INTO   withdrawals_left
+  FROM   savings_account
+  WHERE  savings_account_id= account_id_1;
 
-  IF account_balance >= withdrawal_amount AND withdrawal_amount<=max_amount THEN
+  SELECT IFNULL(minimum_required_balance,0)
+  INTO   minimum_balance
+  FROM   savings_account_plan
+  WHERE  savings_plan_id= (SELECT savings_plan_id FROM savings_account WHERE savings_account_id = account_id_1);
+
+
+  IF account_balance >= withdrawal_amount AND withdrawal_amount<=max_amount AND withdrawals_left>0 AND account_balance-withdrawal_amount>minimum_balance THEN
     START TRANSACTION;
 
       UPDATE savings_account
       SET bank_balance = account_balance - withdrawal_amount
       WHERE savings_account_id = account_id_1;
+
+      UPDATE savings_account
+      SET no_of_withdrawals_remaining = withdrawals_left - 1
+      WHERE savings_account_id = account_id_1;
       INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,withdrawal_amount);
 
     COMMIT;
   END IF;
+END$$
+
+-- Money Withdrawal From Checking Account--
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `checking_account_money_withdrawal` (
+  IN `date_1` DATE,
+  IN `account_id_1` INT ,
+  IN `withdrawal_amount` decimal(9, 2) )
+BEGIN
+  DECLARE account_balance decimal(12, 2) DEFAULT 0;
+  SELECT IFNULL(bank_balance,0)
+  INTO   account_balance
+  FROM   checking_account
+  WHERE  checking_account_id= account_id_1;
+  
+  IF account_balance >= withdrawal_amount THEN
+    START TRANSACTION;
+
+      UPDATE checking_account
+      SET bank_balance = account_balance - withdrawal_amount
+      WHERE checking_account_id = account_id_1;
+      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,withdrawal_amount);
+
+    COMMIT;
+  END IF;
+END$$
+
+-- Money Deposit Into Checking Account--
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `checking_account_money_deposit` (
+  IN `date_1` DATE,
+  IN `account_id_1` INT ,
+  IN `deposit_amount` decimal(9, 2) )
+BEGIN
+  DECLARE account_balance decimal(12, 2) DEFAULT 0;
+  SELECT IFNULL(bank_balance,0)
+  INTO   account_balance
+  FROM   checking_account
+  WHERE  checking_account_id= account_id_1;
+  
+    START TRANSACTION;
+
+      UPDATE checking_account
+      SET bank_balance = account_balance + deposit_amount
+      WHERE checking_account_id = account_id_1;
+      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
+
+    COMMIT;
+END$$
+
+
+-- Money Deposit Into Savings Account--
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `savings_account_money_deposit` (
+  IN `date_1` DATE,
+  IN `account_id_1` INT ,
+  IN `deposit_amount` decimal(9, 2) )
+BEGIN
+  DECLARE account_balance decimal(12, 2) DEFAULT 0;
+  SELECT IFNULL(bank_balance,0)
+  INTO   account_balance
+  FROM   savings_account
+  WHERE  savings_account_id= account_id_1;
+  
+    START TRANSACTION;
+
+      UPDATE savings_account
+      SET bank_balance = account_balance + deposit_amount
+      WHERE savings_account_id = account_id_1;
+      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
+
+    COMMIT;
 END$$
