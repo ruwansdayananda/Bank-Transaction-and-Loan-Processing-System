@@ -164,7 +164,7 @@ ALTER TABLE `fixed_deposit` CHANGE `started_date` `started_date` TEXT NOT NULL;
 CREATE TABLE `deposit` (
   `deposit_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
-  `account_id` VARCHAR(30) NOT NULL,
+  `account_id` INT NOT NULL,
   `amount` decimal(6, 2) NOT NULL,
   PRIMARY KEY (`deposit_id`)
 );
@@ -176,7 +176,7 @@ ALTER TABLE transaction ADD INDEX  (`date`);
 CREATE TABLE `withdrawal` (
   `withdrawal_id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NOT NULL,
-  `account_id` VARCHAR(30) NOT NULL,
+  `account_id` INT NOT NULL,
   `amount` decimal(9, 2) NOT NULL,
   PRIMARY KEY (`withdrawal_id`)
 );
@@ -188,15 +188,14 @@ ALTER TABLE transaction ADD INDEX  (`date`);
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
   `date` TEXT NOT NULL,
-  `initiating_account_id` VARCHAR(30) NOT NULL,
-  `receiving_account_id` VARCHAR(30) NOT NULL,
+  `initiating_account_id` INT NOT NULL,
+  `receiving_account_id` INT NOT NULL,
   `transaction_amount` NUMERIC(10,2) NOT NULL,
-  PRIMARY KEY (`transaction_id`)
-  --FOREIGN key how? checking n savings both
+  PRIMARY KEY (`transaction_id`),
+  FOREIGN KEY (`initiating_account_id`) REFERENCES transactional_table(`account_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`receiving_account_id`) REFERENCES transactional_table(`account_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE transaction AUTO_INCREMENT= 90000001;
-ALTER TABLE transaction ADD INDEX  (`initiating_account_id`);
-ALTER TABLE transaction ADD INDEX  (`receiving_account_id`);
 ALTER TABLE transaction ADD INDEX  (`date`);
 
 
