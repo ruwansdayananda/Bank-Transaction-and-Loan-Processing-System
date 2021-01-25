@@ -160,6 +160,31 @@ ALTER TABLE fixed_deposit ADD INDEX  (`customer_id`);
 ALTER TABLE fixed_deposit ADD INDEX  (`branch_id`);
 ALTER TABLE `fixed_deposit` CHANGE `started_date` `started_date` TEXT NOT NULL;
 
+-- DEPOSITS TABLE --
+CREATE TABLE `deposit` (
+  `deposit_id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `account_id` VARCHAR(30) NOT NULL,
+  `amount` decimal(6, 2) NOT NULL,
+  PRIMARY KEY (`deposit_id`)
+);
+ALTER TABLE deposit AUTO_INCREMENT= 70000001;
+ALTER TABLE transaction ADD INDEX  (`account_id`);
+ALTER TABLE transaction ADD INDEX  (`date`);
+
+-- WITHDRAWALS TABLE --
+CREATE TABLE `withdrawal` (
+  `withdrawal_id` INT NOT NULL AUTO_INCREMENT,
+  `date` DATE NOT NULL,
+  `account_id` VARCHAR(30) NOT NULL,
+  `amount` decimal(9, 2) NOT NULL,
+  PRIMARY KEY (`withdrawal_id`)
+);
+ALTER TABLE withdrawal_id AUTO_INCREMENT= 80000001;
+ALTER TABLE transaction ADD INDEX  (`account_id`);
+ALTER TABLE transaction ADD INDEX  (`date`);
+
+-- TRANSACTIONS TABLE --
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
   `date` TEXT NOT NULL,
@@ -168,12 +193,12 @@ CREATE TABLE `transaction` (
   `transaction_amount` NUMERIC(10,2) NOT NULL,
   PRIMARY KEY (`transaction_id`)
   --FOREIGN key how? checking n savings both
-
 );
 ALTER TABLE transaction AUTO_INCREMENT= 90000001;
 ALTER TABLE transaction ADD INDEX  (`initiating_account_id`);
 ALTER TABLE transaction ADD INDEX  (`receiving_account_id`);
 ALTER TABLE transaction ADD INDEX  (`date`);
+
 
 
 CREATE TABLE `loan_plan`(
