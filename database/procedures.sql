@@ -171,7 +171,7 @@ END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_normal_loan` (
-  IN `loan_plan_id` INT,
+  IN `loan_plan_id_1` INT,
   IN `account_id` INT,
   IN `customer_id` INT ,
   IN `branch_id` INT,
@@ -182,30 +182,30 @@ BEGIN
     DECLARE id INT DEFAULT 0;
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'normal_loan';
-      SELECT id;
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Normal");
-      INSERT INTO `normal_loan`(`loan_plan_id`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
+      INSERT INTO `normal_loan`(`loan_plan_id_1`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
       VALUES (loan_plan_id, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
     COMMIT;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_online_loan` (
-  IN `loan_plan_id` INT,
-  IN `fixed_deposit_id` INT,
-  IN `customer_id` INT ,
-  IN `branch_id` INT,
-  IN `loan_installment` NUMERIC(12, 2),
-  IN `created_date` DATE,
-  IN `loan_amount` NUMERIC(12, 2))
+  IN `loan_plan_id_1` INT,
+  IN `fixed_deposit_id_1` INT,
+  IN `customer_id_1` INT ,
+  IN `branch_id_1` INT,
+  IN `loan_installment_1` NUMERIC(12, 2),
+  IN `loan_amount_1` NUMERIC(12, 2))
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE months INT DEFAULT 0;
     START TRANSACTION;
       SELECT loan_id+1 INTO id FROM online_loan ORDER BY loan_id DESC;
-      SELECT id;
+      SELECT loan_period_in_months INTO months FROM loan_plan WHERE loan_plan_id = `loan_plan_id_1`;
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
-      INSERT INTO `normal_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
-      VALUES (loan_plan_id, fixed_deposit_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
+      INSERT INTO `online_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
+      VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE, loan_amount_1);
+      INSERT INTO `loan_installment`(`loan_id`, `due_date`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE,months);
     COMMIT;
 END$$
 
