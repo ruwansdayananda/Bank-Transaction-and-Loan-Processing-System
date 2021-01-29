@@ -44,7 +44,6 @@ const createFixedDeposit = async (request,response)=>{
     }
     try {
         await Employee.enterFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","started_date"]));
-        
     } catch (error) {
         response.status(400).send(error.message);
     }

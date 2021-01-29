@@ -123,7 +123,8 @@ const findCustomerProfile = async (req, res) => {
         savings_accounts: savings_accounts,
         fixed_deposits: fixed_deposits,
         checking_accounts:checking_accounts
-    });
+    }
+    );
 }
 
 
