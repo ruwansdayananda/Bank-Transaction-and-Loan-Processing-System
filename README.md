@@ -11,12 +11,3 @@ If any code doesn't work in the VSCode integrated terminal (like when setting en
 DATABASE INFORMATION
 
 Database used: MySQL
-
-CURRENTLY IMPLEMENTED ROUTES
-
-1. Customer
-    - /customer/individual
-    - /customer/corporate
-    
-2. Bank Accounts
-    - /savings_account/create
