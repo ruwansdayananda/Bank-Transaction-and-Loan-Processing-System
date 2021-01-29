@@ -209,7 +209,7 @@ class Employee {
 
     static findCustomerSavingsAccount(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM allsavingsaccounts WHERE customer_id=?",
+            const result = pool.query("SELECT * FROM all_savings_accounts WHERE customer_id=?",
                 [customerID],
                 function (error, results, fields) {
                     if (error) {
