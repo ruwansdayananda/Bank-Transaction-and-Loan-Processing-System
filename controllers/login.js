@@ -28,30 +28,30 @@ const login = async (request, response) => {
         const { error } = validateLogIn(request.body);
         if (error) {
             return response.status(400).send(error);
-        }
-        var password;
-        var procedure;
+    }
+    
+        var table;
         var payload;
         if (request.body.privilege_level == 1) {
-            procedure = "branch_manager";
+            table = "branch_manager";
             redirect = 'branch_manager/home';
         }
         if (request.body.privilege_level == 2) {
-            procedure = "employee";
+            table = "employee";
             redirect = 'employee/home';
 
         }
         if (request.body.privilege_level == 3) {
-            procedure = "corporate_customer";
+            table = "corporate_customer";
             redirect = 'customer/home'; e_level: request.body.privilege_level;
         }
         if (request.body.privilege_level == 4) {
-            procedure = "individual_customer";
+            table = "individual_customer";
             redirect = 'customer/home';
         }
 
         try {
-            result = await getPassword(request.body.email, procedure);
+            result = await getPassword(request.body.email, table);
             if (!result) {
                 return response.status(400).send("User not registered");
             }

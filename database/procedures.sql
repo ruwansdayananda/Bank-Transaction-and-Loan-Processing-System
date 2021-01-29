@@ -16,7 +16,7 @@ CREATE OR REPLACE PROCEDURE `create_branch_manager` (
   `date_of_employment`  DATE,
   `branch_id` INT,
   `email` VARCHAR(50),
-  `password` VARCHAR(50))
+  `password` VARCHAR(100))
 BEGIN
     set AUTOCOMMIT = 0;
     INSERT INTO `branch_manager` (`full_name`,`date_of_birth`,`address`,`salary` ,
@@ -34,7 +34,7 @@ CREATE OR REPLACE PROCEDURE `create_employee` (
   `salary` NUMERIC(9,2) ,
   `date_of_employment` DATE,
   `email` VARCHAR(50),
-  `password` VARCHAR(50))
+  `password` VARCHAR(100))
 BEGIN
     set AUTOCOMMIT = 0;
     INSERT INTO `employee` (`full_name`,`address`,`branch_id`,`date_of_birth` ,
@@ -55,7 +55,7 @@ CREATE OR REPLACE PROCEDURE `create_individual_customer` (
     IN `personal_contact_no` VARCHAR(10),
     IN `date_joined` DATE,
     IN `email` VARCHAR(50),
-    IN `password` VARCHAR(50))
+    IN `password` VARCHAR(100))
 
 BEGIN
     DECLARE id INT DEFAULT 0;
@@ -78,7 +78,7 @@ CREATE OR REPLACE PROCEDURE `create_corporate_customer` (
   IN `date_joined` DATE,
   IN `correspondent` VARCHAR(20) ,
   IN `correspondent_email` VARCHAR(50),
-  IN `password` VARCHAR(50))
+  IN `password` VARCHAR(100))
 BEGIN
     DECLARE id INT DEFAULT 0;
     START TRANSACTION;
@@ -125,9 +125,15 @@ CREATE OR REPLACE PROCEDURE `create_savings_account` (
   IN `max_withdrawal_limit` NUMERIC (9,2) ,
   IN `source_of_funds` VARCHAR(20) )
 BEGIN
-    INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
-    `no_of_withdrawals_remaining`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
-    (branch_id,customer_id,started_date,bank_balance,no_of_withdrawals_remaining,savings_plan_id,max_withdrawal_limit,source_of_funds);
+    DECLARE id INT DEFAULT 0;
+    START TRANSACTION;
+      SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'savings_account';
+      SELECT id;
+      INSERT INTO transactional_table VALUES(id, "Savings");
+
+      INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
+      `no_of_withdrawals_remaining`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
+      (branch_id,customer_id,started_date,bank_balance,no_of_withdrawals_remaining,savings_plan_id,max_withdrawal_limit,source_of_funds);
     commit;
 END$$
 
@@ -138,7 +144,12 @@ CREATE OR REPLACE PROCEDURE `create_checking_account` (
   IN `bank_balance` NUMERIC(12,2),
   IN `branch_id` INT)
 BEGIN
-    INSERT INTO `checking_account` (`customer_id`,`started_date`,`bank_balance`,`branch_id`) VALUES (customer_id,started_date,bank_balance,branch_id);
+    DECLARE id INT DEFAULT 0;
+    START TRANSACTION;
+      SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'checking_account';
+      SELECT id;
+      INSERT INTO transactional_table VALUES(id, "Checking");
+      INSERT INTO `checking_account` (`customer_id`,`started_date`,`bank_balance`,`branch_id`) VALUES (customer_id,started_date,bank_balance,branch_id);
     commit;
 END$$
 
@@ -147,20 +158,21 @@ DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_fixed_deposit` (
   IN `fixed_deposit_plan_id` INT,
   IN `branch_id` INT,
-  IN `savings_account_id` VARCHAR(30),
+  IN `savings_account_id` INT,
   IN `customer_id` INT,
   IN `deposit_amount` NUMERIC(12,2),
+  IN `monthly_addition` NUMERIC(9, 2),
   IN `started_date` DATE)
 BEGIN
-    INSERT INTO `fixed_deposit` (`fixed_deposit_plan_id`,`branch_id`,`savings_account_id`,`customer_id`,`deposit_amount`,`started_date`)
-    VALUES (fixed_deposit_plan_id,branch_id,savings_account_id,customer_id,deposit_amount,started_date);
+    INSERT INTO `fixed_deposit` (`fixed_deposit_plan_id`,`branch_id`,`savings_account_id`,`customer_id`,`deposit_amount`,`monthly_addition`,`started_date`)
+    VALUES (fixed_deposit_plan_id,branch_id,savings_account_id,customer_id,deposit_amount,monthly_addition,started_date);
     commit;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_normal_loan` (
   IN `loan_plan_id` INT,
-  IN `account_id` VARCHAR(30),
+  IN `account_id` INT,
   IN `customer_id` INT ,
   IN `branch_id` INT,
   IN `loan_installment` NUMERIC(12, 2),
@@ -180,7 +192,7 @@ END$$
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_online_loan` (
   IN `loan_plan_id` INT,
-  IN `fixed_deposit_id` VARCHAR(30),
+  IN `fixed_deposit_id` INT,
   IN `customer_id` INT ,
   IN `branch_id` INT,
   IN `loan_installment` NUMERIC(12, 2),
@@ -195,35 +207,6 @@ BEGIN
       INSERT INTO `normal_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
       VALUES (loan_plan_id, fixed_deposit_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
     COMMIT;
-END$$
--- LOGIN STUFF
-
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_employee` 
-(`email_value` VARCHAR(50))
-BEGIN
-    SELECT * FROM `employee` WHERE `email`= email_value;
-END$$
-
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_branch_manager` 
-(IN `email_value` VARCHAR(50))
-BEGIN
-    SELECT * FROM `branch_manager` WHERE `email`= email_value;
-END$$
-
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_individual_customer` 
-(IN `email_value` VARCHAR(50))
-BEGIN
-    SELECT * FROM `individual_customer` WHERE `email`= email_value;
-END$$
-
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `login_corporate_customer` 
-(IN `email_value` VARCHAR(50))
-BEGIN
-    SELECT * FROM `corporate_customer` WHERE `corporate_email`= email_value;
 END$$
 
 -- Money Transfer Between Savings Accounts--
@@ -332,13 +315,7 @@ BEGIN
   FROM   savings_account
   WHERE  savings_account_id= account_id_1;
 
-  SELECT IFNULL(minimum_required_balance,0)
-  INTO   minimum_balance
-  FROM   savings_account_plan
-  WHERE  savings_plan_id= (SELECT savings_plan_id FROM savings_account WHERE savings_account_id = account_id_1);
-
-
-  IF account_balance >= withdrawal_amount AND withdrawal_amount<=max_amount AND withdrawals_left>0 AND account_balance-withdrawal_amount>minimum_balance THEN
+  IF account_balance >= withdrawal_amount AND withdrawal_amount<=max_amount AND withdrawals_left>0 THEN
     START TRANSACTION;
 
       UPDATE savings_account
@@ -356,53 +333,53 @@ END$$
 
 -- Money Withdrawal From Checking Account--
 
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `checking_account_money_withdrawal` (
-  IN `date_1` DATE,
-  IN `account_id_1` INT ,
-  IN `withdrawal_amount` decimal(9, 2) )
-BEGIN
-  DECLARE account_balance decimal(12, 2) DEFAULT 0;
-  SELECT IFNULL(bank_balance,0)
-  INTO   account_balance
-  FROM   checking_account
-  WHERE  checking_account_id= account_id_1;
+-- DELIMITER $$
+-- CREATE OR REPLACE PROCEDURE `checking_account_money_withdrawal` (
+--   IN `date_1` DATE,
+--   IN `account_id_1` INT ,
+--   IN `withdrawal_amount` decimal(9, 2) )
+-- BEGIN
+--   DECLARE account_balance decimal(12, 2) DEFAULT 0;
+--   SELECT IFNULL(bank_balance,0)
+--   INTO   account_balance
+--   FROM   checking_account
+--   WHERE  checking_account_id= account_id_1;
   
-  IF account_balance >= withdrawal_amount THEN
-    START TRANSACTION;
+--   IF account_balance >= withdrawal_amount THEN
+--     START TRANSACTION;
 
-      UPDATE checking_account
-      SET bank_balance = account_balance - withdrawal_amount
-      WHERE checking_account_id = account_id_1;
-      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,withdrawal_amount);
+--       UPDATE checking_account
+--       SET bank_balance = account_balance - withdrawal_amount
+--       WHERE checking_account_id = account_id_1;
+--       INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,withdrawal_amount);
 
-    COMMIT;
-  END IF;
-END$$
+--     COMMIT;
+--   END IF;
+-- END$$
 
--- Money Deposit Into Checking Account--
+-- -- Money Deposit Into Checking Account--
 
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `checking_account_money_deposit` (
-  IN `date_1` DATE,
-  IN `account_id_1` INT ,
-  IN `deposit_amount` decimal(9, 2) )
-BEGIN
-  DECLARE account_balance decimal(12, 2) DEFAULT 0;
-  SELECT IFNULL(bank_balance,0)
-  INTO   account_balance
-  FROM   checking_account
-  WHERE  checking_account_id= account_id_1;
+-- DELIMITER $$
+-- CREATE OR REPLACE PROCEDURE `checking_account_money_deposit` (
+--   IN `date_1` DATE,
+--   IN `account_id_1` INT ,
+--   IN `deposit_amount` decimal(9, 2) )
+-- BEGIN
+--   DECLARE account_balance decimal(12, 2) DEFAULT 0;
+--   SELECT IFNULL(bank_balance,0)
+--   INTO   account_balance
+--   FROM   checking_account
+--   WHERE  checking_account_id= account_id_1;
   
-    START TRANSACTION;
+--     START TRANSACTION;
 
-      UPDATE checking_account
-      SET bank_balance = account_balance + deposit_amount
-      WHERE checking_account_id = account_id_1;
-      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
+--       UPDATE checking_account
+--       SET bank_balance = account_balance + deposit_amount
+--       WHERE checking_account_id = account_id_1;
+--       INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
 
-    COMMIT;
-END$$
+--     COMMIT;
+-- END$$
 
 
 -- Money Deposit Into Savings Account--
@@ -424,7 +401,7 @@ BEGIN
       UPDATE savings_account
       SET bank_balance = account_balance + deposit_amount
       WHERE savings_account_id = account_id_1;
-      INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
+      INSERT INTO deposit (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
 
     COMMIT;
 END$$
