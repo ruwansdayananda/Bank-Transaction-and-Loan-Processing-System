@@ -8,7 +8,7 @@ CREATE TABLE `branch` (
   `branch_address` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`branch_id`)
 );
-INSERT INTO `branch`(`branch_id`, `branch_name`, `branch_address`) VALUES (1,"Malabe","Malabe")
+INSERT INTO `branch`(`branch_id`, `branch_name`, `branch_address`) VALUES (1,"Malabe","Malabe");
 
 CREATE TABLE `branch_manager` (
   `manager_id` INT NOT NULL AUTO_INCREMENT,
@@ -42,7 +42,7 @@ CREATE TABLE `employee` (
 );
 ALTER TABLE employee ADD INDEX  (`email`);
 INSERT INTO `employee`(`full_name`, `address`, `branch_id`, `date_of_birth`, `salary`, `date_of_employment`, `email`, `password`) 
-VALUES ("skdjfk","sdnfjdsnfsdfsdf",1,"1999-10-12",123123,"2021-02-19","s@gmail.com","$2a$04$Yc07OfjN5Vu5zXOtuwiiUeBjZpOGz6iS0cg./6piqZjBbRjpLl/lO")
+VALUES ("skdjfk","sdnfjdsnfsdfsdf",1,"1999-10-12",123123,"2021-02-19","s@gmail.com","$2a$04$Yc07OfjN5Vu5zXOtuwiiUeBjZpOGz6iS0cg./6piqZjBbRjpLl/lO");
 CREATE TABLE `customer`(
   customer_id INT NOT NULL,
   account_type ENUM("Individual", "Corporate"),
@@ -110,7 +110,7 @@ CREATE TABLE `savings_account` (
     `no_of_monthly_withdrawals` INT NOT NULL,
     `savings_plan_id` INT NOT NULL,
     `max_withdrawal_limit` NUMERIC (9, 2) NOT NULL,
-    `status ` ENUM("Open", "Closed") DEFAULT "Open",
+    `status` ENUM("Open", "Closed") DEFAULT "Open",
     `source_of_funds` VARCHAR(20) NOT NULL,
     PRIMARY KEY (`savings_account_id`),
     FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -130,7 +130,7 @@ CREATE TABLE `checking_account` (
     `customer_id` INT NOT NULL,
     `started_date` DATE NOT NULL,
     `bank_balance` NUMERIC(12, 2) NOT NULL,
-    `status ` ENUM("Open", "Closed") DEFAULT "Open",
+    `status` ENUM("Open", "Closed") DEFAULT "Open",
     PRIMARY KEY (`checking_account_id`),
     FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -193,6 +193,14 @@ ALTER TABLE withdrawal ADD INDEX  (`account_id`);
 ALTER TABLE withdrawal ADD INDEX  (`date`);
 
 -- TRANSACTIONS TABLE --
+CREATE TABLE `transactional_table` (
+  `account_id` int(11) NOT NULL,
+  `account_type` enum('Savings','Checking') NOT NULL
+);
+ALTER TABLE `transactional_table`
+  ADD PRIMARY KEY (`account_id`),
+  ADD KEY `account_type` (`account_type`);
+
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
   `date` TEXT NOT NULL,
@@ -217,11 +225,9 @@ CREATE TABLE `loan_plan`(
   );
 
 CREATE TABLE `loan`(
-    `loan_id` INT NOT NULL,
+    `loan_id` INT NOT NULL PRIMARY key,
     `loan_type` ENUM("Normal", "Online"),
-    `status ` ENUM("Open", "Closed") DEFAULT "Open",
-    PRIMARY KEY (`loan_id`),
-    CHECK (loan_type IN ('Normal', 'Online'))
+    `status` ENUM("Open", "Closed") DEFAULT "Open"
   );
 ALTER TABLE loan MODIFY COLUMN loan_type ENUM("Normal","Online");
   
@@ -244,7 +250,7 @@ ALTER TABLE normal_loan AUTO_INCREMENT = 400001;
 ALTER TABLE normal_loan ADD INDEX  (`account_id`);
 ALTER TABLE normal_loan ADD INDEX  (`customer_id`);
 ALTER TABLE normal_loan ADD INDEX  (`branch_id`);
-ALTER TABLE `normal_loan` CHANGE `is_approved` `status` ENUM('Pending','Rejected','Approved') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'Pending';
+ALTER TABLE `normal_loan` ADD  `status` ENUM('Pending','Rejected','Approved')  NOT NULL DEFAULT 'Pending';
 
 CREATE TABLE `online_loan` (
     `loan_id` INT NOT NULL AUTO_INCREMENT,
