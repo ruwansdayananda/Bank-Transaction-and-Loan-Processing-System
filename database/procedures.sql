@@ -443,3 +443,13 @@ BEGIN
     COMMIT;
   END IF;
 END$$
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `update_savings_account_balance`()
+BEGIN 
+  START TRANSACTION;
+  UPDATE all_savings_accounts SET bank_balance = bank_balance + monthly_addition;
+  UPDATE all_savings_accounts SET monthly_addition = 0;
+  commit;
+END
+$$

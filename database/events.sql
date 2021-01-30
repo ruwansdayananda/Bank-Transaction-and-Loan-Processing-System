@@ -1,11 +1,4 @@
 
--- ADD INTEREST AMOUNT TO FIXED DEPOSIT --
-CREATE EVENT `update_fixed_deposit_balance` ON SCHEDULE EVERY 1 DAY STARTS '2021-01-23 23:47:23' ON COMPLETION NOT PRESERVE ENABLE DO
-update
-  allfixeddeposits
-set
-  deposit_amount = deposit_amount +(deposit_amount *(interest_rate / 12));
-
 
 -- SAVINGS ACCOUNT --
 -- amount_to_be_added --
@@ -23,15 +16,7 @@ CREATE EVENT `update_savings_account_balance_monthly` ON SCHEDULE EVERY 30 DAY S
 CALL update_savings_account_balance();
 
 -- PROCEDURE
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `update_savings_account_balance`()
-BEGIN 
-  START TRANSACTION;
-  UPDATE all_savings_accounts SET bank_balance = bank_balance + monthly_addition;
-  UPDATE all_savings_accounts SET monthly_addition = 0;
-  commit;
-END
-$$
+
 
 
 -- FIXED DEPOSITS --

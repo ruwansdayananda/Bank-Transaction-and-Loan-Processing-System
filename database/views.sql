@@ -33,14 +33,14 @@ OR REPLACE VIEW `all_fixed_deposits` AS
 SELECT
   fixed_deposit_id,
   plan_name,
-  customer_id,
+  fixed_deposit.customer_id,
   branch_name,
-  started_date,
+  fixed_deposit.started_date,
   deposit_amount,
   account_period_in_months,
   interest_rate,
-  monthly_addition,
-  savings_account_id,
+  fixed_deposit.monthly_addition,
+  fixed_deposit.savings_account_id,
   bank_balance
 FROM
   ((
@@ -52,5 +52,5 @@ FROM
 
 
   CREATE OR REPLACE VIEW `normal_loan_information` AS 
-  SELECT normal_loan.loan_id, normal_loan.customer_id,branch.branch_name, normal_loan.loan_installment, normal_loan.loan_amount, normal_loan.is_approved,loan_plan.interest_rate,loan_plan.loan_period_in_months 
-  FROM normal_loan JOIN loan_plan ON normal_loan.loan_plan_id=loan_plan.loan_plan_id JOIN branch ON normal_loan.branch_id=branch.branch_id
+  SELECT normal_loan.loan_id, normal_loan.customer_id,branch.branch_name, normal_loan.loan_installment, normal_loan.loan_amount, normal_loan.status,loan_plan.interest_rate,loan_plan.loan_period_in_months 
+  FROM normal_loan JOIN loan_plan ON normal_loan.loan_plan_id=loan_plan.loan_plan_id JOIN branch ON normal_loan.branch_id=branch.branch_id;
