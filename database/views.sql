@@ -48,3 +48,9 @@ FROM
     JOIN fixed_deposit_plan
   ) NATURAL
   JOIN branch) JOIN savings_account ON (savings_account.savings_account_id = fixed_deposit.savings_account_id);
+
+
+
+  CREATE OR REPLACE VIEW `normal_loan_information` AS 
+  SELECT normal_loan.loan_id, normal_loan.customer_id,branch.branch_name, normal_loan.loan_installment, normal_loan.loan_amount, normal_loan.is_approved,loan_plan.interest_rate,loan_plan.loan_period_in_months 
+  FROM normal_loan JOIN loan_plan ON normal_loan.loan_plan_id=loan_plan.loan_plan_id JOIN branch ON normal_loan.branch_id=branch.branch_id
