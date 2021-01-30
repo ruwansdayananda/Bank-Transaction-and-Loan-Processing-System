@@ -62,13 +62,13 @@ WHERE
 
 
 -- when the date passes the due date status changes as late 
-CREATE EVENT `change_status_to_late` ON SCHEDULE EVERY 30 DAY STARTS '2021-01-25 22:00:00' ON COMPLETION NOT PRESERVE ENABLE DO 
+CREATE EVENT `change_status_to_late` ON SCHEDULE EVERY 1 DAY STARTS '2021-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO 
 UPDATE
-  all_fixed_deposits
+  loan_installment
 SET
-  bank_balance = bank_balance + monthly_addition
+  status = "Late"
   WHERE
-  CEIL(DATEDIFF(NOW(), started_date) / 30) = DATEDIFF(NOW(), started_date) / 30;
+  CURRENT_DATE>due_date AND status="Due";
   
 
 
