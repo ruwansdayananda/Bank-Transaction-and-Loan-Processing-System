@@ -434,8 +434,11 @@ BEGIN
     START TRANSACTION;
 
       UPDATE loan_installment
-      SET due_date = date_due + INTERVAL 30 DAY, SET remaining_no_of_installments = installments_left-1
-      WHERE  loan_id= loan_id_1;
+      SET due_date = date_due + INTERVAL 30 DAY
+      WHERE  `loan_id`= `loan_id_1`;
+      UPDATE loan_installment
+      SET remaining_no_of_installments = installments_left-1
+      WHERE  `loan_id`= `loan_id_1`;
 
     COMMIT;
   END IF;
