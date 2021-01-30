@@ -405,3 +405,38 @@ BEGIN
 
     COMMIT;
 END$$
+
+-- Loan installment payments
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `pay_loan_installment` (
+  IN `loan_id_1` INT)
+BEGIN
+  DECLARE installment_status enum('Due', 'Late')	;
+  DECLARE installments_left INT DEFAULT 0;
+  DECLARE date_due DATE;
+  SELECT status 
+  INTO   installment_status
+  FROM   loan_installment
+  WHERE  loan_id= loan_id_1;
+
+  SELECT remaining_no_of_installments 
+  INTO   installments_left
+  FROM   loan_installment
+  WHERE  loan_id= loan_id_1;
+
+  SELECT due_date 
+  INTO   date_due
+  FROM   loan_installment
+  WHERE  loan_id= loan_id_1;
+  
+    IF installment_status = "Due" AND installments_left>0 THEN
+    START TRANSACTION;
+
+      UPDATE loan_installment
+      SET due_date = date_due + INTERVAL 30 DAY, SET remaining_no_of_installments = installments_left-1
+      WHERE  loan_id= loan_id_1;
+
+    COMMIT;
+  END IF;
+END$$
