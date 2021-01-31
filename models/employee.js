@@ -175,6 +175,24 @@ class Employee {
 
     }
 
+    static getCheckingAccountID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'checking_account'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    
+
     static getAllFixedDepositPlans() {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM fixed_deposit_plan",

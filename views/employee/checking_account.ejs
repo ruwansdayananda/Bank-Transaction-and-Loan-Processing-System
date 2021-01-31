@@ -15,6 +15,30 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        <form action="/employee/checking_account" method="POST">
+
+
+            
+            <br>
+
+            Account ID:<%=id%>
+            <br>
+
+            Customer ID: <input type="text" id="customer_id" name="customer_id" required>
+            <br>
+            
+            Date: <input type="date" id="started_date" name="started_date" min=<%=date%> required>
+            <br>
+
+            Bank Balance: <input type="number" id="bank_balance" name="bank_balance" required>
+            <br>
+
+            <input type="text" id="branch_id" name="branch_id" value=<%=branch_id%> hidden required>
+            <br>
+
+            <input type="submit">
+        </form>
+
 
         <script src="" async defer></script>
     </body>
