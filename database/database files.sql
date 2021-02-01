@@ -78,7 +78,7 @@ CREATE TABLE `corporate_customer` (
     `customer_id` INT NOT NULL AUTO_INCREMENT,
     `company_registration_number` VARCHAR(40) NOT NULL,
     `company_name` VARCHAR(40) NOT NULL,
-    `company_email` VARCHAR(50) NOT NULL UNIQUE,
+    `corporate_email` VARCHAR(50) NOT NULL UNIQUE,
     `address` VARCHAR(100) NOT NULL,
     `date_of_establishment` DATE  NOT NULL,
     `contact_no` VARCHAR(10) NOT NULL,
