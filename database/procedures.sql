@@ -129,7 +129,7 @@ BEGIN
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'savings_account';
       SELECT id;
-      INSERT INTO transactional_table VALUES(id, "Savings");
+      INSERT INTO transactional_table VALUES(id, "Savings",branch_id);
 
       INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
       `no_of_withdrawals_remaining`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
@@ -148,7 +148,7 @@ BEGIN
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'checking_account';
       SELECT id;
-      INSERT INTO transactional_table VALUES(id, "Checking");
+      INSERT INTO transactional_table VALUES(id, "Checking", branch_id);
       INSERT INTO `checking_account` (`customer_id`,`started_date`,`bank_balance`,`branch_id`) VALUES (customer_id,started_date,bank_balance,branch_id);
     commit;
 END$$

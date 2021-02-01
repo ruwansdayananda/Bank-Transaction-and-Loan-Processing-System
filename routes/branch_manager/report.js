@@ -5,7 +5,7 @@ const { generateTransactionsReport,generateLateLoanInstallments } = require('../
 
 // http://localhost:3000/branch_manager/report/request
 routes.get('/request', [isLoggedIn, isBranchManager], (req, res) => {
-    return req.render('branch_manager/request_report');
+    return res.render('branch_manager/request_report');
 })
 
 // http://localhost:3000/branch_manager/report/transactions

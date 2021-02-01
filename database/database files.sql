@@ -202,11 +202,12 @@ ALTER TABLE withdrawal ADD INDEX  (`date`);
 CREATE TABLE `transactional_table` (
   `account_id` int(11) NOT NULL,
   `account_type` enum('Savings','Checking') NOT NULL,
-  PRIMARY KEY (`account_id`)
+  `branch_id` int(11) NOT NULL,
+  PRIMARY KEY (`account_id`),
+  FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`)  ON DELETE RESTRICT  ON UPDATE RESTRICT 
 );
 
 ALTER TABLE transactional_table ADD INDEX  (`account_type`);
-
 
 CREATE TABLE `transaction` (
   `transaction_id` INT NOT NULL AUTO_INCREMENT,
