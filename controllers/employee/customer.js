@@ -26,7 +26,7 @@ function validateIndividual(customer) {
         "password": Joi.string().min(5).max(1024).required(),
         "confirm_password": Joi.string().valid(Joi.ref('password')).required()
     });
-    return schema.validateAsync(customer);
+    return schema.validate(customer);
 }
 
 function validateCorporate(company) {
@@ -51,7 +51,11 @@ const createIndividualCustomer = async (request, response) => {
     const {error} = validateIndividual(request.body);
 
     if (error) {
-        return response.status(400).send(error.details[0].message);
+        var err_msg = "Your passwords do not match";
+        return response.render('employee/individual_error', {
+            error_msg: err_msg,
+            post_body: request.body
+        });
     }
 
     if (await Customer.isIndividualEmailRegistered(request.body.email)) {
@@ -76,11 +80,13 @@ const createIndividualCustomer = async (request, response) => {
 };
 
 const createCorporateCustomer =  async (request, response) => {
-    const {
-        error
-    } = validateCorporate(request.body);
+    const {error} = validateCorporate(request.body);
     if (error) {
-        return response.status(400).send(error.details[0].message);
+        var err_msg = "Your passwords do not match";
+        return response.render('employee/corporate_error', {
+            error_msg: err_msg,
+            post_body: request.body
+        });
     }
 
     if (await Customer.isCorporateEmailRegistered(request.body.email)) {
