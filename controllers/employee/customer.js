@@ -15,21 +15,25 @@ function validateIndividual(customer) {
         "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5), //the name must have at least two words seperated by a space
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
-        "date_of_birth": Joi.date().greater('1974-01-01').less(cutoffDate).required(),
+        "date_of_birth": Joi.date().max(cutoffDate).required()
+            .messages({
+                'date.max': `You must be at least 18 years old to register.`
+            }),
         "residential_contact_no": Joi.string().required().min(10),
         "personal_contact_no": Joi.string().required().min(10),
         "date_joined": Joi.string().required(),
         "email": Joi.string().email().required(),
         "password": Joi.string().min(5).max(1024).required(),
+        "confirm_password": Joi.string().valid(Joi.ref('password')).required()
     });
-    return schema.validate(customer);
+    return schema.validateAsync(customer);
 }
 
 function validateCorporate(company) {
     const schema = Joi.object({
         "company_registration_number": Joi.string().required(),
         "company_name": Joi.string().min(3).required(),
-        "company_email": Joi.string().email().required(),
+        "corporate_email": Joi.string().email().required(),
         "address": Joi.string().required(),
         "date_of_establishment": Joi.date().required(), //Constranins must be checked
         "contact_no": Joi.string().required().min(10),
@@ -37,7 +41,7 @@ function validateCorporate(company) {
         "correspondent": Joi.string().alphanum().required(),
         "correspondent_email": Joi.string().email().required(),
         "password": Joi.string().min(5).max(1024).required(),
-
+        "confirm_password": Joi.string().valid(Joi.ref('password')).required()
     });
     return schema.validate(company);
 }
@@ -50,6 +54,14 @@ const createIndividualCustomer = async (request, response) => {
         return response.status(400).send(error.details[0].message);
     }
 
+    if (await Customer.isIndividualEmailRegistered(request.body.email)) {
+        var err_msg = "This email address has already been registered";
+        return response.render('employee/individual_error', {
+            error_msg: err_msg,
+            post_body: request.body
+        });
+    }
+
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
@@ -60,7 +72,7 @@ const createIndividualCustomer = async (request, response) => {
         console.log(error);
         return response.status(400).send(error);
     }
-    return response.status(200).send(request.body);
+    return response.status(200).redirect('/employee');
 };
 
 const createCorporateCustomer =  async (request, response) => {
@@ -70,16 +82,26 @@ const createCorporateCustomer =  async (request, response) => {
     if (error) {
         return response.status(400).send(error.details[0].message);
     }
+
+    if (await Customer.isCorporateEmailRegistered(request.body.email)) {
+        var err_msg = "This email address has already been registered";
+        return response.render('employee/corporate_error', {
+            error_msg: err_msg,
+            post_body: request.body
+        });
+    }
+
+
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
         const result = await Employee.createCorporateCustomer(_.pick(request.body,
-            ["company_registration_number", "company_name", "company_email", "address", "date_of_establishment", "contact_no", "date_joined", "correspondent", "correspondent_email", "password"]));
+            ["company_registration_number", "company_name", "corporate_email", "address", "date_of_establishment", "contact_no", "date_joined", "correspondent", "correspondent_email", "password"]));
 
     } catch (error) {
         return response.status(400).send(error.sql);
     }
-    return response.status(200).send(request.body);
+    return response.status(200).redirect('/customer');
 };
 
 const searchForCustomer = async (request, response) => {

@@ -2,6 +2,38 @@ const { pool } = require('../startup/mysql_database');
 
 class Customer{
 
+    static async isIndividualEmailRegistered(email) {
+        var result = await new Promise((resolve, reject) => {
+            const result = pool.query('SELECT customer_id FROM individual_customer WHERE email = ?',
+                [email],
+                function (error, results) {
+                    if (error) {
+                        reject(new Error(error.message));
+                    }
+                    resolve(results);
+                }
+            )
+        })
+
+        return result.length != 0;
+    }
+
+    static async isCorporateEmailRegistered(email) {
+        var result = await new Promise((resolve, reject) => {
+            const result = pool.query('SELECT customer_id FROM corporate_customer WHERE corporate_email = ?',
+                [email],
+                function (error, results) {
+                    if (error) {
+                        reject(new Error(error.message));
+                    }
+                    resolve(results);
+                }
+            )
+        })
+
+        return result.length != 0;
+    }
+
     static enterOnlineLoan(body) {
         return new Promise((resolve, reject) => {
             const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",

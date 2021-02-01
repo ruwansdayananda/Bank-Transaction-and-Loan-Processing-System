@@ -7,7 +7,12 @@ routes.use('/fixed_deposit', require('./fixed_deposit'));
 routes.use('/loan', require('./normal_loan'));
 routes.use('/checking_account', require('./checking_account'));
 routes.use('/login', require('./login'));
-routes.get('/', (request, response) => {
+
+
+const isEmployee = require('../../middleware/employee');
+const isLoggedIn = require('../../middleware/login');
+
+routes.get('/', [isLoggedIn, isEmployee], (request, response) => {
     return response.render('employee/home');
 });
 module.exports = routes;

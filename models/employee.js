@@ -126,7 +126,7 @@ class Employee {
                 [
                     body.company_registration_number,
                     body.company_name,
-                    body.company_email,
+                    body.corporate_email,
                     body.address,
                     body.date_of_establishment,
                     body.contact_no,

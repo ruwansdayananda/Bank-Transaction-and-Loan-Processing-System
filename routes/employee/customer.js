@@ -23,6 +23,16 @@ router.get('/corporate', [isLoggedIn, isEmployee], (request, response) => {
 
 });
 
+// http://localhost:3000/employee/customer/individual
+router.get('/individual/create_error', [isLoggedIn, isEmployee], (request, response) => {
+    response.render('employee/individual_error');
+});
+
+// http://localhost:3000/employee/customer/corporate
+router.get('/corporate/create_error', [isLoggedIn, isEmployee], (request, response) => {
+    response.render('employee/corporate_error');
+});
+
 router.post('/individual', [isLoggedIn, isEmployee], createIndividualCustomer);
 
 router.post('/corporate', [isLoggedIn, isEmployee], createCorporateCustomer);
