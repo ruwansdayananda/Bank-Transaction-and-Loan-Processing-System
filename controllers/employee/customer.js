@@ -57,7 +57,8 @@ const createIndividualCustomer = async (request, response) => {
                     ["full_name", "address", "national_ID", "date_of_birth", "personal_contact_no", "residential_contact_no", "date_joined", "email", "password"]));
 
     } catch (error) {
-        return response.status(400).send(error.sql);
+        console.log(error);
+        return response.status(400).send(error);
     }
     return response.status(200).send(request.body);
 };
