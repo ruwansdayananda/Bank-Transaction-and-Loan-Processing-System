@@ -27,7 +27,7 @@ const getCheckingAccountForm =async (request, response) => {
     try{
 
     const id = await Employee.getCheckingAccountID();
-    const date = Lookup.getDate();
+    const date = Lookup.getTodayDate();
     return response.status(200).render('employee/checking_account',{
         id:id[0].AUTO_INCREMENT,
         branch_id: request.user.branch_id,

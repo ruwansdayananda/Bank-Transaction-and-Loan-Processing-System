@@ -22,7 +22,7 @@ const getFixedDepositForm = async (request, response) => {
     try {
         const plans = await Employee.getAllFixedDepositPlans();
         const id = await Employee.getFixedDepositID();
-        const date = Lookup.getDate();
+        const date = Lookup.getTodayDate();
         console.log(id);
         return response.status(200).render('employee/fixed_deposit', {
             plans: plans,

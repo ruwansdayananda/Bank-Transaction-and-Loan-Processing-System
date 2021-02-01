@@ -134,7 +134,7 @@ const searchForCustomer = async (request, response) => {
 
 const findCustomerProfile = async (req, res) => {
     const privilege_level = req.body.privilege_level;
-
+    req.session.customer_id = req.body.customer_id;
     const profile = await Customer.getProfileInformation(req.body.customer_id,privilege_level);
     const savings_accounts = await Customer.getAllSavingsAccounts(req.body.customer_id);
     const checking_accounts = await Customer.getAllCheckingAccounts(req.body.customer_id);
