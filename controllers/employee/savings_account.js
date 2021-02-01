@@ -38,7 +38,7 @@ const getSavingsAccountForm = async (request, response) => {
     try {
         const plans = await Employee.getAllSavingsAccountPlans();
         const id = await Employee.getSavingsAccountID();
-        const date = Lookup.getDate();
+        const date = Lookup.getTodayDate();
         console.log(id);
         return response.status(200).render('employee/savings_account', {
             plans: plans,

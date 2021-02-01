@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        Normal Loan Creation
+        <form action = "/employee/loan" method="POST">
+            <table>
+                <thead>
+                    <th>Select:</th>
+                    <th>Loan Plan Name</th>
+                    <th>Interest Rate</th>
+                    <th>Loan Period (in months) </th>
+                </thead>
+
+                <tbody>
+                    <% for(var i=0; i < loan_plans.length; i++){ %>
+                    <tr>
+                        <td><input type="radio" name="loan_plan_id" id="loan_plan_id"
+                                value="<%= loan_plans[i].loan_plan_id %>"></td>
+
+                        <td><input type="text" value="<%= loan_plans[i].plan_name %>" readonly></td>
+
+                        <td><input type="text" value="<%= loan_plans[i].interest_rate %>" readonly></td>
+
+                        <td><input type="text" name="loan_period_in_months" id="loan_period_in_months"
+                                value="<%= loan_plans[i].loan_period_in_months %>" readonly></td>
+
+                    </tr>
+                    <br>
+                    <% } %>
+                </tbody>
+            </table>
+            <br>
+            <br>
+            Account ID: <input type="text" id="account_id" name="account_id" required>
+            <br>
+            <br>
+
+            Loan Amount: <input type="text" id="loan_amount" name="loan_amount" required>
+            <br>
+            <input type="submit">
+        </form>
+        
+    </body>
+</html>

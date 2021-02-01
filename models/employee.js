@@ -22,6 +22,22 @@ class Employee {
         })
     }
 
+    static getLoanPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM loan_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+
     static enterFixedDeposit(body) {
 
         return new Promise((resolve, reject) => {
@@ -37,33 +53,34 @@ class Employee {
                 ],
                 function (error, results, fields) {
                     if (error) {
-                        reject(error);
+                        return reject(error);
                     };
-                    resolve(console.log("Succesful"));
+                    return resolve(console.log("Succesful"));
+
                 }
             )
         });
 
     }
 
-    static enterNormalLoan(body) {
+    static enterNormalLoan(loan_plan_id, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount) {
 
         return new Promise((resolve, reject) => {
             const result = pool.query("CALL create_normal_loan (?, ?, ?, ?, ?, ?, ?)",
                 [
-                    body.loan_plan_id,
-                    body.account_id,
-                    body.customer_id,
-                    body.branch_id,
-                    body.loan_installment,
-                    body.created_date,
-                    body.loan_amount
+                    loan_plan_id,
+                    account_id,
+                    customer_id,
+                    branch_id,
+                    loan_installment,
+                    created_date,
+                    loan_amount
                 ],
                 function (error, results, fields) {
                     if (error) {
-                        reject(error);
+                        return reject(error);
                     };
-                    resolve(console.log("Succesful"));
+                    return resolve(console.log("Succesful"));
                 }
             )
         })
