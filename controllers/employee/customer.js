@@ -35,7 +35,7 @@ function validateCorporate(company) {
         "company_name": Joi.string().min(3).required(),
         "corporate_email": Joi.string().email().required(),
         "address": Joi.string().required(),
-        "date_of_establishment": Joi.date().required(), //Constranins must be checked
+        "date_of_establishment": Joi.date().required(), //Constraints must be checked
         "contact_no": Joi.string().required().min(10),
         "date_joined": Joi.date().required(), // Constraints must be checked
         "correspondent": Joi.string().alphanum().required(),

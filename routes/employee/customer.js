@@ -3,6 +3,7 @@ const router = express.Router();
 var path = require("path");
 const isEmployee = require('../../middleware/employee');
 const isLoggedIn = require('../../middleware/login');
+const Lookup = require('../../models/Lookup');
 
 const {
     createCorporateCustomer,
@@ -14,11 +15,19 @@ const {
 
 // http://localhost:3000/employee/customer/individual
 router.get('/individual', [isLoggedIn, isEmployee], (request, response) => {
-    response.render('employee/individual');
+    
+    const today = Lookup.getTodayDate();
+    const cutoffDate = Lookup.getBirthdayLimit();
+
+    response.render('employee/individual', {
+        dob: cutoffDate,
+        today: today
+    });
 });
 
 // http://localhost:3000/employee/customer/corporate
 router.get('/corporate', [isLoggedIn, isEmployee], (request, response) => {
+
     response.render('employee/corporate');
 
 });

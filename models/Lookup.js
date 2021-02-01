@@ -3,13 +3,40 @@ const { pool } = require('../startup/mysql_database');
 class Lookup{
 
 
-    static getDate() {
-        const date = new Date();
-        let day = ("0" + date.getDate()).slice(-2);
-        let month = ("0" + (date.getMonth() + 1)).slice(-2);
-        let year = date.getFullYear();
-        const today = year + "-" + month + "-" + day;
+    static getTodayDate() {
+        let now = new Date();
+        console.log(now);
+        var dd = now.getDate();
+        var mm = now.getMonth() + 1;
+        var yyyy = now.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        const today = yyyy + '-' + mm + '-' + dd;
         return today;
+    }
+
+    static getBirthdayLimit() {
+        let now = new Date();
+        let cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
+        var dd = cutoffDate.getDate();
+
+        var mm = cutoffDate.getMonth() + 1;
+        var yyyy = cutoffDate.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        cutoffDate = yyyy + '-' + mm + '-' + dd;
+        console.log(cutoffDate);
+        return cutoffDate;
     }
 
 
