@@ -59,19 +59,19 @@ class Customer{
 
     static createOnlineLoan(body) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?)",
                 [
                     body.loan_plan_id,
                     body.fixed_deposit_id,
                     body.customer_id,
                     body.branch_id,
                     body.loan_installment,
-                    body.loan_amount,
-                    body.created_date,
+                    body.loan_amount
 
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(result.sql);
                         reject(error);
                     };
                     resolve(console.log("succesful"));
@@ -122,7 +122,7 @@ class Customer{
     //online loans related
     static getAllFixedDepositsIDs(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT fixed_deposit_id FROM all_fixed_deposits WHERE customer_id=?",
+            const result = pool.query("SELECT fixed_deposit_id,branch_id, deposit_amount FROM all_fixed_deposits WHERE customer_id=?",
                 [
                     customerID
                 ],

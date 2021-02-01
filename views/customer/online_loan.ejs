@@ -27,7 +27,7 @@
                 <tbody>
                     <% for(var i=0; i < plans.length; i++){ %>
                     <tr>
-                        <td><input type="radio" name="fixed_deposit_plan_id" id="fixed_deposit_plan_id"
+                        <td><input type="radio" name="loan_plan_id" id="fixed_deposit_plan_id"
                                 value="<%= plans[i].loan_plan_id %>"></td>
 
                         <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
@@ -52,13 +52,16 @@
             <br>
             
             Fixed Deposit Account:
-            <select class="form-select"  name="fixed_deposit_id" form="onlineLoan">
+            <select class="form-select"  name="fixed_deposit" form="onlineLoan">
                 <% for(var j=0; j< fids.length; j++) {%> 
-                <option value="<%= fids[j].fixed_deposit_id %>" > <%= fids[j].fixed_deposit_id %> </option>
+                    <% let fd = JSON.stringify(fids[j]) %> 
+                <option value="<%= fd  %>" > <%= fids[j].fixed_deposit_id %> </option>
                 <% } %> 
               </select>
               <br>
-                Loan Amount: <input type="text"  name="loan_amount" readonly>
+                Loan Amount: <input type="text"  name="loan_amount" >
+              <br>
+
               <br>
 
 

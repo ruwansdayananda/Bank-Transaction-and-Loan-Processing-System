@@ -46,9 +46,6 @@ const createFixedDeposit = async (request,response)=>{
     const interest_rate = parseFloat(interest_rates[parseInt(request.body.fixed_deposit_plan_id)-1]);
 
     request.body.monthly_addition = parseFloat(request.body.deposit_amount) * (interest_rate) /1200;
-    console.log(request.body.deposit_amount);
-    console.log(request.body.interest_rate);
-    console.log(request.body.monthly_addition);
     try {
         await Employee.enterFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","monthly_addition","started_date"]));
     } catch (error) {
