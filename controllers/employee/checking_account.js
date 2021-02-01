@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Employee = require('../../models/Employee');
+const Lookup = require('../../models/Lookup');
 const _ = require('lodash');
 const Joi = require('joi');
+
 
 
 // Validating checking account form 
@@ -20,7 +22,20 @@ function validateCheckingAccountForm(account) {
 
 }
 
-const getCheckingAccountForm = (req, res) => {
+const getCheckingAccountForm =async (request, response) => {
+
+    try{
+
+    const id = await Employee.getCheckingAccountID();
+    const date = Lookup.getDate();
+    return response.status(200).render('employee/checking_account',{
+        id:id[0].AUTO_INCREMENT,
+        branch_id: request.user.branch_id,
+        date:date
+    });
+    }catch (error) {
+        return response.status(500).send(error.message);
+    }
     
 }
 
