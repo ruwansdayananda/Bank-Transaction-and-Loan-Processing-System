@@ -6,16 +6,16 @@ const isLoggedIn = require('../middleware/login');
 router.get('/', [isLoggedIn], (request, response) => {
     
     // this route will only execute if user is logged in
-    if (request.privilege_level == 1) {
+    if (request.user.privilege_level == 1) {
         return response.render('branch_manager/home');
     }
-    if (request.privilege_level == 2) {
+    if (request.user.privilege_level == 2) {
         return response.render('employee/home');
     }
-    if (request.privilege_level == 3) {
+    if (request.user.privilege_level == 3) {
         return response.render('corporate_customer/home');
     }
-    if (request.privilege_level == 4) {
+    if (request.user.privilege_level == 4) {
         return response.render('individual_customer/home');
     }
 })
