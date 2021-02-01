@@ -2,6 +2,7 @@ const routes = require('express').Router();
 
 routes.use('/employee', require('./employee'));
 routes.use('/login', require('./login'));
+routes.use('/report', require('./reports'));
 
 routes.get('/', (request, response) => {
     return response.render('branch_manager/home');
