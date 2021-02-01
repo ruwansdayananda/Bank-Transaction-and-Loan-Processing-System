@@ -25,13 +25,14 @@ class Employee {
     static enterFixedDeposit(body) {
 
         return new Promise((resolve, reject) => {
-            const result = pool.query("CALL create_fixed_deposit (?,?,?,?,?,?)",
+            const result = pool.query("CALL create_fixed_deposit (?,?,?,?,?,?,?)",
                 [
                     body.fixed_deposit_plan_id,
                     body.branch_id,
                     body.savings_account_id,
                     body.customer_id,
                     body.deposit_amount,
+                    body.monthly_addition,
                     body.started_date,
                 ],
                 function (error, results, fields) {

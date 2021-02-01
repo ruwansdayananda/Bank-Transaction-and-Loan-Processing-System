@@ -19,7 +19,7 @@
 
     <body>
         <div>
-        <form action="/employee/savings_account" method="POST">
+        <form action="/employee/fixed_deposit" method="POST">
             <table class="table table-bordered">
                 <thead>
                     <th scope="col">Select:</th>
@@ -35,7 +35,7 @@
 
                         <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
 
-                        <td><input type="text" value="<%= plans[i].interest_rate %>" readonly></td>
+                        <td><input type="text" value="<%= plans[i].interest_rate%>" name="interest_rate" id="interest_rate" readonly></td>
 
                         <td><input type="text" name="account_period_in_months" id="account_period_in_months"
                                 value="<%= plans[i].account_period_in_months %>" readonly></td>

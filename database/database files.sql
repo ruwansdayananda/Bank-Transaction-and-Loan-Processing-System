@@ -95,7 +95,7 @@ ALTER TABLE corporate_customer ADD INDEX (`correspondent_email`);
 
 
 CREATE TABLE `savings_account_plan`(
-    `savings_plan_id` INT NOT NULL,
+    `savings_plan_id` INT NOT NULL AUTO_INCREMENT ,
     `plan_name` VARCHAR(10) NOT NULL,
     `interest_rate` NUMERIC(4, 2) NOT NULL,
     `minimum_required_balance` NUMERIC(6, 2) NOT NULL,
