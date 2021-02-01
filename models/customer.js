@@ -119,6 +119,59 @@ class Customer{
         })
     }
 
+    //online loans related
+    static getAllFixedDepositsIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT fixed_deposit_id FROM all_fixed_deposits WHERE customer_id=?",
+                [
+                    customerID
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+    static getAllLoanPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM loan_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+    
+    static getOnlineLoanID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    
+
     static getAllFixedDeposits(customerID) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM all_fixed_deposits WHERE customer_id=?",

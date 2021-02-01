@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>New Fixed Deposit</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="">
+        <h1>Online Loan Creation Page</h1>
+    </head>
+
+    <body>
+        <div>
+        <form action="" method="POST" id="onlineLoan">
+            <table class="table table-bordered">
+                <thead>
+                    <th scope="col">Select:</th>
+                    <th scope="col">Plan Name</th>
+                    <th scope="col">Interest Rate</th>
+                    <th scope="col">Period (in Months)</th>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < plans.length; i++){ %>
+                    <tr>
+                        <td><input type="radio" name="fixed_deposit_plan_id" id="fixed_deposit_plan_id"
+                                value="<%= plans[i].loan_plan_id %>"></td>
+
+                        <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
+
+                        <td><input type="text" value="<%= plans[i].interest_rate%>" name="interest_rate" id="interest_rate" readonly></td>
+
+                        <td><input type="text" name="account_period_in_months" id="account_period_in_months"
+                                value="<%= plans[i].loan_period_in_months %>" readonly></td>
+
+                    </tr>
+
+                    <% } %>
+                </tbody>
+            </table>
+            <br>
+            <br>
+
+            Loan ID: <%=nextId%>
+            <br>
+
+            Customer ID: <input type="text" value="<%= userID %> " name="customer_id" readonly>
+            <br>
+            
+            Fixed Deposit Account:
+            <select class="form-select"  name="fixed_deposit_id" form="onlineLoan">
+                <% for(var j=0; j< fids.length; j++) {%> 
+                <option value="<%= fids[j].fixed_deposit_id %>" > <%= fids[j].fixed_deposit_id %> </option>
+                <% } %> 
+              </select>
+              <br>
+                Loan Amount: <input type="text"  name="loan_amount" readonly>
+              <br>
+
+
+            <input type="submit">
+        </form>
+        </div>
+
+    </body>
+
+</html>

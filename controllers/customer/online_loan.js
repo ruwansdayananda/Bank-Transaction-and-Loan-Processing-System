@@ -1,5 +1,7 @@
 
-const Customer = require('../../models/Customer')
+const { render } = require('pug');
+const Customer = require('../../models/Customer');
+const Lookup = require('../../models/Lookup');
 
 
 function validateOnlineLoan(onlineLoan) {
@@ -17,6 +19,9 @@ function validateOnlineLoan(onlineLoan) {
 
 }
 
+
+
+
 const createOnlineLoan = async (request,response) => {
     const {error} = validateOnlineLoan(request.body);
 
@@ -30,5 +35,28 @@ const createOnlineLoan = async (request,response) => {
     return response.status(200).send(request.body);
 };
 
+const loadOnlineLoanForm = async (request,response)=>{
+
+    try {
+        const fids = await Customer.getAllFixedDepositsIDs(request.user.customer_id);
+        const loanPlans = await Customer.getAllLoanPlans();
+        const nextId = await Customer.getOnlineLoanID();
+        const today = await Lookup.getTodayDate();
+        return response.render('customer/online_loan.ejs',{
+            plans:loanPlans,
+            fids :fids,
+            nextId:nextId[0].AUTO_INCREMENT,
+            today:today,
+            userID: request.user.customer_id
+        });
+
+    } catch (error) {
+        return console.log(error);
+    }
+    
+
+}
+
 
 module.exports.createOnlineLoan = createOnlineLoan;
+module.exports.loadOnlineLoanForm = loadOnlineLoanForm;

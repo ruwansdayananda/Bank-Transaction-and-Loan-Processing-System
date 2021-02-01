@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {createOnlineLoan} = require('../../controllers/customer/online_loan')
+const {createOnlineLoan,loadOnlineLoanForm} = require('../../controllers/customer/online_loan')
 const isLoggedIn = require('../../middleware/login');
 const isCustomer = require('../../middleware/customer');
 /**
@@ -8,9 +8,7 @@ const isCustomer = require('../../middleware/customer');
  */
 
  //localhost:3000/customer/loan/online
-router.get('/online',[isLoggedIn,isCustomer], (request, response) => {
-    response.send("online loan");
-});
+router.get('/online',[isLoggedIn,isCustomer],loadOnlineLoanForm );
 
 router.post('/online', createOnlineLoan);
 
