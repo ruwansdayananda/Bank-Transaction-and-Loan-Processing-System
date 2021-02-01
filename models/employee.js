@@ -109,9 +109,11 @@ class Employee {
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(result.sql);
                         reject(result);
                     };
-                    resolve(console.log("Done"));
+                    
+                    resolve(result);
                 }
             )
         })

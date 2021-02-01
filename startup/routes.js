@@ -10,9 +10,9 @@ var uuid = require('node-uuid');
 module.exports = function (app) {
 
     app.use(express.json());
-
-    
-    const options = {
+    try
+    {
+        const options = {
         user: config.get("user"),
         host: config.get("host"),
         password: config.get("password"),
@@ -34,7 +34,11 @@ module.exports = function (app) {
             maxAge: 1000*60*60
         }
     }));
-    
+    }
+    catch (error) {
+        console.error("FATAL ERROR : Database connection not accepted");
+        process.exit(1);
+    }
     app.use(express.urlencoded({ extended: true }));
 
     app.set('views', path.join(__dirname, '../views'));

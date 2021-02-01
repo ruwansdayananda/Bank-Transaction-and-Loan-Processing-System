@@ -4,6 +4,7 @@ const router = express.Router();
 const isLoggedIn = require('../middleware/login');
 
 router.get('/', [isLoggedIn], (request, response) => {
+    
     // this route will only execute if user is logged in
     if (request.privilege_level == 1) {
         return response.render('branch_manager/home');

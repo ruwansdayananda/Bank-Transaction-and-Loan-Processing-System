@@ -53,11 +53,12 @@ const createIndividualCustomer = async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
-        const result = await Employee.enterIndividualCustomer(_.pick(request.body,
+        const result = await Employee.createIndividualCustomer(_.pick(request.body,
                     ["full_name", "address", "national_ID", "date_of_birth", "personal_contact_no", "residential_contact_no", "date_joined", "email", "password"]));
 
     } catch (error) {
-        return response.status(400).send(error.sql);
+        console.log(error);
+        return response.status(400).send(error);
     }
     return response.status(200).send(request.body);
 };
@@ -72,7 +73,7 @@ const createCorporateCustomer =  async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {
-        const result = await Employee.enterCorporateCustomer(_.pick(request.body,
+        const result = await Employee.createCorporateCustomer(_.pick(request.body,
             ["company_registration_number", "company_name", "company_email", "address", "date_of_establishment", "contact_no", "date_joined", "correspondent", "correspondent_email", "password"]));
 
     } catch (error) {
