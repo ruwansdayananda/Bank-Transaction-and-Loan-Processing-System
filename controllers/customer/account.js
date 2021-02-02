@@ -2,7 +2,6 @@ const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
 const _ = require('lodash');
 const Joi = require('joi');
-const { result, max } = require('lodash');
 
 
 function validateAmount(amount,maxAmount) {
@@ -43,33 +42,47 @@ const getAllFixedDeposits = async (req, res) => {
 const getAllSavingsAccountsForWithdraw = async (req, res) => {
     const customer_id = req.user.customer_id;
     const accounts = await Customer.getAllSavingsAccountsForWithdraw(customer_id);
+    console.log(accounts);
     return res.render('customer/withdraw', {
         accounts: accounts
     });
 }
 
 const Withdraw = async (req, res) => {
-    const accounts = await Customer.getMaximumWithdrawAmount( _.pick(req.body, ["account_id"]));
 
-    var maxAmount = accounts[0].max_withdrawal_limit;
-    var limit = accounts[0].no_of_withdrawals_remaining;
+    console.log(req.body);
+
+    req.body.account = JSON.parse(req.body.account_id);
+    var maxAmount = req.body.account.max_withdrawal_limit;
+    var limit = req.body.account.no_of_withdrawals_remaining;
 
     const {error} = validateAmount( _.pick(req.body, ["amount"]),maxAmount);
     
-    if(error) return res.status(404).send(error.details[0].message);
-
-    if(limit<=0) return res.status(404).send("No more");
-
-    req.body.date = Lookup.getTodayDate();
-    req.body.withdrawal_amount = req.body.amount;
-
-    try {
-        const result = await Customer.withdrawMoney( _.pick(req.body,["date","account_id","withdrawal_amount"]));
-        return res.render('customer/home');
-     } catch (error) {
+    if (error)
+    {
         console.log(error);
-         
-     }   
+        return res.render('400');
+    }
+
+    req.body.account.date = Lookup.getTodayDate();
+    req.body.account.withdrawal_amount = req.body.amount;
+    console.log(req.body);
+
+    if (parseFloat(req.body.account.withdrawal_amount) <= parseFloat(req.body.account.bank_balance) && limit - 1 >= 0 && parseFloat(req.body.amount) <= parseFloat(maxAmount))
+    {
+        try {
+            const result = await Customer.withdrawMoney(req.body.account.date, req.body.account.savings_account_id, req.body.account.withdrawal_amount);
+            return res.render('customer/home');
+        }
+        catch (error) {
+        console.log(error);
+        return res.render('500');
+        }
+    } 
+    else {
+        console.log("Insufficient bank balance");
+        return res.render('400');
+    }
     
     
 }

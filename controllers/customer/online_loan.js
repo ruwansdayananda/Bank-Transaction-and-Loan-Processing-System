@@ -18,8 +18,6 @@ function validateOnlineLoan(onlineLoan) {
 }
 
 
-
-
 const createOnlineLoan = async (request,response) => {
     const {error} = validateOnlineLoan(_.pick(request.body, ["loan_plan_id", "customer_id","loan_amount"]));
 

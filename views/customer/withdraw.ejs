@@ -3,11 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>WithDraw Money</title>
+        <title>Withdraw Money</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
-        <h1>Checking Accounts</h1>
+        <h1>Money Withdrawal Form</h1>
     </head>
 
     <body>
@@ -15,7 +15,8 @@
             <label for="account">Select your Account</label>
             <select class="form-select"  name='account_id' form="withdraw">
                 <% for(var j=0; j< accounts.length; j++) {%> 
-                <option value="<%= accounts[j].savings_account_id %>" > <%= accounts[j].savings_account_id %> </option>
+                <option value="<%=JSON.stringify(accounts[j])  %>"> <%= accounts[j].savings_account_id %>
+                </option>
                 <% } %>
               </select>
             

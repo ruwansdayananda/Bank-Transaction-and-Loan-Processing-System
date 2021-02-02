@@ -20,7 +20,6 @@ class Customer{
         return result.length != 0;
     }
 
-    
 
     static async isCorporateEmailRegistered(email) {
         var result = await new Promise((resolve, reject) => {
@@ -38,20 +37,19 @@ class Customer{
         return result.length != 0;
     }
 
-    static withdrawMoney(body) {
+    static withdrawMoney(date, savings_account_id, withdrawal_amount) {
         return new Promise((resolve,reject) => {
             const result = pool.query("CALL savings_account_money_withdrawal(?,?,?)",
             [
-                body.date,
-                body.account_id,
-                body.withdrawal_amount,
+                date, savings_account_id, withdrawal_amount
             ],
 
             function (error, results, fields) {
                 if (error) {
                     reject(error);
                 }
-                else{
+                else {
+                    console.log(result.sql);
                     resolve(console.log("successssss!!!"));
                 }
                 
@@ -127,29 +125,29 @@ class Customer{
     }
 
 
-    static async getMaximumWithdrawAmount(body){
-        return await new Promise((resolve,reject) => {
-            const result = pool.query("SELECT max_withdrawal_limit,no_of_withdrawals_remaining FROM savings_account WHERE savings_account_id=?",
-            [
-                body.account_id
-            ],
+    // static async getMaximumWithdrawAmount(body){
+    //     return await new Promise((resolve,reject) => {
+    //         const result = pool.query("SELECT max_withdrawal_limit,no_of_withdrawals_remaining FROM savings_account WHERE savings_account_id=?",
+    //         [
+    //             body.account_id
+    //         ],
             
-            function (error, results, fields) {
-                if (error) {
-                    console.log(error);
-                    reject(error);
-                };
-                console.log(results);
-                resolve(results);
-            },
+    //         function (error, results, fields) {
+    //             if (error) {
+    //                 console.log(error);
+    //                 reject(error);
+    //             };
+    //             console.log(results);
+    //             resolve(results);
+    //         },
             
-            )
-        })
-    }
+    //         )
+    //     })
+    // }
 
     static getAllSavingsAccountsForWithdraw(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT savings_account_id,customer_id,no_of_withdrawals_remaining FROM all_savings_accounts WHERE customer_id=?",
+            const result = pool.query("SELECT savings_account_id,customer_id,no_of_withdrawals_remaining,max_withdrawal_limit,bank_balance FROM all_savings_accounts WHERE customer_id=?",
                 [
                     customerID
 
