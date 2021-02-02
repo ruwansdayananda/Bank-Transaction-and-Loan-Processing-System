@@ -60,3 +60,8 @@ FROM normal_loan JOIN loan_plan ON normal_loan.loan_plan_id=loan_plan.loan_plan_
 CREATE OR REPLACE VIEW transaction_information AS
 SELECT `transaction_id`, `date`, `initiating_account_id`, `receiving_account_id`, `transaction_amount`,transactional_table.branch_id FROM 
 transaction JOIN transactional_table ON transaction.initiating_account_id = transactional_table.account_id;
+
+
+CREATE
+OR REPLACE VIEW `late_loan_information` AS
+SELECT  * FROM loan_installment JOIN late_loan_installment ON (loan_installment.installment_id = late_loan_installment.installment_id ) WHERE status="Not paid";

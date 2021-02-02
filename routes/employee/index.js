@@ -7,6 +7,7 @@ routes.use('/fixed_deposit', require('./fixed_deposit'));
 routes.use('/loan', require('./normal_loan'));
 routes.use('/checking_account', require('./checking_account'));
 routes.use('/login', require('./login'));
+routes.use('/loan_installments', require('./loan_installments'));
 
 
 const isEmployee = require('../../middleware/employee');

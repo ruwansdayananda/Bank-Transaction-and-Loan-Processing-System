@@ -63,5 +63,24 @@ const createNormalLoan = async (request,response) => {
     
 };
 
+const searchNormalLoan = async (req, res) => {
+    try {
+        const loanExists = await Employee.getLoanInformation(req.body.loan_id);
+        if (loanExists) {
+            req.session.loan_id = req.body.loan_id;
+            return res.redirect('/employee/loan_installments');
+            
+        }
+        return res.render('loan_search_error.ejs', {
+            error: "Loan does not exist. Please enter valid loan ID"
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.render('404');
+    }
+}
+
 module.exports.getNormalLoan = getNormalLoan;
+module.exports.searchNormalLoan = searchNormalLoan;
 module.exports.createNormalLoan = createNormalLoan;
