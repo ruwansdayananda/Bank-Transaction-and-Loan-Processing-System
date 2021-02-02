@@ -47,15 +47,25 @@ WHERE
 
 
 -- when the date passes the due date status changes as late 
-CREATE EVENT `change_status_to_late` ON SCHEDULE EVERY 1 DAY STARTS '2021-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO 
-UPDATE
-  loan_installment
-SET
-  status = "Late"
-  WHERE
-  CURRENT_DATE>due_date AND status="Due";
-  
+CREATE EVENT `transfer_to_late_loan_installment_table` ON SCHEDULE EVERY 1 DAY STARTS '2021-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO 
+CALL check_for_late_installments();
 
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE check_for_late_installments()
+BEGIN 
+  
+  DECLARE `_rollback` BOOL DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+  set AUTOCOMMIT = 0;
+  START TRANSACTION;
+  INSERT INTO `late_loan_installment` (`installment_id`) SELECT `installment_id` FROM `loan_installment` WHERE `due_date`<CURRENT_DATE;
+  UPDATE loan_installment SET due_date = due_date+INTERVAL 30 DAY;
+  IF `_rollback` THEN
+        ROLLBACK;
+    ELSE
+        COMMIT;
+    END IF;
+END$$
 
 -- when the loan installment is updated as paid by the employee,
 -- add 1 month to due date, -1 from remaining no of installments if remaining no of installments >0

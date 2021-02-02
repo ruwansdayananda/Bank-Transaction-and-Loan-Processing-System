@@ -28,7 +28,7 @@
                     <% for(var i=0; i < plans.length; i++){ %>
                     <tr>
                         <td><input type="radio" name="fixed_deposit_plan_id" id="fixed_deposit_plan_id"
-                                value="<%= plans[i].fixed_deposit_plan_id %>"></td>
+                                value="<%= plans[i].fixed_deposit_plan_id %>" required></td>
 
                         <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
 

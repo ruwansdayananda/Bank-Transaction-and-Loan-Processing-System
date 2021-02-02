@@ -51,8 +51,12 @@
                             <%}%>
 
                     </tbody>
+                    
                 </table>
-                
+                <form action="/employee/loan" method="GET">
+                    <input type="submit" value="Create a loan">
+                </form>
+                <br>
                 <%} else{%>
                     No savings accounts created.
                 <%}%>
@@ -114,13 +118,10 @@
                 </table>
                 
                 <%} else{%>
-                        No savings accounts created.
+                        No fixed deposits created.
                         <%}%>
 
-                    <form action="/employee/loan" method="GET">
-                        <input type="submit" value="Create a loan">
-                    </form>
-                    <br>
+                    
         <%} else{%>
             This customer does not exist. Create a customer profile before creating accounts.
             <br>
