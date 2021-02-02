@@ -85,19 +85,19 @@ class Customer{
 
     static createOnlineLoan(body) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?)",
                 [
                     body.loan_plan_id,
                     body.fixed_deposit_id,
                     body.customer_id,
                     body.branch_id,
                     body.loan_installment,
-                    body.loan_amount,
-                    body.created_date,
+                    body.loan_amount
 
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(result.sql);
                         reject(error);
                     };
                     resolve(console.log("succesful"));
@@ -125,6 +125,7 @@ class Customer{
         })
         
     }
+
 
     static async getMaximumWithdrawAmount(body){
         return await new Promise((resolve,reject) => {
@@ -165,9 +166,26 @@ class Customer{
         })
         
     }
+    static getAllSavingsAccountIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT savings_account_id FROM all_savings_accounts WHERE customer_id=?",
+                [
+                    customerID
 
-
-
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+          
     static getAllCheckingAccounts(customerID) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM all_checking_accounts WHERE customer_id=?",
@@ -186,6 +204,59 @@ class Customer{
             )
         })
     }
+
+    //online loans related
+    static getAllFixedDepositsIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT fixed_deposit_id,branch_id, deposit_amount FROM all_fixed_deposits WHERE customer_id=?",
+                [
+                    customerID
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+    static getAllLoanPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM loan_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+    
+    static getOnlineLoanID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    
 
     static getAllFixedDeposits(customerID) {
         return new Promise((resolve, reject) => {
@@ -231,6 +302,33 @@ class Customer{
             )
         })
 
+    }
+
+
+    //money tranfer related
+    /**
+     * @todo
+     * incomplete 
+     * laod alll the account of customer 
+     */
+    static tranferMoneySavings(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL savings_account_money_transfer (?,?,?)",
+                [
+                    body.initiating_account_id,
+                    body.receiving_account_id,
+                    body.transaction_amount
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
     }
 }
 module.exports = Customer;

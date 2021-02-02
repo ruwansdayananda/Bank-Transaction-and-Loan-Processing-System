@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
 
     <head>
@@ -31,7 +28,7 @@
                     <% for(var i=0; i < plans.length; i++){ %>
                     <tr>
                         <td><input type="radio" name="fixed_deposit_plan_id" id="fixed_deposit_plan_id"
-                                value="<%= plans[i].fixed_deposit_plan_id %>"></td>
+                                value="<%= plans[i].fixed_deposit_plan_id %>" required></td>
 
                         <td><input type="text" value="<%= plans[i].plan_name %>" readonly></td>
 

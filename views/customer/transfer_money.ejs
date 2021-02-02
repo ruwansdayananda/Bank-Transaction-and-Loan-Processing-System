@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    </head>
+
+    <body>
+        <h1>Transfer Money</h1>
+
+        <form action="" method="POST" id="transferMoney">
+
+            <select class="form-select"  name="initiating_account_id" form="transferMoney">
+                <% for(var j=0; j< savingsIds.length; j++) {%> 
+                <option value="<%= savingsIds[j].savings_account_id  %>" > <%=  savingsIds[j].savings_account_id%> </option>
+                <% } %> 
+            </select>
+            <br>
+            Receivers Account Number: 
+            <input type="number" name="receiving_account_id" required>
+            <br>
+
+            Amount: <input type="text"  name="transaction_amount" required>
+            <br>
+
+            <br>
+            <input type="submit">
+        </form>
+
+    </body>
+
+</html>
