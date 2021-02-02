@@ -9,13 +9,12 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        Loan installments for <>
+        Loan installments for <%= loan_id %> 
         <form action = "" method="POST">
-            <% if (whatever bool value ) {%>
+            <% if (is_late ) {%>
             <h3>Late Installements</h3>
             <table>
                 <thead>
-                    <th>Installment ID</th>
                     <th>Month</th>
                     <th>Year</th>
                     <th>Amount </th>
@@ -23,15 +22,15 @@
                 </thead>
 
                 <tbody>
-                    <% for(var i=0; i < *late_list*; i++){ %>
+                    <% const months = ['January','February','March','April','May','June','July','August','September','October','November','December']%>
+                    <% for(var i=0; i < installments.length; i++){ %>
                     <tr>
-                        <td> 12345 </td>
 
-                        <td> 11</td>
+                        <td> <%= months[ParseInt(installments[i].due_month)-1]%></td>
 
-                        <td> 2020 </td>
+                        <td> <%= installments[i].due_year  %>   </td>
 
-                        <td> Rs:50000</td>
+                        <td> <%= installments[i].loan_installment  %></td>
 
                         <td>
                             <input type="submit" name="installment_id" value="">
@@ -48,16 +47,19 @@
                 <table>
                     <thead>
                         <th>Installment ID</th>
+                        <th>Due Date</th>
                         <th>Amount </th>
                         <th></th>
                     </thead>
     
                     <tbody>
-                        <% for(var i=0; i < *late_list*; i++){ %>
+                        <% for(var i=0; i < installments.length; i++){ %>
                         <tr>
-                            <td> 12345 </td>
+                            <td> <%= installments[i].installment_id %>  </td>
     
-                            <td> Rs:50000</td>
+                            <td>  <%= installments[i].due_date %></td>
+
+                            <td>  <%= installments[i].loan_installment %></td>
     
                             <td>
                                 <input type="submit" name="installment_id" value="">
