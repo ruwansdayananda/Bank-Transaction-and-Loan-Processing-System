@@ -35,6 +35,7 @@ SELECT
   plan_name,
   fixed_deposit.customer_id,
   branch_name,
+  branch.branch_id,
   fixed_deposit.started_date,
   deposit_amount,
   account_period_in_months,

@@ -262,7 +262,6 @@ END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `savings_account_money_transfer` (
-  IN `date_1` DATE,
   IN `initiating_account_id_1` INT ,
   IN `receiving_account_id_1` INT,
   IN `transaction_amount_1` decimal(10, 2))
@@ -294,7 +293,7 @@ BEGIN
       SET bank_balance = receiving_account_balance + transaction_amount_1
       WHERE savings_account_id =   receiving_account_id_1;
 
-      INSERT INTO transaction (date,initiating_account_id,receiving_account_id,transaction_amount) VALUES(date_1, initiating_account_id_1,receiving_account_id_1,transaction_amount_1);
+      INSERT INTO transaction (date,initiating_account_id,receiving_account_id,transaction_amount) VALUES(CURRENT_DATE, initiating_account_id_1,receiving_account_id_1,transaction_amount_1);
 
     IF `_rollback` THEN
             ROLLBACK;
