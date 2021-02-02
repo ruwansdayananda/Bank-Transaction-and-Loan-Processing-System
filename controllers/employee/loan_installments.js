@@ -8,7 +8,8 @@ const getLoanInstallmentInformation = async (req, res)=>{
         if (late_installments.length>0)
         {
                 return response.render('employee/loan_installment_page', {
-                    is_late:true,
+                    is_late: true,
+                    loan_id:loan_id,
                     installments: late_installments
                 }
             );
@@ -16,7 +17,8 @@ const getLoanInstallmentInformation = async (req, res)=>{
         else {
             const current_installments = await Employee.getCurrentInstallments(loan_id);
             return response.render('employee/loan_installment_page', {
-                is_late:false,
+                loan_id: loan_id,
+                is_late: false,
                 installments: current_installments
             });
         }
