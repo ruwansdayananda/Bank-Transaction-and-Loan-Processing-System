@@ -3,7 +3,9 @@ const router = express.Router();
 const {
     getAllSavingsAccounts,
     getAllCheckingAccounts,
-    getAllFixedDeposits
+    getAllFixedDeposits,
+    getAllSavingsAccountsForWithdraw,
+    Withdraw
 } = require('../../controllers/customer/account');
 
 const isLoggedIn = require('../../middleware/login');
@@ -23,5 +25,9 @@ router.get('/checking_accounts', [isLoggedIn, isCustomer], getAllCheckingAccount
  * @url: localhost:3000/customer/account/fixed_deposits
  */
 router.get('/fixed_deposits', [isLoggedIn, isCustomer], getAllFixedDeposits);
+
+router.get('/withdraw_money', [isLoggedIn, isCustomer], getAllSavingsAccountsForWithdraw);
+
+router.post('/withdraw_money', [isLoggedIn, isCustomer], Withdraw);
 
 module.exports = router;
