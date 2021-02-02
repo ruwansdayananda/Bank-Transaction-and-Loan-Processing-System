@@ -57,6 +57,42 @@ class Employee {
         })
     }
 
+    static payLateInstallment(loan_id, installment_id, month, year) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL pay_late_loan_installment(?,?,?,?)",
+                [
+                    loan_id, installment_id, month, year
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        return reject(error);
+                    };
+                    console.log(result.sql);
+                    return resolve(true);
+                }
+            )
+        })
+    }
+
+    static payCurrentInstallment(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL pay_loan_installment(?)",
+                [
+                    loan_id
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        return reject(error);
+                    };
+                    console.log(result.sql);
+                    return resolve(true);
+                }
+            )
+        })
+    }
+
     static getLateInstallments(loan_id) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=? ORDER BY due_year, due_month",
