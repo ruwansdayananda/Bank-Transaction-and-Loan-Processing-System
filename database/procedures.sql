@@ -205,8 +205,8 @@ BEGIN
       SELECT loan_period_in_months INTO months FROM loan_plan WHERE loan_plan_id = `loan_plan_id_1`;
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
       INSERT INTO `online_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
-      VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE, loan_amount_1);
-      INSERT INTO `loan_installment`(`loan_id`, `due_date`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE,months);
+      VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE + INTERVAL 30 DAY, loan_amount_1);
+      INSERT INTO `loan_installment`(`loan_id`, `due_date`,`loan_installment`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE,loan_installment_1,months);
     COMMIT;
 END$$
 

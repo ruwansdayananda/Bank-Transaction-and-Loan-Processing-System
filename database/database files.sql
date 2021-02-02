@@ -286,6 +286,7 @@ CREATE TABLE `loan_installment` (
     `installment_id` INT NOT NULL AUTO_INCREMENT,
     `loan_id` INT NOT NULL,
     `due_date` DATE NOT NULL,
+    `loan_installment` NUMERIC(12, 2) NOT NULL,
     `remaining_no_of_installments` INT NOT NULL ,
     `status` ENUM("Late", "Due") DEFAULT "Due",
     PRIMARY KEY (`installment_id`),
