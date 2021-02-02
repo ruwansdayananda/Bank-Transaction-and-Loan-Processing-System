@@ -100,6 +100,26 @@ class Customer{
         
     }
 
+    static getAllSavingsAccountIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT savings_account_id FROM all_savings_accounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+
     static getAllCheckingAccounts(customerID) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM all_checking_accounts WHERE customer_id=?",
@@ -216,6 +236,33 @@ class Customer{
             )
         })
 
+    }
+
+
+    //money tranfer related
+    /**
+     * @todo
+     * incomplete 
+     * laod alll the account of customer 
+     */
+    static tranferMoneySavings(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL savings_account_money_transfer (?,?,?)",
+                [
+                    body.initiating_account_id,
+                    body.receiving_account_id,
+                    body.transaction_amount
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
     }
 }
 module.exports = Customer;

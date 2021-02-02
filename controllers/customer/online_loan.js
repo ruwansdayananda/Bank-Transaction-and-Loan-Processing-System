@@ -1,8 +1,7 @@
 
 const Joi = require('joi');
-const { max } = require('lodash');
 const _ = require('lodash');
-const { render } = require('pug');
+
 const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
 
