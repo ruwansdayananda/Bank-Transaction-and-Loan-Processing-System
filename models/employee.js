@@ -38,6 +38,58 @@ class Employee {
         
     }
 
+    static getLoanInformation(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT COUNT(*) FROM loan WHERE loan_id = ? AND status=?",
+                [
+                    loan_id,
+                    "Open"
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(result.sql);
+                    resolve(result.length!=0);
+                }
+            )
+        })
+    }
+
+    static getLateInstallments(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=?",
+                [loan_id],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        return reject(error);
+                    };
+                    console.log(results);
+                    return resolve(results);
+                }
+            )
+        })
+    }
+
+    static getCurrentInstallments(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM loan_installment WHERE loan_id=?",
+                [loan_id],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        return reject(error);
+                    };
+                    console.log(result.sql);
+                    console.log(results);
+                    return resolve(results);
+                }
+            )
+        })
+    }
+
     static enterFixedDeposit(body) {
 
         return new Promise((resolve, reject) => {
