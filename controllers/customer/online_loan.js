@@ -24,14 +24,20 @@ const createOnlineLoan = async (request,response) => {
     const {error} = validateOnlineLoan(_.pick(request.body, ["loan_plan_id", "customer_id","loan_amount"]));
 
     if(error) return response.status(404).send(error.details[0].message);
-
+    console.log(request.body);
     const interest_rates = request.body.interest_rate;
+    const time_periods= request.body.account_period_in_months
     const interest_rate = parseFloat(interest_rates[parseInt(request.body.loan_plan_id)-1]);
+    const time_period = parseFloat(time_periods[parseInt(request.body.loan_plan_id)-1]);
     
     request.body.fixed_deposit=JSON.parse(request.body.fixed_deposit);
     request.body.fixed_deposit_id = request.body.fixed_deposit.fixed_deposit_id;
     request.body.branch_id = request.body.fixed_deposit.branch_id;
-    request.body.loan_installment = parseFloat(request.body.loan_amount)*interest_rate/1200;
+
+    //calculate loan installment 
+    let total_installment = parseFloat(request.body.loan_amount)*(interest_rate/100)*(time_period/12);
+    request.body.loan_installment = (total_installment+parseFloat(request.body.loan_amount))/time_period;
+
 
     let max_loan_amount = Math.min(500000.0,parseFloat(request.body.fixed_deposit.deposit_amount)*0.6);
 
@@ -60,6 +66,7 @@ const loadOnlineLoanForm = async (request,response)=>{
         const loanPlans = await Customer.getAllLoanPlans();
         const nextId = await Customer.getOnlineLoanID();
         const today = await Lookup.getTodayDate();
+        
         return response.render('customer/online_loan.ejs',{
             plans:loanPlans,
             fids :fids,

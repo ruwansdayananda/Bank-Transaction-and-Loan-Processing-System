@@ -1,3 +1,4 @@
+
 -- First, change the default delimiter to $$
 -- Second, use (;) in the body of the stored procedure and $$ after the END keyword to end the stored procedure.
 -- Third, change the default delimiter back to a semicolon (;)
@@ -669,3 +670,4 @@ BEGIN
               COMMIT;
       END IF;
 END$$
+
