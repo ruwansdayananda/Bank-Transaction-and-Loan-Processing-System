@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const _ = require('lodash');
 const Employee = require('../../models/Employee');
+const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
 
 function validateNormalLoan(NormalLoan) {
@@ -18,12 +19,14 @@ function validateNormalLoan(NormalLoan) {
 }
 
 const getNormalLoan = async (request, response) => {
+    const savings_accounts = await Customer.getAllSavingsAccounts(request.session.customer_id);
     const today = Lookup.getTodayDate();
     try {
         const loan_plans = await Employee.getLoanPlans();
         return response.render('employee/normal_loan_creation_form', {
             today: today,
-            loan_plans: loan_plans
+            loan_plans: loan_plans,
+            savings_accounts: savings_accounts
         });
     }
     catch (error) {
