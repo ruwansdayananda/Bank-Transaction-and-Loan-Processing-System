@@ -11,6 +11,6 @@ const isCustomer = require('../../middleware/customer');
      * laod alll the account of customer 
      */
     
-router.get('/',[isLoggedIn,isCustomer],getTransactionForm);
-router.post('/',[isLoggedIn,isCustomer],TranferAmount);
+router.get('/savings_account',[isLoggedIn,isCustomer],getTransactionForm);
+router.post('/savings_account',[isLoggedIn,isCustomer],TranferAmount);
 module.exports = router;
