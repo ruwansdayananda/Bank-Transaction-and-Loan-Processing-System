@@ -59,7 +59,7 @@ class Employee {
 
     static getLateInstallments(loan_id) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=?",
+            const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=? ORDER BY due_year, due_month",
                 [loan_id],
                 function (error, results, fields) {
                     if (error) {

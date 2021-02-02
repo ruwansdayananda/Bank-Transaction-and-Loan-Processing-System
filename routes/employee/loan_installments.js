@@ -7,7 +7,6 @@ const { getLoanInstallmentInformation } = require('../../controllers/employee/lo
 
 router.get('/', [isLoggedIn, isEmployee], getLoanInstallmentInformation);
 
-router.post('/',[isLoggedIn,isEmployee], createFixedDeposit);
 
 module.exports = router;
 

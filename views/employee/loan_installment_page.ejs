@@ -12,7 +12,7 @@
         Loan installments for <%= loan_id %> 
         <form action = "" method="POST">
             <% if (is_late ) {%>
-            <h3>Late Installements</h3>
+            <h3>Late Installments</h3>
             <table>
                 <thead>
                     <th>Month</th>
@@ -23,19 +23,28 @@
 
                 <tbody>
                     <% const months = ['January','February','March','April','May','June','July','August','September','October','November','December']%>
-                    <% for(var i=0; i < installments.length; i++){ %>
                     <tr>
 
-                        <td> <%= months[ParseInt(installments[i].due_month)-1]%></td>
+                        <td> <%= months[parseInt(installments[0].due_month)-1]%></td>
+
+                        <td> <%= installments[0].due_year  %> </td>
+
+                        <td> <%= installments[0].loan_installment  %></td>
+
+                        <td>
+                            <input type="submit" name="installment_id" value="Pay">
+                        </td>
+
+                    </tr>
+                    <% for(var i=1; i < installments.length; i++){ %>
+                    <tr>
+
+                        <td> <%= months[parseInt(installments[i].due_month)-1]%></td>
 
                         <td> <%= installments[i].due_year  %>   </td>
 
                         <td> <%= installments[i].loan_installment  %></td>
-
-                        <td>
-                            <input type="submit" name="installment_id" value="">
-                        </td>
-
+                        <td></td>
                     </tr>
                     <br>
                     <% } %>
@@ -43,7 +52,7 @@
             </table>
             <% } else{ %> 
 
-                <h3> Installement due</h3>
+                <h3> installments due</h3>
                 <table>
                     <thead>
                         <th>Installment ID</th>
@@ -57,12 +66,12 @@
                         <tr>
                             <td> <%= installments[i].installment_id %>  </td>
     
-                            <td>  <%= installments[i].due_date %></td>
-
+                            <td><%=(JSON.stringify(installments[i].due_date)).toString().substr(1,10) %></td>
+                            
                             <td>  <%= installments[i].loan_installment %></td>
     
                             <td>
-                                <input type="submit" name="installment_id" value="">
+                                <input type="submit" name="installment_id" value="Pay">
                             </td>
     
                         </tr>
