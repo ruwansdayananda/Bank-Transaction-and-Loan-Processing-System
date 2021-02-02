@@ -222,8 +222,8 @@ BEGIN
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'normal_loan';
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Normal");
-      INSERT INTO `normal_loan`(`loan_plan_id_1`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
-      VALUES (loan_plan_id, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
+      INSERT INTO `normal_loan`(`loan_plan_id`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
+      VALUES (loan_plan_id_1, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
     IF `_rollback` THEN
             ROLLBACK;
         ELSE

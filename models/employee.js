@@ -78,7 +78,9 @@ class Employee {
                 ],
                 function (error, results, fields) {
                     if (error) {
+                        console.log(result.sql);
                         return reject(error);
+
                     };
                     return resolve(console.log("Succesful"));
                 }

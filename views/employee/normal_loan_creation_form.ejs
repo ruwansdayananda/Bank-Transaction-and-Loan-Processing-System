@@ -27,7 +27,7 @@
 
                         <td><input type="text" value="<%= loan_plans[i].plan_name %>" readonly></td>
 
-                        <td><input type="text" value="<%= loan_plans[i].interest_rate %>" readonly></td>
+                        <td><input type="text" value="<%= loan_plans[i].interest_rate %>" name="interest_rate" readonly></td>
 
                         <td><input type="text" name="loan_period_in_months" id="loan_period_in_months"
                                 value="<%= loan_plans[i].loan_period_in_months %>" readonly></td>
@@ -41,7 +41,7 @@
             <br>
             Savings Accounts (Select one)
             <br>
-            <% for(var i=0; i < loan_plans.length; i++){ %>
+            <% for(var i=0; i < savings_accounts.length; i++){ %>
                 <input type="radio" name="account_id" id="account_id" value="<%= savings_accounts[i].savings_account_id %>" required> <%=savings_accounts[i].savings_account_id%>
                 <br>
             <%}%>

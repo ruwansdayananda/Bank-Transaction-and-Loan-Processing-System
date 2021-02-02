@@ -44,11 +44,17 @@ const createNormalLoan = async (request,response) => {
     const account_id = request.body.account_id;
     const created_date = Lookup.getTodayDate();
     const loan_amount = request.body.loan_amount;
-    const months = parseInt(request.body.loan_period_in_months[parseInt(loan_plan_id)-1])
-    const loan_installment = parseFloat(request.body.loan_amount)/months;
+    const months = parseInt(request.body.loan_period_in_months[parseInt(loan_plan_id)-1]);
+    const interest = parseInt(request.body.interest_rate[parseInt(loan_plan_id)-1])
     
+    
+
+    let total_installment = parseFloat(loan_amount)*(interest/100)*(months/12);
+    request.body.loan_installment = (total_installment+parseFloat(loan_amount))/months;
+
+
     try {
-        await Employee.enterNormalLoan(loan_plan_id, account_id, request.session.customer_id, request.user.branch_id, loan_installment, created_date, loan_amount);
+        await Employee.enterNormalLoan(loan_plan_id, account_id, request.session.customer_id, request.user.branch_id, request.body.loan_installment, created_date, loan_amount);
     } catch (error) {
                 return response.status(400).send(error);
     }
