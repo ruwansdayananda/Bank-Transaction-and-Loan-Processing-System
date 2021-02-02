@@ -276,6 +276,7 @@ CREATE TABLE `online_loan` (
     FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`fixed_deposit_id`) REFERENCES fixed_deposit(`fixed_deposit_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
     CHECK ((`loan_amount` < 500000.00))
   );
 ALTER TABLE online_loan AUTO_INCREMENT = 500001;
@@ -287,10 +288,20 @@ CREATE TABLE `loan_installment` (
     `installment_id` INT NOT NULL AUTO_INCREMENT,
     `loan_id` INT NOT NULL,
     `due_date` DATE NOT NULL,
-    `remaining_no_of_installments` INT NOT NULL ,
-    `status` ENUM("Late", "Due") DEFAULT "Due",
+    `loan_installment` NUMERIC(12, 2) NOT NULL,
+    `remaining_no_of_installments` INT NOT NULL,
     PRIMARY KEY (`installment_id`),
     FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE loan_installment AUTO_INCREMENT = 30000001;
 ALTER TABLE loan_installment ADD INDEX  (`status`);
+
+CREATE TABLE `late_loan_installment` (
+    `installment_id` INT NOT NULL,
+    `due_month` INT DEFAULT MONTH(CURRENT_DATE),
+    `due_year` INT DEFAULT YEAR(CURRENT_DATE) , ,
+    `status` ENUM("Paid", "Not paid") DEFAULT "Not paid",
+    FOREIGN KEY (`installment_id`) REFERENCES loan_installment(`installment_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  );
+ALTER TABLE late_loan_installment ADD INDEX  (`due_month`);
+ALTER TABLE late_loan_installment ADD INDEX  (`due_year`);

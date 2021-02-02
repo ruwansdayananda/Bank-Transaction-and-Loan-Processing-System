@@ -45,7 +45,7 @@ class BranchManager {
         })
     }
 
-    static getAllgetLateLoanInstallments(month, year) {
+    static getLateLoanInstallments(branch_id, month, year) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM transactions WHERE EXTRACT(MONTH FROM date_of_establishment) = ? AND EXTRACT(YEAR FROM date_of_establishment) = ?",
                 [

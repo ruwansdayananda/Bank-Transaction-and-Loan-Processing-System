@@ -56,15 +56,21 @@ CREATE OR REPLACE PROCEDURE `create_individual_customer` (
     IN `date_joined` DATE,
     IN `email` VARCHAR(50),
     IN `password` VARCHAR(100))
-
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
         SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'individual_customer'; 
         SELECT id;
         INSERT INTO `customer`(`customer_id`,`account_type`) VALUES (id, "Individual");
         INSERT INTO `individual_customer` (`full_name`,`address`,`national_ID`,`date_of_birth` ,`residential_contact_no`,`personal_contact_no`,`date_joined`,`email`,`password`) VALUES (full_name,address,national_ID,date_of_birth,residential_contact_no,personal_contact_no,date_joined,email,password);
-        COMMIT;
+    IF `_rollback` THEN
+          ROLLBACK;
+      ELSE
+          COMMIT;
+      END IF;
 END$$
 
 DELIMITER $$
@@ -81,6 +87,9 @@ CREATE OR REPLACE PROCEDURE `create_corporate_customer` (
   IN `password` VARCHAR(100))
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'corporate_customer';
       SELECT id;
@@ -88,7 +97,11 @@ BEGIN
       INSERT INTO `corporate_customer` (`company_registration_number`,`company_name`,`corporate_email`,`address` ,
       `date_of_establishment`,`contact_no`,`date_joined`,`correspondent`,`correspondent_email`,`password`) VALUES 
       (company_registration_number,company_name,corporate_email,address,date_of_establishment,contact_no,date_joined,correspondent,correspondent_email,password);
-      COMMIT;
+      IF `_rollback` THEN
+          ROLLBACK;
+      ELSE
+          COMMIT;
+      END IF;
 END$$
 
 --CUSTOMER STUFF
@@ -103,13 +116,20 @@ CREATE OR REPLACE PROCEDURE `create_online_loan` (
     IN `created_date` DATE )
 
 BEGIN
-    DECLARE id INT DEFAULT 0;
+	  DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
         SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan'; 
         SELECT id;
         INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
         INSERT INTO `online_loan` (`loan_plan_id`,`fixed_deposit_id`,`customer_id`,`branch_id`,`loan_installment`,`loan_amount`,`created_date`)  VALUES (loan_plan_id,fixed_deposit_id,customer_id,branch_id,loan_installment,loan_amount,created_date);
-        COMMIT;
+        IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
 END$$
 
 
@@ -126,6 +146,9 @@ CREATE OR REPLACE PROCEDURE `create_savings_account` (
   IN `source_of_funds` VARCHAR(20) )
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'savings_account';
       SELECT id;
@@ -134,7 +157,12 @@ BEGIN
       INSERT INTO `savings_account` (`branch_id`,`customer_id`,`started_date`,`bank_balance` ,
       `no_of_withdrawals_remaining`,`savings_plan_id`,`max_withdrawal_limit`,`source_of_funds`) VALUES 
       (branch_id,customer_id,started_date,bank_balance,no_of_withdrawals_remaining,savings_plan_id,max_withdrawal_limit,source_of_funds);
-    commit;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
+
 END$$
 
 DELIMITER $$
@@ -145,12 +173,19 @@ CREATE OR REPLACE PROCEDURE `create_checking_account` (
   IN `branch_id` INT)
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'checking_account';
       SELECT id;
       INSERT INTO transactional_table VALUES(id, "Checking", branch_id);
       INSERT INTO `checking_account` (`customer_id`,`started_date`,`bank_balance`,`branch_id`) VALUES (customer_id,started_date,bank_balance,branch_id);
-    commit;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
 END$$
 
 
@@ -180,12 +215,19 @@ CREATE OR REPLACE PROCEDURE `create_normal_loan` (
   IN `loan_amount` NUMERIC(12, 2))
 BEGIN
     DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
       SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'normal_loan';
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Normal");
       INSERT INTO `normal_loan`(`loan_plan_id_1`, `account_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
       VALUES (loan_plan_id, account_id, customer_id, branch_id, loan_installment, created_date, loan_amount);
-    COMMIT;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
 END$$
 
 DELIMITER $$
@@ -197,16 +239,23 @@ CREATE OR REPLACE PROCEDURE `create_online_loan` (
   IN `loan_installment_1` NUMERIC(12, 2),
   IN `loan_amount_1` NUMERIC(12, 2))
 BEGIN
-    DECLARE id INT DEFAULT 0;
     DECLARE months INT DEFAULT 0;
+    DECLARE id INT DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
-      SELECT loan_id+1 INTO id FROM online_loan ORDER BY loan_id DESC;
+      SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan';
       SELECT loan_period_in_months INTO months FROM loan_plan WHERE loan_plan_id = `loan_plan_id_1`;
       INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
       INSERT INTO `online_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
-      VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE, loan_amount_1);
-      INSERT INTO `loan_installment`(`loan_id`, `due_date`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE,months);
-    COMMIT;
+      VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE , loan_amount_1);
+      INSERT INTO `loan_installment`(`loan_id`, `due_date`,`loan_installment`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE+ INTERVAL 30 DAY,loan_installment_1,months);
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
 END$$
 
 -- Money Transfer Between Savings Accounts--
@@ -218,9 +267,11 @@ CREATE OR REPLACE PROCEDURE `savings_account_money_transfer` (
   IN `receiving_account_id_1` INT,
   IN `transaction_amount_1` decimal(10, 2))
 BEGIN
+    DECLARE inititating_account_balance decimal(12, 2) DEFAULT 0;
+    DECLARE receiving_account_balance decimal(12, 2) DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
   
-  DECLARE inititating_account_balance decimal(12, 2) DEFAULT 0;
-  DECLARE receiving_account_balance decimal(12, 2) DEFAULT 0;
 
   SELECT IFNULL(bank_balance,0)
   INTO   inititating_account_balance
@@ -232,6 +283,7 @@ BEGIN
   FROM   savings_account
   WHERE  savings_account_id = receiving_account_id_1;
   IF inititating_account_balance >= transaction_amount_1 THEN
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
 
       UPDATE savings_account
@@ -244,7 +296,11 @@ BEGIN
 
       INSERT INTO transaction (date,initiating_account_id,receiving_account_id,transaction_amount) VALUES(date_1, initiating_account_id_1,receiving_account_id_1,transaction_amount_1);
 
-    COMMIT;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
   END IF;
 END$$
 
@@ -257,9 +313,12 @@ CREATE OR REPLACE PROCEDURE `checking_account_money_transfer` (
   IN `receiving_account_id_1` INT,
   IN `transaction_amount_1` decimal(10, 2))
 BEGIN
+    DECLARE inititating_account_balance decimal(12, 2) DEFAULT 0;
+    DECLARE receiving_account_balance decimal(12, 2) DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
   
-  DECLARE inititating_account_balance decimal(12, 2) DEFAULT 0;
-  DECLARE receiving_account_balance decimal(12, 2) DEFAULT 0;
+  
 
   SELECT IFNULL(bank_balance,0)
   INTO   inititating_account_balance
@@ -271,6 +330,7 @@ BEGIN
   FROM   checking_account
   WHERE  checking_account_id = receiving_account_id_1;
   IF inititating_account_balance >= transaction_amount_1 THEN
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
 
       UPDATE checking_account
@@ -283,7 +343,11 @@ BEGIN
 
       INSERT INTO transaction (date,initiating_account_id,receiving_account_id,transaction_amount) VALUES(date_1, initiating_account_id_1,receiving_account_id_1,transaction_amount_1);
 
-    COMMIT;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
   END IF;
 END$$
 
@@ -296,10 +360,13 @@ CREATE OR REPLACE PROCEDURE `savings_account_money_withdrawal` (
   IN `account_id_1` INT ,
   IN `withdrawal_amount` decimal(9, 2) )
 BEGIN
-  DECLARE account_balance decimal(12, 2) DEFAULT 0;
-  DECLARE max_amount decimal(9, 2) DEFAULT 0;
-  DECLARE withdrawals_left INT DEFAULT 0;
-  DECLARE minimum_balance decimal(6, 2) DEFAULT 0;
+    DECLARE account_balance decimal(12, 2) DEFAULT 0;
+    DECLARE max_amount decimal(9, 2) DEFAULT 0;
+    DECLARE withdrawals_left INT DEFAULT 0;
+    DECLARE minimum_balance decimal(6, 2) DEFAULT 0;
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+  
   SELECT IFNULL(bank_balance,0)
   INTO   account_balance
   FROM   savings_account
@@ -316,6 +383,7 @@ BEGIN
   WHERE  savings_account_id= account_id_1;
 
   IF account_balance >= withdrawal_amount AND withdrawal_amount<=max_amount AND withdrawals_left>0 THEN
+    set AUTOCOMMIT = 0;
     START TRANSACTION;
 
       UPDATE savings_account
@@ -327,7 +395,11 @@ BEGIN
       WHERE savings_account_id = account_id_1;
       INSERT INTO withdrawal (date, account_id,amount) VALUES(date_1,account_id_1,withdrawal_amount);
 
-    COMMIT;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
   END IF;
 END$$
 
@@ -390,11 +462,15 @@ CREATE OR REPLACE PROCEDURE `savings_account_money_deposit` (
   IN `account_id_1` INT ,
   IN `deposit_amount` decimal(9, 2) )
 BEGIN
-  DECLARE account_balance decimal(12, 2) DEFAULT 0;
+      DECLARE account_balance decimal(12, 2) DEFAULT 0;
+
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
   SELECT IFNULL(bank_balance,0)
   INTO   account_balance
   FROM   savings_account
   WHERE  savings_account_id= account_id_1;
+    set AUTOCOMMIT = 0;
   
     START TRANSACTION;
 
@@ -403,53 +479,194 @@ BEGIN
       WHERE savings_account_id = account_id_1;
       INSERT INTO deposit (date, account_id,amount) VALUES(date_1,account_id_1,deposit_amount);
 
-    COMMIT;
+    IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
 END$$
 
 -- Loan installment payments
 
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE `pay_loan_installment` (
-  IN `loan_id_1` INT)
-BEGIN
-  DECLARE installment_status enum('Due', 'Late')	;
-  DECLARE installments_left INT DEFAULT 0;
-  DECLARE date_due DATE;
-  SELECT status 
-  INTO   installment_status
-  FROM   loan_installment
-  WHERE  loan_id= loan_id_1;
+-- DELIMITER $$
+-- CREATE OR REPLACE PROCEDURE `pay_loan_installment` (
+--   IN `loan_id_1` INT)
+-- BEGIN
+--   DECLARE installment_status enum('Due', 'Late')	;
+--   DECLARE installments_left INT DEFAULT 0;
+--   DECLARE date_due DATE;
 
-  SELECT remaining_no_of_installments 
-  INTO   installments_left
-  FROM   loan_installment
-  WHERE  loan_id= loan_id_1;
-
-  SELECT due_date 
-  INTO   date_due
-  FROM   loan_installment
-  WHERE  loan_id= loan_id_1;
+--     DECLARE `_rollback` BOOL DEFAULT 0;
+--     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
   
-    IF installment_status = "Due" AND installments_left>0 THEN
-    START TRANSACTION;
+--   SELECT status 
+--   INTO   installment_status
+--   FROM   loan_installment
+--   WHERE  loan_id= loan_id_1;
 
-      UPDATE loan_installment
-      SET due_date = date_due + INTERVAL 30 DAY
-      WHERE  `loan_id`= `loan_id_1`;
-      UPDATE loan_installment
-      SET remaining_no_of_installments = installments_left-1
-      WHERE  `loan_id`= `loan_id_1`;
+--   SELECT remaining_no_of_installments 
+--   INTO   installments_left
+--   FROM   loan_installment
+--   WHERE  loan_id= loan_id_1;
 
-    COMMIT;
-  END IF;
-END$$
+--   SELECT due_date 
+--   INTO   date_due
+--   FROM   loan_installment
+--   WHERE  loan_id= loan_id_1;
+  
+--     IF installment_status = "Due" AND installments_left>0 THEN
+--     set AUTOCOMMIT = 0;
+--     START TRANSACTION;
+
+--       UPDATE loan_installment
+--       SET due_date = date_due + INTERVAL 30 DAY
+--       WHERE  `loan_id`= `loan_id_1`;
+--       UPDATE loan_installment
+--       SET remaining_no_of_installments = installments_left-1
+--       WHERE  `loan_id`= `loan_id_1`;
+
+--     IF `_rollback` THEN
+--             ROLLBACK;
+--         ELSE
+--             COMMIT;
+--         END IF;
+--   END IF;
+-- END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `update_savings_account_balance`()
 BEGIN 
+  DECLARE `_rollback` BOOL DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+  set AUTOCOMMIT = 0;
   START TRANSACTION;
   UPDATE all_savings_accounts SET bank_balance = bank_balance + monthly_addition;
   UPDATE all_savings_accounts SET monthly_addition = 0;
-  commit;
-END
-$$
+  IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
+END$$
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `pay_late_loan_installment`(
+  IN `loan_id_1` INT,
+  IN `installment_id_1` INT,
+  IN `month` INT ,
+  IN `year` INT 
+)
+BEGIN 
+  DECLARE `installments` INT DEFAULT 0;
+  DECLARE `installments_check` INT DEFAULT 0;
+  DECLARE `_rollback` BOOL DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+
+  SELECT IFNULL(remaining_no_of_installments,0)
+  INTO   installments
+  FROM   loan_installment
+  WHERE  loan_id= loan_id_1;
+
+  IF installments>0 THEN
+    set AUTOCOMMIT = 0;
+    START TRANSACTION;
+      UPDATE late_loan_installment SET status = "Paid" WHERE due_month=month AND due_year=year AND installment_id = installment_id_1;
+      UPDATE loan_installment SET remaining_no_of_installments = remaining_no_of_installments - 1 WHERE loan_id=loan_id_1;
+      SELECT remaining_no_of_installments INTO installments_check FROM loan_installment WHERE loan_id=loan_id_1;
+      IF installments_check = 0 THEN
+        DELETE FROM `loan_installment` WHERE loan_installment_id = installment_id_1;
+        UPDATE loan SET status="Closed" WHERE loan_id = loan_id_1;
+      END IF;
+       IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
+  END IF;
+END$$
+
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `pay_loan_installment`(
+  IN `loan_id_1` INT
+)
+BEGIN 
+  DECLARE `installments` INT DEFAULT 0;
+  DECLARE `installments_check` INT DEFAULT 0;
+  DECLARE `_rollback` BOOL DEFAULT 0;
+  DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+
+  SELECT IFNULL(remaining_no_of_installments,0)
+  INTO   installments
+  FROM   loan_installment
+  WHERE  loan_id= loan_id_1;
+
+  IF installments>0 THEN
+    set AUTOCOMMIT = 0;
+    START TRANSACTION;
+
+      UPDATE loan_installment SET remaining_no_of_installments = remaining_no_of_installments - 1 WHERE loan_id=loan_id_1;
+      UPDATE loan_installment SET due_date = due_date + INTERVAL 30 DAY WHERE loan_id=loan_id_1;
+
+      SELECT remaining_no_of_installments INTO installments_check FROM loan_installment WHERE loan_id=loan_id_1;
+      IF installments_check = 0 THEN
+        DELETE FROM `loan_installment` WHERE loan_installment_id = installment_id_1;
+        UPDATE loan SET status="Closed" WHERE loan_id = loan_id_1;
+      END IF;
+       IF `_rollback` THEN
+            ROLLBACK;
+        ELSE
+            COMMIT;
+        END IF;
+
+  END IF;
+END$$
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `branch_manager_loan_approval` (
+  IN `loan_id_1` INT,
+  IN `loan_installment_1` NUMERIC(12, 2),
+  IN `no_of_installments` INT)
+BEGIN
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    
+    set AUTOCOMMIT = 0;
+  
+    START TRANSACTION;
+
+      UPDATE normal_loan
+      SET status = "Approved"
+      WHERE loan_id = loan_id_1;
+
+      INSERT INTO loan_installment (`loan_id`, `due_date`, `loan_installment`, `remaining_no_of_installments`) VALUES
+      (loan_id_1, CURRENT_DATE + INTERVAL 30 DAY,loan_installment_1,no_of_installments);
+
+      IF `_rollback` THEN
+              ROLLBACK;
+          ELSE
+              COMMIT;
+        END IF;
+END$$
+
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE `branch_manager_loan_rejection` (
+  IN `loan_id_1` INT)
+BEGIN
+    DECLARE `_rollback` BOOL DEFAULT 0;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
+    
+    set AUTOCOMMIT = 0;
+  
+    START TRANSACTION;
+
+      UPDATE normal_loan
+      SET status = "Rejected"
+      WHERE loan_id = loan_id_1;
+
+      IF `_rollback` THEN
+              ROLLBACK;
+          ELSE
+              COMMIT;
+      END IF;
+END$$
