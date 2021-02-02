@@ -9,6 +9,7 @@ SELECT
   started_date,
   interest_rate,
   monthly_addition,
+  max_withdrawal_limit,
   no_of_withdrawals_remaining
 FROM
   (

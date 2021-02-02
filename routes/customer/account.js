@@ -3,19 +3,21 @@ const router = express.Router();
 const {
     getAllSavingsAccounts,
     getAllCheckingAccounts,
-    getAllFixedDeposits
+    getAllFixedDeposits,
+    getAllSavingsAccountsForWithdraw,
+    Withdraw
 } = require('../../controllers/customer/account');
 
 const isLoggedIn = require('../../middleware/login');
 const isCustomer = require('../../middleware/customer');
 
 /**
- * @url: localhost:3000/customer/account/savings_accounts
+ * @url: http://localhost:3000/customer/account/savings_accounts
  */
 router.get('/savings_accounts', [isLoggedIn, isCustomer], getAllSavingsAccounts);
 
 /**
- * @url: localhost:3000/customer/account/checking
+ * @url: http: //localhost:3000/customer/account/checking
  */
 router.get('/checking_accounts', [isLoggedIn, isCustomer], getAllCheckingAccounts);
 
@@ -23,5 +25,15 @@ router.get('/checking_accounts', [isLoggedIn, isCustomer], getAllCheckingAccount
  * @url: localhost:3000/customer/account/fixed_deposits
  */
 router.get('/fixed_deposits', [isLoggedIn, isCustomer], getAllFixedDeposits);
+
+/**
+ * @url: http://localhost:3000/customer/account/withdraw_money
+ */
+router.get('/withdraw_money', [isLoggedIn, isCustomer], getAllSavingsAccountsForWithdraw);
+
+/**
+ * @url: http://localhost:3000/customer/account/withdraw_money
+ */
+router.post('/withdraw_money', [isLoggedIn, isCustomer], Withdraw);
 
 module.exports = router;
