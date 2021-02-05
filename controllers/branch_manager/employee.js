@@ -3,6 +3,8 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const BranchManager = require('../../models/BranchManager');
+const Lookup = require('../../models/Lookup');
+const Employee = require('../../models/Employee');
 
 
 function validateEmployee(Employee) {
@@ -18,6 +20,7 @@ function validateEmployee(Employee) {
         'date_of_employment': Joi.date().required(),
         'email': Joi.string().email().required(),
         'password': Joi.string().required(),
+        "confirm_password": Joi.string().valid(Joi.ref('password')).required()
     });
 
     return schema.validate(Employee);
@@ -28,7 +31,24 @@ function validateEmployee(Employee) {
 const createEmployee =  async (request, response) => {
     const { error } = validateEmployee(request.body);
     if (error) {
-        return response.status(404).send(error.details[0].message);
+        var err_msg = "Your passwords do not match";
+        return response.render('branch_manager/employee_error', {
+            error_msg: err_msg,
+            post_body: request.body,
+            dob: Lookup.getBirthdayLimit(),
+            today: Lookup.getTodayDate()
+
+        });
+    }
+
+    if (await Employee.isEmailRegistered(request.body.email)) {
+        var err_msg = "This email address has already been registered";
+        return response.render('branch_manager/employee_error', {
+            error_msg: err_msg,
+            dob: Lookup.getBirthdayLimit(),
+            post_body: request.body,
+            today: Lookup.getTodayDate()
+        });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -41,7 +61,7 @@ const createEmployee =  async (request, response) => {
     } catch (error) {
         return response.status(400).send(error.message);
     }
-    return response.status(200).redirect('/branch_manager/home');
+    return response.status(200).redirect('/branch_manager');
 };
 
 exports.createEmployee = createEmployee;

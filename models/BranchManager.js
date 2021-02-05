@@ -64,6 +64,7 @@ class BranchManager {
             )
         })
     }
+
     
     // SELECT * FROM corporate_customer WHERE  EXTRACT(MONTH FROM date_of_establishment) =3;
 }
