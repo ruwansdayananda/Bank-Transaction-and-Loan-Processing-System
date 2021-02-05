@@ -19,30 +19,16 @@
         <h1>Branch Manager Log In </h1>
         <% if (hasError) {%>
         <%=error%>
-        <form action="/login" method="POST">
-            E-mail Address: <input type="email" id="email" name="email" required>
-            <br>
-
-            Password: <input type="password" id="password" name="password" required>
-            <br>
-            <input type="text" id="privilege_level" name="privilege_level" value='1' hidden>
-            <input type="submit">
-        </form>
-
-
-
-        <%} else {%>
-        <form action="/login" method="POST">
-            E-mail Address: <input type="email" id="email" name="email" required>
-            <br>
-
-            Password: <input type="password" id="password" name="password" required>
-            <br>
-            <input type="text" id="privilege_level" name="privilege_level" value='1' hidden>
-            <input type="submit">
-        </form>
-
         <%}%>
+        <form action="/login" method="POST">
+            E-mail Address: <input type="email" id="email" name="email" required>
+            <br>
+
+            Password: <input type="password" id="password" name="password" required>
+            <br>
+            <input type="text" id="privilege_level" name="privilege_level" value='1' hidden>
+            <input type="submit">
+        </form>
 
         
 

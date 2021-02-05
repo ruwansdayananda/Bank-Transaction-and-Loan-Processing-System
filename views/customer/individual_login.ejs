@@ -17,7 +17,9 @@
 
     <body>
         <h1>Customer (Individual) Log In </h1>
-
+        <% if (hasError) {%>
+            <%=error%>
+        <%}%>
         <form action="/login" method="POST">
             E-mail Address: <input type="email" id="email" name="email" required>
             <br>
