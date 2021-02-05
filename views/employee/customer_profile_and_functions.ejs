@@ -17,10 +17,12 @@
                 Full Name:  <%= profile[0].full_name%> <br>
                 Address: <%= profile[0].address%> <br>
                 NIC: <%= profile[0].national_ID%> <br>
-                DOB: <%= profile[0].date_of_birth%> <br>
+                Date of Birth: <%= (JSON.stringify(profile[0].date_of_birth)).toString().substr(1,10)%>
+                <br>
                 Residential Contact No.:<%= profile[0].residential_contact_no%> <br>
                 Personal Contact No.:<%= profile[0].personal_contact_no%> <br>
-                Date Joined:<%= profile[0].date_joined%> <br>
+                Date Joined:<%= (JSON.stringify(profile[0].date_joined)).toString().substr(1,10)%>
+                <br>
                 Email Address:<%= profile[0].email%> <br>
             <%} else if (corporate) {%>
                 <!-- corporate customer -->
@@ -28,9 +30,10 @@
                 Company Name: <%= profile[0].company_name%> <br>
                 Corporate Email Address: <%= profile[0].corporate_email%> <br>
                 Address: <%= profile[0].address%> <br>
-                Date of Establishment: <%= profile[0].date_of_establishment%> <br>
+                Date of Establishment: <%= (JSON.stringify(profile[0].date_of_establishment)).toString().substr(1,10)%>
+                <br>
                 Contact No.:<%= profile[0].contact_no%> <br>
-                Date Joined:<%= profile[0].date_joined%> <br>
+                Date Joined:<%=  (JSON.stringify(profile[0].date_joined)).toString().substr(1,10)%> <br>
                 Correspondent Name:<%= profile[0].correspondent%> <br>
                 Correspondent Email Address:<%= profile[0].correspondent_email%> <br>
             <%}%>
