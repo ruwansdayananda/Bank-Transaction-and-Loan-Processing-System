@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h2>Pending Loans</h2>
+        <h2>Branch ID: <%= branch%></h2>
+       
+       
+        <table>
+            <thead>
+                <th>Initiated Date</th>
+                <th>Loan ID</th>
+                <th>Loan Plan ID</th>
+                <th>Loan Amount</th>
+                <th>Customer ID</th>
+                <th>Savings  Account</th>
+                <th>Monthly Installment</th>
+                <th></th>
+                <th></th>
+            
+                
+            
+            </thead>
+            <tbody>
+                <% for(var i=0; i<loans.length;i++) {%>
+                <tr>
+                    <form action="" method="POST">
+                    <td><%=(JSON.stringify(loans[i].created_date)).toString().substr(1,10) %></td>
+                    <td><%= loans[i].loan_id %></td>
+                    <td><%= loans[i].loan_plan_id %></td>
+                    <td><%= loans[i].loan_amount%></td>
+                    <td><%= loans[i].customer_id%></td>
+                    <td><%= loans[i].account_id %></td>
+                    <td> Rs. <%= loans[i].loan_installment%></td>
+                    <td><input type="number" name="loan_id" value="<%= loans[i].loan_id %>" hidden></td>
+                    <td> <input type="submit" value="Approve" name="type"></td>
+                    <td> <input type="submit" value="Reject" name="type"></td>
+                </form>
+                </tr>
+                
+                <%}%>
+                </tbody>
+            </table>
+        
+                
+    </body>
+</html>
