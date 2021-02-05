@@ -59,7 +59,14 @@ const createNormalLoan = async (request,response) => {
                 return response.status(400).send(error);
     }
 
-    return response.status(200).send('/employee/home');
+    return response.render('employee/customer_profile_and_functions', {
+        customerExists: true,
+        profile: request.session.profile,
+        privilege_level: request.session.privilege_level,
+        savings_accounts: request.session.savings_accounts,
+        fixed_deposits: request.session.fixed_deposits,
+        checking_accounts: request.session.checking_accounts
+    });
     
 };
 

@@ -39,3 +39,9 @@ INSERT INTO `savings_account_plan`( `plan_name`, `interest_rate`, `minimum_requi
 INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Short-Term",13,6);
 INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Mid-Term",14,12);
 INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Long-Term",15,36);
+
+-- Loan Plans
+
+INSERT INTO `loan_plan`(`plan_name`, `interest_rate`, `loan_period_in_months`) VALUES ("Short-Term",13,12);
+INSERT INTO `loan_plan`(`plan_name`, `interest_rate`, `loan_period_in_months`) VALUES ("Mid-Term",12,36);
+INSERT INTO `loan_plan`(`plan_name`, `interest_rate`, `loan_period_in_months`) VALUES ("Long-Term",11,60);
