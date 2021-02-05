@@ -10,8 +10,10 @@
     </head>
     <body>
         Transactions:
-        <form action="/branch_manager/report/transactions" method="POST" id="monyearFilter">
-            <select class="form-select"  name="month" form="monyearFilter">
+        <!-- /branch_manager/report -->
+        
+        <form action="/branch_manager/report" method="POST" id="monyearFilter">
+            <select class="form-select"  name="month" form="monyearFilter" required>
                 <option value="1" >  January </option>
                 <option value="2" >  February </option>
                 <option value="3" >  March  </option>
@@ -29,8 +31,14 @@
             </select>
             <br>
             <br>
-            Year: <input type="text" id="year" name="year">
-            <input type="submit">
+            Year: <input type="text" id="year" name="year" required>
+            <br>
+            <br>
+            <input type="submit" value="Generate Transactions Report" name="type">
+            <br>
+            <br>
+
+            <input type="submit" value="Generate Late Loan Installment Report" name="type">
         </form>
         <br>
         <br>
