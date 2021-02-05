@@ -66,6 +66,67 @@ class BranchManager {
         })
     }
 
+    static getPendingLoans(branch_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM normal_loan WHERE normal_loan.status = 'Pending' AND normal_loan.branch_id = ?",
+                [
+                    branch_id,
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    console.log(result.sql);
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
+    static approveLoan(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("UPDATE `normal_loan` SET normal_loan.status = ? WHERE normal_loan.loan_id = ?",
+                [
+                    "Approved",
+                    loan_id
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+               
+                    resolve("Accepted");
+                }
+            )
+        })
+    }
+
+    static declineLoan(loan_id) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("UPDATE `normal_loan` SET normal_loan.status = ? WHERE normal_loan.loan_id = ?",
+                [
+                    'Rejected',
+                    loan_id
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                 
+                    resolve("Rejected");
+                }
+            )
+        })
+    }
+
+
+
+
+
     
     // SELECT * FROM corporate_customer WHERE  EXTRACT(MONTH FROM date_of_establishment) =3;
 }
