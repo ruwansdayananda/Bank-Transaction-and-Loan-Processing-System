@@ -34,6 +34,7 @@ const generateLateLoanInstallments = async (request, response) => {
 };
 
 const generateReport = async (request, response) => {
+    console.log(request.body);
     const branch_id = request.user.branch_id;
     const month = request.body.month;
     const year = request.body.year;
@@ -47,10 +48,12 @@ const generateReport = async (request, response) => {
             return response.status(500).render("500");
         }
     }
-    else if (request.body.type == "Generate Late Loan Installments Report") {
+    else if (request.body.type == "Generate Late Loan Installment Report") {
         try {
             const results = await BranchManager.getLateLoanInstallments(branch_id, month, year);
-            return response.status(200).render('branch_manager/late_loan_installments_report', {
+            return response.status(200).render('branch_manager/late_loan_report', {
+                month: month,
+                year:year,
                 installments: results
             });
         } catch (error) {
