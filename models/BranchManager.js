@@ -38,6 +38,7 @@ class BranchManager {
                         console.log(result.sql);
                         reject(error);
                     };
+                    console.log(result.sql);
                     console.log(results);
                     resolve(results);
                 }

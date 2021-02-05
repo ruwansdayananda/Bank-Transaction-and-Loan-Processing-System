@@ -28,7 +28,8 @@ function validateEmployee(Employee) {
 // POST REQUESTS
 
 // URL:localhost:3000/branch_manager/employee/create
-const createEmployee =  async (request, response) => {
+const createEmployee = async (request, response) => {
+    console.log(request.body);
     const { error } = validateEmployee(request.body);
     if (error) {
         var err_msg = "Your passwords do not match";

@@ -9,17 +9,18 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        <h1>Installments Report</h1>
         <% const months = ['January','February','March','April','May','June','July','August','September','October','November','December']%>
-        <h2>Late Loan Report for <%= months[parseInt(installments[0].due_month) -1] %> 
-            of <%=installments[0].due_year%></h2>
-        <% if (transactions.length>0) {%>
+        <h2>Late Loan Report Installments for <%= months[parseInt(month) -1] %>
+            of <%=year%></h2>
+        <% if (installments.length>0) {%>
+            
         <table>
             <thead>
                 <th>Installment ID</th>
                 <th>Loan ID</th>
-                <th> Due Date</th>
                 <th>Installment </th>
-                <th>Remianing Installment</th>
+                <th>Remaining Installment</th>
                 <th>Status</th>
 
             </thead>
@@ -28,7 +29,6 @@
                 <tr>
                     <td><%= installments[i].installment_id%></td>
                     <td><%= installments[i].loan_id%></td>
-                    <td><%=(JSON.stringify(transactions[i].due_date)).toString().substr(1,10) %></td>
                     <td><%= installments[i].loan_installment%></td>
                     <td><%= installments[i].remaining_no_of_installments%></td>
                     <td><%= installments[i].status%></td>
