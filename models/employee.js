@@ -58,8 +58,9 @@ class Employee {
     }
 
     static payLateInstallment(loan_id, installment_id, month, year) {
+        console.log("Model");
         return new Promise((resolve, reject) => {
-            const result = pool.query("CALL pay_late_loan_installment(?,?,?,?)",
+            const result = pool.query("CALL pay_late_loan_installment (?,?,?,?)",
                 [
                     loan_id, installment_id, month, year
                 ],
@@ -95,8 +96,8 @@ class Employee {
 
     static getLateInstallments(loan_id) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=? ORDER BY due_year, due_month",
-                [loan_id],
+            const result = pool.query("SELECT * FROM late_loan_information WHERE loan_id=? AND status=? ORDER BY due_year, due_month",
+                [loan_id, "Not paid"],
                 function (error, results, fields) {
                     if (error) {
                         console.log(result.sql);
