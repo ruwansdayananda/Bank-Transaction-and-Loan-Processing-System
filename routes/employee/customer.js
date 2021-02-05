@@ -49,7 +49,7 @@ router.post('/individual', [isLoggedIn, isEmployee], createIndividualCustomer);
 
 router.post('/corporate', [isLoggedIn, isEmployee], createCorporateCustomer);
 
-router.post('/findCustomerProfile', [isLoggedIn, isEmployee], findCustomerProfile);
+router.post('/find_customer_profile', [isLoggedIn, isEmployee], findCustomerProfile);
 
 // http://localhost:3000/employee/customer/functions
 router.get('/functions', [isLoggedIn, isEmployee], (request, response) => {

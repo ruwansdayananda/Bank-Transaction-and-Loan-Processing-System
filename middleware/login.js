@@ -3,7 +3,6 @@ const config = require('config');
 
 module.exports = function (request, response, next) {
     const token = request.session.token;
-    console.log(token);
     //if no token, client doesnt have needed permissions
     if (!token || !request.session) {
         return response.status(401).redirect('/login');

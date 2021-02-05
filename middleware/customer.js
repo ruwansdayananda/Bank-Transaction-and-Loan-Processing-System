@@ -6,8 +6,7 @@ module.exports = function (request, response, next) {
 
     if (!(request.user.privilege_level == 3 ||request.user.privilege_level == 4))
     {
-        console.log(request.user.privilege_level);
-        return response.status(401).send("Access denied");
+        return response.status(401).render("401");
     }
     console.log("customer")
     next();
