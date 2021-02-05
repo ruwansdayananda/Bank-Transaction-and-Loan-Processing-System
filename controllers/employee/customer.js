@@ -149,6 +149,7 @@ const findCustomerProfile = async (req, res) => {
     }
     return res.render('employee/customer_profile_and_functions', {
         customerExists: true,
+        corporate:true,
         profile: profile,
         privilege_level:privilege_level,
         savings_accounts: savings_accounts,

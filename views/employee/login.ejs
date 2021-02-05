@@ -16,16 +16,34 @@
     </head>
     <body>
         <h1>Employee Log In </h1>
+        <% if (hasError) {%>
+            <%=error%>
+            <form action="/login" method="POST">
+                E-mail Address: <input type="email" id="email" name="email" required>
+                <br>
 
-        <form action="/login" method="POST">
-            E-mail Address: <input type="email" id="email" name="email" required>
-            <br>
+                Password: <input type="password" id="password" name="password" required>
+                <br>
+                <input type="text" id="privilege_level" name="privilege_level" value='2' hidden>
+                <input type="submit">
+            </form>
 
-            Password: <input type="password" id="password" name="password" required>
-            <br>
-            <input type="text" id="privilege_level" name="privilege_level" value='2' hidden>
-            <input type="submit">
-        </form>
+
+
+            <%} else {%>
+                <form action="/login" method="POST">
+                    E-mail Address: <input type="email" id="email" name="email" required>
+                    <br>
+
+                    Password: <input type="password" id="password" name="password" required>
+                    <br>
+                    <input type="text" id="privilege_level" name="privilege_level" value='2' hidden>
+                    <input type="submit">
+                </form>
+
+                <%}%>
+
+        
 
     </body>
 

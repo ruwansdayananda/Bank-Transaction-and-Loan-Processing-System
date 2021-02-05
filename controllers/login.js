@@ -25,41 +25,60 @@ function generateAuthToken(payload) {
 const login = async (request, response) => {
     // if (!(request.session.token))
     // {
-        const { error } = validateLogIn(request.body);
-        if (error) {
-            return response.status(400).send(error);
-    }
     
-        var table;
+    var table;
+    var error_1;
         var payload;
         if (request.body.privilege_level == 1) {
             table = "branch_manager";
             redirect = 'branch_manager/home';
+            error_1 = "branch_manager/login";
         }
         if (request.body.privilege_level == 2) {
             table = "employee";
+            error_1 = "branch_manager/login";
             redirect = 'employee/home';
 
         }
         if (request.body.privilege_level == 3) {
             table = "corporate_customer";
-            redirect = 'customer/home'; e_level: request.body.privilege_level;
+            redirect = 'customer/home';
+            e_level: request.body.privilege_level;
+            error_1 = "customer/corporate_login";
+
         }
         if (request.body.privilege_level == 4) {
             table = "individual_customer";
             redirect = 'customer/home';
-        }
+            error_1 = "customer/individual_login";
+
+    }
+    const { error} = validateLogIn(request.body);
+     if (error) {
+         return response.status(400).render(error, {
+             hasError: true,
+             error: error
+         });
+     }
+    
 
         try {
             result = await getPassword(request.body.email, table);
             if (!result) {
-                return response.status(400).send("User not registered");
+                return response.status(400).render(error_1, {
+                    hasError: true,
+                    error: "User not registered"
+                }
+                );
             }
             const validPassword = await bcrypt.compare(request.body.password, result.password);
 
             if (!validPassword) {
-                return response.status(400).send("Invalid e-mail or password"); //Not 404 because you dont want to give that much info to the client
-            }
+                return response.status(404).render(error_1, {
+                    hasError: true,
+                    error: "Invalid email or password"
+                });
+                }
             if (request.body.privilege_level == 1) {
                 payload = {
                     manager_id: result.manager_id,

@@ -4,7 +4,9 @@ const router = express.Router();
 
 // URL: localhost:3000/employee/login
 router.get('/', (request, response) => {
-    response.render('employee/login');
+    response.render('employee/login', {
+        hasError: false
+    });
 });
 
 module.exports = router;

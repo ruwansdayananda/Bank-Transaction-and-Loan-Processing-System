@@ -11,10 +11,7 @@ router.get('/', [isLoggedIn], (request, response) => {
     if (request.privilege_level == 2) {
         return response.render('employee/home');
     }
-    if (request.privilege_level == 3) {
-        return response.render('customer/home');
-    }
-    if (request.privilege_level == 4) {
+    if (request.privilege_level == 3 || request.privilege_level == 4) {
         return response.render('customer/home');
     }
 })
