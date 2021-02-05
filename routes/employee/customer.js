@@ -27,8 +27,11 @@ router.get('/individual', [isLoggedIn, isEmployee], (request, response) => {
 
 // http://localhost:3000/employee/customer/corporate
 router.get('/corporate', [isLoggedIn, isEmployee], (request, response) => {
+    const today = Lookup.getTodayDate();
 
-    response.render('employee/corporate');
+    response.render('employee/corporate', {
+        today: today
+    });
 
 });
 

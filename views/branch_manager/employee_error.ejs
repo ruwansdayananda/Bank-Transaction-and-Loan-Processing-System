@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+        Employee Creation
+        <br>
+        <br>
+        <br>
+        <%= error_msg %>
+
+        <form action="/branch_manager/employee/create" method="POST">
+            Employee name: <input type="text" id="full_name" name="full_name"
+                value="<%= post_body.full_name %>" required>
+            <br>
+
+            Address: <input type="text" id="address" name="address" value="<%= post_body.address %>"
+                required>
+            <br>
+            DOB: <input type="date" id="date_of_birth" name="date_of_birth"
+                value="<%= post_body.date_of_birth %>" max='<%=dob%>' required>
+            <br>
+
+            salary: <input type="number" id="salary" name="salary" value="<%= post_body.salary %>"
+                required>
+            <br>
+
+            Date of Employment: <input type="date" id="date_of_employment"
+                value="<%= post_body.date_of_employment %>" name="date_of_employment" max='<%=today%>'
+                required>
+            <br>
+
+            E-mail Address: <input type="email" id="email" name="email" value="<%= post_body.email %>"
+                required>
+            <br>
+
+            Password: <input type="text" id="password" name="password" required>
+            <br>
+
+            Confirm Password: <input type="password" id="confirm_password" name="confirm_password" required>
+            <br>
+
+            <input type="submit">
+        </form>
+
+    </body>
+
+</html>
