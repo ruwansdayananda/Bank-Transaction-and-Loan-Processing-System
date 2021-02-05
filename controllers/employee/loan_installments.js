@@ -32,21 +32,25 @@ const getLoanInstallmentInformation = async (req, res)=>{
 const payLateLoanInstallment = async (req, res) => {
     const loan_id = req.session.loan_id;
     try {
-        const result = await Employee.payLateInstallment(loan_id, req.body.installment_id, req.body.month, req.body.year);
+        const result = await Employee.payLateInstallment(loan_id, req.body.installment_id, req.body.due_month, req.body.due_year);
     } catch (error) {
         console.log(error);
         return res.status(500).render('500');
     }
+    return res.status(200).redirect('back');
 }
 
 const payCurrentLoanInstallment = async (req, res) => {
+    const loan_id = req.session.loan_id;
     try {
-        const late_installments = await Employee.getLateInstallments(loan_id);
+        const late_installments = await Employee.payCurrentInstallment(loan_id);
 
     } catch (error) {
         console.log(error);
         return res.status(500).render('500');
     }
+    return res.status(200).redirect('back');
+
 }
 
 module.exports.payLateLoanInstallment = payLateLoanInstallment;
