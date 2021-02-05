@@ -241,6 +241,7 @@ CREATE OR REPLACE PROCEDURE `create_online_loan` (
   IN `loan_amount_1` NUMERIC(12, 2))
 BEGIN
     DECLARE months INT DEFAULT 0;
+    DECLARE savings_account_id_1 INT DEFAULT 0;
     DECLARE id INT DEFAULT 0;
     DECLARE `_rollback` BOOL DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
@@ -252,6 +253,8 @@ BEGIN
       INSERT INTO `online_loan`(`loan_plan_id`, `fixed_deposit_id`, `customer_id`, `branch_id`, `loan_installment`, `created_date`, `loan_amount`) 
       VALUES (loan_plan_id_1, fixed_deposit_id_1, customer_id_1, branch_id_1, loan_installment_1, CURRENT_DATE , loan_amount_1);
       INSERT INTO `loan_installment`(`loan_id`, `due_date`,`loan_installment`,`remaining_no_of_installments`) VALUES (id,CURRENT_DATE+ INTERVAL 30 DAY,loan_installment_1,months);
+      SELECT savings_account_id INTO savings_account_id_1 FROM fixed_deposit WHERE fixed_deposit_id = fixed_deposit_id_1;
+      UPDATE savings_account SET bank_balance=bank_balance + loan_amount_1 WHERE savings_account_id=savings_account_id_1;
     IF `_rollback` THEN
             ROLLBACK;
         ELSE
