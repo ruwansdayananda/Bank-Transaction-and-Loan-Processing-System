@@ -22,10 +22,10 @@
             <br>
 
             Company Name: <input type="text" id="company_name" name="company_name"
-                value="<%= post_body.company_registration_number %>" required>
+                value="<%= post_body.company_name %>" required>
             <br>
 
-            Company Email Address: <input type="text" id="company_email" name="company_email"
+            Company Email Address: <input type="text" id="corporate_email" name="corporate_email"
                 value="<%= post_body.corporate_email %>" required>
             <br>
 
@@ -45,7 +45,8 @@
                 value="<%= post_body.date_joined %>" max='<%=today%>' required>
             <br>
 
-            Correspondent: <input type="text" id="correspondent" name="correspondent" required>
+            Correspondent: <input type="text" id="correspondent" name="correspondent"
+                value="<%= post_body.correspondent %>" required>
             <br>
 
             Correspondent's E-mail Address: <input type="text" id="correspondent_email" name="correspondent_email"

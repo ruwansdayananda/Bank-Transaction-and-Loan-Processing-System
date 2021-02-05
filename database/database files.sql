@@ -8,7 +8,6 @@ CREATE TABLE `branch` (
   `branch_address` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`branch_id`)
 );
-INSERT INTO `branch`(`branch_id`, `branch_name`, `branch_address`) VALUES (1,"Malabe","Malabe");
 
 CREATE TABLE `branch_manager` (
   `manager_id` INT NOT NULL AUTO_INCREMENT,
@@ -24,8 +23,6 @@ CREATE TABLE `branch_manager` (
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE branch_manager ADD INDEX  (`email`);
-INSERT INTO `branch_manager`(`full_name`, `date_of_birth`, `address`, `salary`, `date_of_employment`, `branch_id`, `email`, `password`) 
-VALUES ("kjsdnknjasd","2000-02-10","lksmdflkm",200000,"2020-02-18",1,"e@gmail.com","$2a$04$Yc07OfjN5Vu5zXOtuwiiUeBjZpOGz6iS0cg./6piqZjBbRjpLl/lO");
 
 CREATE TABLE `employee` (
   `employee_id` INT NOT NULL AUTO_INCREMENT,
@@ -41,8 +38,7 @@ CREATE TABLE `employee` (
   FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ALTER TABLE employee ADD INDEX  (`email`);
-INSERT INTO `employee`(`full_name`, `address`, `branch_id`, `date_of_birth`, `salary`, `date_of_employment`, `email`, `password`) 
-VALUES ("skdjfk","sdnfjdsnfsdfsdf",1,"1999-10-12",123123,"2021-02-19","s@gmail.com","$2a$04$Yc07OfjN5Vu5zXOtuwiiUeBjZpOGz6iS0cg./6piqZjBbRjpLl/lO");
+
 CREATE TABLE `customer`(
   customer_id INT NOT NULL,
   account_type ENUM("Individual", "Corporate") NOT NULL ,
