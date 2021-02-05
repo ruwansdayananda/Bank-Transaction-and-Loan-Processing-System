@@ -13,7 +13,6 @@ function validateEmployee(Employee) {
     const schema = Joi.object({
         'full_name': Joi.string().required(),
         'address': Joi.string().required(),
-        'branch_id': Joi.number().integer().required(),
         'date_of_birth': Joi.date().max(cutoffDate), //if less than 18 display error
         'salary': Joi.number().positive().precision(2).required(),
         'date_of_employment': Joi.date().required(),
@@ -34,14 +33,15 @@ const createEmployee =  async (request, response) => {
 
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
+    request.body.branch_id = request.user.branch_id;
 
     try {
         const result = await BranchManager.enterEmployee(_.pick(request.body,
-            ["full_name", "address", "branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
+            ["full_name", "address","branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
     } catch (error) {
         return response.status(400).send(error.message);
     }
-    return response.status(200).send(request.body);
+    return response.status(200).redirect('/branch_manager/home');
 };
 
 exports.createEmployee = createEmployee;

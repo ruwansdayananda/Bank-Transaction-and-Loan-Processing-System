@@ -34,7 +34,7 @@
             <br>
 
             Date of Establishment: <input type="date" id="date_of_establishment" name="date_of_establishment"
-                value="<%= post_body.date_of_establishment %>" required>
+                value="<%= post_body.date_of_establishment %>" max='<%=today%>' required>
             <br>
 
             Contact Number:<input type="text" id="contact_no" name="contact_no"
@@ -42,7 +42,7 @@
             <br>
 
             Date Joined: <input type="date" id="date_joined" name="date_joined"
-                value="<%= post_body.date_joined %>" required>
+                value="<%= post_body.date_joined %>" max='<%=today%>' required>
             <br>
 
             Correspondent: <input type="text" id="correspondent" name="correspondent" required>

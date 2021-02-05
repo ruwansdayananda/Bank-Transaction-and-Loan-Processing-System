@@ -4,6 +4,7 @@ const _ = require('lodash');
 const Joi = require('joi');
 const Employee = require('../../models/Employee');
 const Customer = require('../../models/Customer');
+const Lookup = require('../../models/Lookup');
 
 // =================================VALIDATIONS=================================================//
 
@@ -85,7 +86,8 @@ const createCorporateCustomer =  async (request, response) => {
         var err_msg = "Your passwords do not match";
         return response.render('employee/corporate_error', {
             error_msg: err_msg,
-            post_body: request.body
+            post_body: request.body,
+            today: Lookup.getTodayDate()
         });
     }
 
@@ -93,11 +95,11 @@ const createCorporateCustomer =  async (request, response) => {
         var err_msg = "This email address has already been registered";
         return response.render('employee/corporate_error', {
             error_msg: err_msg,
-            post_body: request.body
+            post_body: request.body,
+            today: Lookup.getTodayDate()
         });
     }
-
-
+    
     const salt = await bcrypt.genSalt(10);
     request.body.password = await bcrypt.hash(request.body.password, salt);
     try {

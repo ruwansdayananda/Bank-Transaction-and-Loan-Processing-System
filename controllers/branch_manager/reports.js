@@ -25,10 +25,12 @@ const generateLateLoanInstallments = async (request, response) => {
     const year = request.body.year;
     try {
         const results = await BranchManager.getLateLoanInstallments(branch_id, month, year);
+        return response.status(200).render('branch_manager/late_loan_installments_report', {
+            installments: results
+        });
     } catch (error) {
         return response.status(500).render("500");
     }
-
 };
 
 
