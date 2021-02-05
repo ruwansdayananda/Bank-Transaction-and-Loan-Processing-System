@@ -1,4 +1,4 @@
-
+const Customer = require('../../models/Customer');
 const Employee = require('../../models/Employee');
 const Lookup = require('../../models/Lookup');
 const _ = require('lodash');
@@ -31,7 +31,15 @@ const createSavingsAccount = async (request, response) => {
     } catch (error) {
         return  response.status(400).send(error.message);  
     }
-    return response.send(request.body);
+    console.log(request.session);
+    return response.render('employee/customer_profile_and_functions', {
+        customerExists: true,
+        profile: request.session.profile,
+        privilege_level: request.session.privilege_level,
+        savings_accounts: await Customer.getAllSavingsAccounts(request.session.customer_id),
+        fixed_deposits: request.session.fixed_deposits,
+        checking_accounts: request.session.checking_accounts
+    });
 };
 
 const getSavingsAccountForm = async (request, response) => {
@@ -42,12 +50,15 @@ const getSavingsAccountForm = async (request, response) => {
         console.log(id);
         return response.status(200).render('employee/savings_account', {
             plans: plans,
+            customer_id: request.session.customer_id,
             id: id[0].AUTO_INCREMENT,
             branch_id: request.user.branch_id,
             date:date
         });
     } catch (error) {
-        return response.status(500).send(error.message);
+        return response.render('500', {
+            err_msg:error
+        });
     }
 };
 

@@ -16,15 +16,12 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <form action="/employee/checking_account" method="POST">
-
-
-            
             <br>
 
             Account ID:<%=id%>
             <br>
 
-            Customer ID: <input type="text" id="customer_id" name="customer_id" required>
+            Customer ID: <input type="text" id="customer_id" name="customer_id" value=<%=customer_id%> readonly required>
             <br>
             
             Date: <input type="date" id="started_date" name="started_date" min=<%=date%> required>

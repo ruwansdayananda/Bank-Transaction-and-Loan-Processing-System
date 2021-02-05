@@ -27,3 +27,15 @@ VALUES ("Saduni Fernando","No. 36A, Shrubbery Gardens, Colombo",2,"2001-04-23",1
 INSERT INTO `employee`(`full_name`, `address`, `branch_id`, `date_of_birth`, `salary`, `date_of_employment`, `email`, `password`) 
 VALUES ("Lasika Herath","712 Baseline Road, Colombo 09",2,"1998-11-23",21000,"2021-01-19","lasika@gmail.com","$2a$04$Yc07OfjN5Vu5zXOtuwiiUeBjZpOGz6iS0cg./6piqZjBbRjpLl/lO");
 
+-- Savings Account Plans
+
+INSERT INTO `savings_account_plan`( `plan_name`, `interest_rate`, `minimum_required_balance`) VALUES ("Children",12,0);
+INSERT INTO `savings_account_plan`( `plan_name`, `interest_rate`, `minimum_required_balance`) VALUES ("Teen",11,500);
+INSERT INTO `savings_account_plan`( `plan_name`, `interest_rate`, `minimum_required_balance`) VALUES ("Adult",10,1000);
+INSERT INTO `savings_account_plan`( `plan_name`, `interest_rate`, `minimum_required_balance`) VALUES ("Senior",13,1000);
+
+-- FD Plans
+
+INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Short-Term",13,6);
+INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Mid-Term",14,12);
+INSERT INTO `fixed_deposit_plan`( `plan_name`, `interest_rate`, `account_period_in_months`) VALUES ("Long-Term",15,36);

@@ -2,6 +2,7 @@ const { pool } = require('../startup/mysql_database');
 
 class Employee {
 
+
     static enterCheckingAccount(body) {
         return new Promise((resolve, reject) => {
             const result = pool.query("CALL create_checking_account (?,?,?,?)",
@@ -279,6 +280,7 @@ class Employee {
                         console.log(error);
                         reject(result);
                     };
+                    console.log(results);
                     resolve(results);
                 }
             )

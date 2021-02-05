@@ -2,6 +2,7 @@
 const Joi = require('joi');
 const _ = require('lodash');
 const Employee = require('../../models/Employee');
+const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
 
 function validateFixedDeposit(account) {
@@ -25,6 +26,7 @@ const getFixedDepositForm = async (request, response) => {
         const date = Lookup.getTodayDate();
         console.log(id);
         return response.status(200).render('employee/fixed_deposit', {
+            customer_id: request.session.customer_id,
             plans: plans,
             id: id[0].AUTO_INCREMENT,
             branch_id: request.user.branch_id,
@@ -51,7 +53,14 @@ const createFixedDeposit = async (request,response)=>{
     } catch (error) {
         return response.status(400).send(error.message);
     }
-    return response.send(request.body);
+    return response.render('employee/customer_profile_and_functions', {
+        customerExists: true,
+        profile: request.session.profile,
+        privilege_level: request.session.privilege_level,
+        savings_accounts: request.session.savings_accounts,
+        fixed_deposits: await Customer.getAllFixedDeposits(request.session.customer_id),
+        checking_accounts: request.session.checking_accounts,
+    });
 
 };
 

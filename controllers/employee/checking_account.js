@@ -1,6 +1,5 @@
-const express = require('express');
-const router = express.Router();
 const Employee = require('../../models/Employee');
+const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
 const _ = require('lodash');
 const Joi = require('joi');
@@ -28,7 +27,8 @@ const getCheckingAccountForm =async (request, response) => {
 
     const id = await Employee.getCheckingAccountID();
     const date = Lookup.getTodayDate();
-    return response.status(200).render('employee/checking_account',{
+        return response.status(200).render('employee/checking_account', {
+        customer_id:request.session.customer_id,
         id:id[0].AUTO_INCREMENT,
         branch_id: request.user.branch_id,
         date:date
@@ -53,7 +53,14 @@ const createCheckingAccount = async (request,response)=>{
         return response.status(400).send(error.message);
     }
 
-    return response.send(request.body);
+    return response.render('employee/customer_profile_and_functions', {
+        customerExists: true,
+        profile: request.session.profile,
+        privilege_level: request.session.privilege_level,
+        savings_accounts: request.session.savings_accounts,
+        fixed_deposits: request.session.fixed_deposits,
+        checking_accounts: await Customer.getAllCheckingAccounts(request.session.customer_id)
+    });
 
 
 }

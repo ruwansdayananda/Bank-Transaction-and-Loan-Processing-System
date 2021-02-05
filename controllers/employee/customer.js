@@ -140,6 +140,7 @@ const findCustomerProfile = async (req, res) => {
     console.log(req.body);
     const privilege_level = req.body.privilege_level;
     req.session.customer_id = req.body.customer_id;
+    req.session.privilege_level = privilege_level;
     const profile = await Customer.getProfileInformation(req.body.customer_id,privilege_level);
     const savings_accounts = await Customer.getAllSavingsAccounts(req.body.customer_id);
     const checking_accounts = await Customer.getAllCheckingAccounts(req.body.customer_id);
@@ -151,9 +152,12 @@ const findCustomerProfile = async (req, res) => {
             customerExists: false
         });
     }
+    req.session.profile = profile;
+    req.session.savings_accounts = savings_accounts;
+    req.session.checking_accounts = checking_accounts;
+    req.session.fixed_deposits = fixed_deposits;
     return res.render('employee/customer_profile_and_functions', {
         customerExists: true,
-        corporate:true,
         profile: profile,
         privilege_level:privilege_level,
         savings_accounts: savings_accounts,
