@@ -13,7 +13,7 @@ function validateIndividual(customer) {
     const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
 
     const schema = Joi.object({
-        "full_name": Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5), //the name must have at least two words seperated by a space
+        "full_name": Joi.string().required().min(5), //the name must have at least two words seperated by a space
         "address": Joi.string().required(),
         "national_ID": Joi.string().required().min(10),
         "date_of_birth": Joi.date().max(cutoffDate).required()
@@ -38,8 +38,8 @@ function validateCorporate(company) {
         "address": Joi.string().required(),
         "date_of_establishment": Joi.date().required(), //Constraints must be checked
         "contact_no": Joi.string().required().min(10),
-        "date_joined": Joi.date().required(), // Constraints must be checked
-        "correspondent": Joi.string().alphanum().required(),
+        "date_joined": Joi.string().required(), // Constraints must be checked
+        "correspondent": Joi.string().required(),
         "correspondent_email": Joi.string().email().required(),
         "password": Joi.string().min(5).max(1024).required(),
         "confirm_password": Joi.string().valid(Joi.ref('password')).required()
@@ -52,6 +52,7 @@ const createIndividualCustomer = async (request, response) => {
     const {error} = validateIndividual(request.body);
 
     if (error) {
+        console.log(error);
         var err_msg = "Your passwords do not match";
         return response.render('employee/individual_error', {
             error_msg: err_msg,
@@ -83,6 +84,7 @@ const createIndividualCustomer = async (request, response) => {
 const createCorporateCustomer =  async (request, response) => {
     const {error} = validateCorporate(request.body);
     if (error) {
+        console.log(error);
         var err_msg = "Your passwords do not match";
         return response.render('employee/corporate_error', {
             error_msg: err_msg,
@@ -109,7 +111,7 @@ const createCorporateCustomer =  async (request, response) => {
     } catch (error) {
         return response.status(400).send(error.sql);
     }
-    return response.status(200).redirect('/customer');
+    return response.status(200).redirect('/employee');
 };
 
 const searchForCustomer = async (request, response) => {
