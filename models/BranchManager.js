@@ -47,7 +47,7 @@ class BranchManager {
 
     static getLateLoanInstallments(branch_id, month, year) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM transactions WHERE EXTRACT(MONTH FROM date_of_establishment) = ? AND EXTRACT(YEAR FROM date_of_establishment) = ?",
+            const result = pool.query("SELECT * FROM late_loan_information WHERE due_month = ? AND due_year = ?",
                 [
                     month,
                     year
@@ -57,12 +57,14 @@ class BranchManager {
                         console.log(result.sql);
                         reject(error);
                     };
+                    console.log(result.sql);
                     console.log(results);
                     resolve(results);
                 }
             )
         })
     }
+
     
     // SELECT * FROM corporate_customer WHERE  EXTRACT(MONTH FROM date_of_establishment) =3;
 }
