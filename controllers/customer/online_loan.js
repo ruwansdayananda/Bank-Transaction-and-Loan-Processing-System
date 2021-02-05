@@ -40,7 +40,7 @@ const createOnlineLoan = async (request,response) => {
     let max_loan_amount = Math.min(500000.0,parseFloat(request.body.fixed_deposit.deposit_amount)*0.6);
 
     if(parseFloat(request.body.loan_amount) > max_loan_amount){
-        return response.send("ERROR GO BACK");
+        return response.render('400',{err_msg:"ERROR GO BACK"});
     }
 
     else{
