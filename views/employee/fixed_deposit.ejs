@@ -48,10 +48,11 @@
             Account ID: <%=id%>
             <br>
 
-            Customer ID: <input type="text" id="customer_id" name="customer_id" required>
+            Customer ID: <input type="text" id="customer_id" name="customer_id" value=<%=customer_id%> readonly
+                required>
             <br>
             
-            Date: <input type="date" id="started_date" name="started_date" min=<%=date%> required>
+            Date: <input type="date" id="started_date" name="started_date" max='<%=date%>'required>
             <br>
 
             Linked Savings Account: <input type="text" id="savings_account_id" name="savings_account_id" required>

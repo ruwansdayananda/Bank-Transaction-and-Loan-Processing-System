@@ -72,6 +72,10 @@
                 <%} else{%>
                     No savings accounts created.
                 <%}%>
+                <form action="/employee/savings_account" method="GET">
+                    <input type="submit" value="Open New Savings Account">
+                </form>
+                <br>
 
                 <h2>Checking Accounts</h2>
 
@@ -97,6 +101,10 @@
                 <%}  else{%>
                 No checking accounts created.
                 <%}%>
+                <form action="/employee/checking_account" method="GET">
+                    <input type="submit" value="Open New Checking Account">
+                </form>
+                <br>
                 
                     <!-- Fixed Deposits -->
                 <h2>Fixed Deposits</h2>
@@ -131,8 +139,12 @@
                 
                 <%} else{%>
                         No fixed deposits created.
+                        
                         <%}%>
-
+                    <form action="/employee/fixed_deposit" method="GET">
+                        <input type="submit" value="Open New Fixed Deposit">
+                    </form>
+                    <br>
                     
         <%} else{%>
             This customer does not exist. Create a customer profile before creating accounts.
@@ -148,6 +160,9 @@
             <br>
 
             <%}%>
+            <form action="/employee" method="GET">
+                <input type="submit" value="Home">
+            </form>
 
     </body>
 </html>
