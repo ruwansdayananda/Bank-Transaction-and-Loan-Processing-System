@@ -36,7 +36,7 @@ const login = async (request, response) => {
         }
         if (request.body.privilege_level == 2) {
             table = "employee";
-            error_1 = "branch_manager/login";
+            error_1 = "employee/login";
             redirect = 'employee/home';
 
         }
