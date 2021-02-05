@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <% if (customerExists) {%>
+        <% if (customerExists && !corporate) {%>
             <h2>Customer Profile Information</h2>
             <!-- individual customer -->
             <% if (privilege_level==4) {%>
@@ -22,8 +22,17 @@
                 Personal Contact No.:<%= profile[0].personal_contact_no%> <br>
                 Date Joined:<%= profile[0].date_joined%> <br>
                 Email Address:<%= profile[0].email%> <br>
-            <%} else{%>
+            <%} else if (corporate) {%>
                 <!-- corporate customer -->
+                Company Registration Number: <%= profile[0].company_registration_number%> <br>
+                Company Name: <%= profile[0].company_name%> <br>
+                Corporate Email Address: <%= profile[0].corporate_email%> <br>
+                Address: <%= profile[0].address%> <br>
+                Date of Establishment: <%= profile[0].date_of_establishment%> <br>
+                Contact No.:<%= profile[0].contact_no%> <br>
+                Date Joined:<%= profile[0].date_joined%> <br>
+                Correspondent Name:<%= profile[0].correspondent%> <br>
+                Correspondent Email Address:<%= profile[0].correspondent_email%> <br>
             <%}%>
                 <!-- Savings Accounts -->
             <br>   
