@@ -90,7 +90,7 @@ CREATE TABLE `corporate_customer` (
     FOREIGN KEY(`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE corporate_customer AUTO_INCREMENT = 200001;
-ALTER TABLE corporate_customer ADD INDEX  (`company_email`);
+ALTER TABLE corporate_customer ADD INDEX  (`corporate_email`);
 ALTER TABLE corporate_customer ADD INDEX (`correspondent_email`);
 
 
