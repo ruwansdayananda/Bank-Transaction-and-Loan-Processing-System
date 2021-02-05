@@ -622,6 +622,9 @@ BEGIN
   END IF;
 END$$
 
+
+-- no need theres already a trigger
+
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `branch_manager_loan_approval` (
   IN `loan_id_1` INT,
