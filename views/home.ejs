@@ -7,30 +7,31 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/bootstrap.min.css">
 
         <h1>Starting Page</h1>
     </head>
     <body>
         <form method = "GET"  action = "/branch_manager/login">
-            <input type="submit" value="branch manager">
+            <input type="submit" value="Branch Manager">
         </form>
         <br>
+        <form method="GET" action="/employee/login">
+            <input type="submit" value="Employee">
+        </form>
         <br>
         <form method="GET" action="/customer/login/corporate">
-            <input type="submit" value="corporate">
+            <input type="submit" value="Corporate Customer">
         </form>
-        <br>
         <br>
 
         <form method="GET" action="/customer/login/individual">
-            <input type="submit" value="individual">
+            <input type="submit" value="Individual Customer">
         </form>
         <br>
         <br>
 
-        <form method="GET" action="/employee/login">
-            <input type="submit" value="employee">
-        </form>
+        
         <br>
         <br>
     </body>
