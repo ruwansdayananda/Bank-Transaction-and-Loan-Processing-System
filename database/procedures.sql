@@ -562,6 +562,7 @@ BEGIN
   DECLARE `installments` INT DEFAULT 0;
   DECLARE `installments_check` INT DEFAULT 0;
   DECLARE `_rollback` BOOL DEFAULT 0;
+  DECLARE `type_1` enum('Normal', 'Online');
   DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
 
   SELECT IFNULL(remaining_no_of_installments,0)
@@ -569,16 +570,32 @@ BEGIN
   FROM   loan_installment
   WHERE  loan_id= loan_id_1;
 
+  SELECT loan_type
+  INTO   type_1
+  FROM   loan
+  WHERE  loan_id= loan_id_1;
+
   IF installments>0 THEN
     set AUTOCOMMIT = 0;
+
     START TRANSACTION;
+
       UPDATE late_loan_installment SET status = "Paid" WHERE due_month=month AND due_year=year AND installment_id = installment_id_1;
+
       UPDATE loan_installment SET remaining_no_of_installments = remaining_no_of_installments - 1 WHERE loan_id=loan_id_1;
+
       SELECT remaining_no_of_installments INTO installments_check FROM loan_installment WHERE loan_id=loan_id_1;
+
       IF installments_check = 0 THEN
-        DELETE FROM `loan_installment` WHERE loan_installment_id = installment_id_1;
-        UPDATE loan SET status="Closed" WHERE loan_id = loan_id_1;
+        IF type_1 = "Online" THEN
+          UPDATE `online_loan` SET status = "Closed" WHERE loan_id = loan_id_1;
+        END IF;
+        IF type_1 = "Normal" THEN
+          UPDATE `normal_loan` SET status = "Closed" WHERE loan_id = loan_id_1;
+        END IF;
+      DELETE FROM `loan_installment` WHERE loan_id = loan_id_1;
       END IF;
+
        IF `_rollback` THEN
             ROLLBACK;
         ELSE
@@ -595,6 +612,7 @@ CREATE OR REPLACE PROCEDURE `pay_loan_installment`(
 BEGIN 
   DECLARE `installments` INT DEFAULT 0;
   DECLARE `installments_check` INT DEFAULT 0;
+  DECLARE `type_1` enum('Normal', 'Online');
   DECLARE `_rollback` BOOL DEFAULT 0;
   DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
 
@@ -603,6 +621,11 @@ BEGIN
   FROM   loan_installment
   WHERE  loan_id= loan_id_1;
 
+  SELECT loan_type
+  INTO   type_1
+  FROM   loan
+  WHERE  loan_id= loan_id_1;
+  
   IF installments>0 THEN
     set AUTOCOMMIT = 0;
     START TRANSACTION;
@@ -612,15 +635,19 @@ BEGIN
 
       SELECT remaining_no_of_installments INTO installments_check FROM loan_installment WHERE loan_id=loan_id_1;
       IF installments_check = 0 THEN
-        DELETE FROM `loan_installment` WHERE loan_installment_id = installment_id_1;
-        UPDATE loan SET status="Closed" WHERE loan_id = loan_id_1;
+        IF type_1 = "Online" THEN
+          UPDATE `online_loan` SET `status` = "Closed" WHERE loan_id = loan_id_1;
+        END IF;
+        IF type_1 = "Normal" THEN
+          UPDATE `normal_loan` SET `status` = "Closed" WHERE loan_id = loan_id_1;
+        END IF;
+        DELETE FROM `loan_installment` WHERE loan_id = loan_id_1;
       END IF;
        IF `_rollback` THEN
             ROLLBACK;
         ELSE
             COMMIT;
         END IF;
-
   END IF;
 END$$
 
