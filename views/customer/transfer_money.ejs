@@ -22,7 +22,7 @@
 
             <select class="form-select"  name="initiating_account_id" form="transferMoney">
                 <% for(var j=0; j< savingsIds.length; j++) {%> 
-                <option value="<%= savingsIds[j].savings_account_id  %>" > <%=  savingsIds[j].savings_account_id%> </option>
+                <option value="<%= savingsIds[j].savings_account_id || savingsIds[j].checking_account_id %>" > <%=  savingsIds[j].savings_account_id || savingsIds[j].checking_account_id%> </option>
                 <% } %> 
             </select>
             <br>

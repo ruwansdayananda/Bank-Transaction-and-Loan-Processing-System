@@ -24,15 +24,15 @@ const getAllSavingsAccounts = async (req, res) => {
 }
 
 const getAllCheckingAccounts = async (req, res) => {
-    const customer_id = req.session.customer_id;
+    const customer_id = req.user.customer_id;
     const accounts = await Customer.getAllCheckingAccounts(customer_id);
     return res.render('customer/view_all_checking_accounts', {
         accounts: accounts
     });
 }
 
-const getAllFixedDeposits = async (req, res) => {
-    const customer_id = req.session.customer_id;
+const getAllFixedDeposits = async (req, res) => {   
+    const customer_id = req.user.customer_id;
     const accounts = await Customer.getAllFixedDeposits(customer_id);
     return res.render('customer/view_all_fixed_deposits', {
         accounts: accounts
