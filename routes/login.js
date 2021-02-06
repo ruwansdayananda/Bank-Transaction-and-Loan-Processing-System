@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { login } = require('../controllers/login');
-const isLoggedIn = require('../middleware/login');
 router.get('/', (request, response) => {
         response.render('home');
 });
