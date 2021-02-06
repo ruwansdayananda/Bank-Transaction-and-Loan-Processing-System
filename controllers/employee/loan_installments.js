@@ -25,7 +25,9 @@ const getLoanInstallmentInformation = async (req, res)=>{
     }
     catch (error) {
         console.log(error);
-        return res.status(500).render('500');
+        return response.render('500', {
+            err_msg: error
+        });
     }
 }
 
@@ -35,7 +37,9 @@ const payLateLoanInstallment = async (req, res) => {
         const result = await Employee.payLateInstallment(loan_id, req.body.installment_id, req.body.due_month, req.body.due_year);
     } catch (error) {
         console.log(error);
-        return res.status(500).render('500');
+        return response.render('500', {
+            err_msg: error
+        });
     }
     return res.status(200).redirect('back');
 }
@@ -47,7 +51,9 @@ const payCurrentLoanInstallment = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).render('500');
+        return response.render('500', {
+            err_msg: error
+        });
     }
     return res.status(200).redirect('back');
 

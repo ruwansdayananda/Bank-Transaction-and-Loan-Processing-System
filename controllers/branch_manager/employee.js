@@ -60,7 +60,9 @@ const createEmployee = async (request, response) => {
         const result = await BranchManager.enterEmployee(_.pick(request.body,
             ["full_name", "address","branch_id", "date_of_birth", "salary", "date_of_employment", "email", "password"]));
     } catch (error) {
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
     return response.status(200).redirect('/branch_manager');
 };

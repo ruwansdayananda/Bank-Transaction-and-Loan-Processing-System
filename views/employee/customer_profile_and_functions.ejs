@@ -39,112 +39,18 @@
             <%}%>
                 <!-- Savings Accounts -->
             <br>   
-            <h2>Savings Accounts</h2>
-
-            <% if (savings_accounts.length>0) {%>
-                <table>
-                    <thead>
-                        <th>Savings Account ID</th>
-                        <th>Branch Name</th>
-                        <th>Bank Balance</th>
-                        <th>Plan Name</th>
-                        <th>No. of Remaining Withdrawals</th>
-
-                    </thead>
-                    <tbody>
-                        <% for(var i=0; i<savings_accounts.length;i++) {%>
-                            <tr>
-                                <td><%= savings_accounts[i].savings_account_id%></td>
-                                <td><%= savings_accounts[i].branch_name%></td>
-                                <td><%= savings_accounts[i].bank_balance%></td>
-                                <td><%= savings_accounts[i].plan_name%></td>
-                                <td><%= savings_accounts[i].no_of_withdrawals_remaining%></td>
-                          </tr>
-                            <%}%>
-
-                    </tbody>
-                    
-                </table>
-                <form action="/employee/loan" method="GET">
-                    <input type="submit" value="Create a loan">
-                </form>
-                <br>
-                <%} else{%>
-                    No savings accounts created.
-                <%}%>
-                <form action="/employee/savings_account" method="GET">
-                    <input type="submit" value="Open New Savings Account">
-                </form>
-                <br>
-
-                <h2>Checking Accounts</h2>
-
-                <% if (checking_accounts.length>0) {%>
-                <table>
-                    <thead>
-                        <th>Checking Account ID</th>
-                        <th>Branch Name</th>
-                        <th>Bank Balance </th>
-
-                    </thead>
-                    <tbody>
-                        <% for(var i=0; i<checking_accounts.length;i++) {%>
-                        <tr>
-                            <td><%= checking_accounts[i].checking_account_id%></td>
-                            <td><%= checking_accounts[i].branch_name%></td>
-                            <td><%= checking_accounts[i].bank_balance%></td>
-                        </tr>
-                        <%}%>
-
-                    </tbody>
-                </table>
-                <%}  else{%>
-                No checking accounts created.
-                <%}%>
-                <form action="/employee/checking_account" method="GET">
-                    <input type="submit" value="Open New Checking Account">
-                </form>
-                <br>
-                
-                    <!-- Fixed Deposits -->
-                <h2>Fixed Deposits</h2>
-
-                <% if (fixed_deposits.length>0) {%>
-                <table>
-                    <thead>
-                        <th>Fixed Deposit ID</th>
-                        <th>Linked Savings Account ID</th>
-                        <th>Branch Name</th>
-                        <th>Deposited Amount</th>
-                        <th>Plan Name</th>
-                        <th>Account Period (in Months) </th>
-                        <th>Interest Rate</th>
-
-                    </thead>
-                    <tbody>
-                        <% for(var i=0; i<fixed_deposits.length;i++) {%>
-                        <tr>
-                            <td><%= fixed_deposits[i].fixed_deposit_id%></td>
-                            <td><%= fixed_deposits[i].savings_account_id%></td>
-                            <td><%= fixed_deposits[i].branch_name%></td>
-                            <td><%= fixed_deposits[i].deposit_amount%></td>
-                            <td><%= fixed_deposits[i].plan_name%></td>
-                            <td><%= fixed_deposits[i].account_period_in_months%></td>
-                            <td><%= fixed_deposits[i].interest_rate%></td>
-                        </tr>
-                        <%}%>
-
-                    </tbody>
-                </table>
-                
-                <%} else{%>
-                        No fixed deposits created.
-                        
-                        <%}%>
-                    <form action="/employee/fixed_deposit" method="GET">
-                        <input type="submit" value="Open New Fixed Deposit">
-                    </form>
-                    <br>
+            <form action="/employee/customer/view_all_savings_accounts" method="GET">
+                <input type="submit" value="View All Savings Accounts">
+            </form>
+            <br>
+            <form action="/employee/customer/view_all_checking_accounts" method="GET">
+                <input type="submit" value="View All Checking Accounts">
+            </form>
+            <br>
+            <form action="/employee/customer/view_all_fixed_deposits" method="GET">
+                <input type="submit" value="View All Fixed Deposits">
+            </form>
+            
                     
         <%} else{%>
             This customer does not exist. Create a customer profile before creating accounts.

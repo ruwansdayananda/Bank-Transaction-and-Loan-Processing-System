@@ -1,4 +1,3 @@
-
 const Joi = require('joi');
 const _ = require('lodash');
 
@@ -21,7 +20,9 @@ function validateOnlineLoan(onlineLoan) {
 const createOnlineLoan = async (request,response) => {
     const {error} = validateOnlineLoan(_.pick(request.body, ["loan_plan_id", "customer_id","loan_amount"]));
 
-    if(error) return response.status(404).send(error.details[0].message);
+    if (error) return response.status(400).render('400', {
+        err_msg: "Invalid Token"
+    });
     console.log(request.body);
     const interest_rates = request.body.interest_rate;
     const time_periods= request.body.account_period_in_months
@@ -40,7 +41,7 @@ const createOnlineLoan = async (request,response) => {
     let max_loan_amount = Math.min(500000.0,parseFloat(request.body.fixed_deposit.deposit_amount)*0.6);
 
     if(parseFloat(request.body.loan_amount) > max_loan_amount){
-        return response.render('400',{err_msg:"ERROR GO BACK"});
+        return response.render('400',{err_msg:"Your maximum loan amount was exceeded. Please enter a valid amount"});
     }
 
     else{

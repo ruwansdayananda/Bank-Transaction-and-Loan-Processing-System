@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+
+    <body>
+        <h2>Checking Accounts</h2>
+
+        <% if (checking_accounts.length>0) {%>
+        <table>
+            <thead>
+                <th>Checking Account ID</th>
+                <th>Branch Name</th>
+                <th>Bank Balance </th>
+
+            </thead>
+            <tbody>
+                <% for(var i=0; i<checking_accounts.length;i++) {%>
+                <tr>
+                    <td><%= checking_accounts[i].checking_account_id%></td>
+                    <td><%= checking_accounts[i].branch_name%></td>
+                    <td><%= checking_accounts[i].bank_balance%></td>
+                </tr>
+                <%}%>
+
+                    </tbody>
+                </table>
+                <%}  else{%>
+                No checking accounts created.
+                <%}%>
+                <form action="/employee/checking_account" method="GET">
+                    <input type="submit" value="Open New Checking Account">
+                </form>
+                <br>
+    </body>
+
+</html>

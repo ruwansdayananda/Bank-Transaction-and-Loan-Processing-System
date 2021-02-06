@@ -27,7 +27,9 @@ const getTransactionForm = async (request,response)=>{
             savingsIds:savingsIds
         })
     } catch (error) {
-        response.status(400).send("ERROR");
+        return response.status(500).render('500', {
+            err_msg: error
+        });
     }
 
 
@@ -57,7 +59,9 @@ const getTransactionFormChecking = async (request,response)=>{
 const TranferAmount = async (request,response)=>{
     const {error} = validateTranasaction(_.pick(request.body, ["initiating_account_id", "receiving_account_id","transaction_amount"]));
 
-    if(error) return response.status(404).send(error.details[0].message);
+    if (error) return response.status(400).render('400', {
+        err_msg: "Invalid Token"
+    });
 
     if(request.body.initiating_account_id == request.body.receiving_account_id){
         return response.render('400.ejs',{err_msg:"Account numbers cant be the same"});

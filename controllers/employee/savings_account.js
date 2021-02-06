@@ -24,21 +24,22 @@ function validateSavingsAccountForm(account) {
 const createSavingsAccount = async (request, response) => {
     const {error} = validateSavingsAccountForm(_.pick(request.body, ["branch_id", "customer_id", "started_date", "bank_balance", "no_of_withdrawals_remaining", "savings_plan_id", "max_withdrawal_limit", "source_of_funds"]));
     if(error){
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error.message
+        });
     }
     try {
         await Employee.enterSavingsAccount(_.pick(request.body, ["branch_id", "customer_id", "started_date", "bank_balance", "no_of_withdrawals_remaining", "savings_plan_id", "max_withdrawal_limit", "source_of_funds"]));
     } catch (error) {
-        return  response.status(400).send(error.message);  
+        return response.status(500).render('500', {
+            err_msg: error.message
+        });
     }
     console.log(request.session);
     return response.render('employee/customer_profile_and_functions', {
         customerExists: true,
         profile: request.session.profile,
-        privilege_level: request.session.privilege_level,
-        savings_accounts: await Customer.getAllSavingsAccounts(request.session.customer_id),
-        fixed_deposits: request.session.fixed_deposits,
-        checking_accounts: request.session.checking_accounts
+        privilege_level: request.session.privilege_level
     });
 };
 

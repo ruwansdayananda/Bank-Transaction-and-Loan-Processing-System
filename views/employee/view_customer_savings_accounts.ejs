@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <h2>Savings Accounts</h2>
+
+        <% if (savings_accounts.length>0) {%>
+        <table>
+            <thead>
+                <th>Savings Account ID</th>
+                <th>Branch Name</th>
+                <th>Bank Balance</th>
+                <th>Plan Name</th>
+                <th>No. of Remaining Withdrawals</th>
+
+            </thead>
+            <tbody>
+                <% for(var i=0; i<savings_accounts.length;i++) {%>
+                <tr>
+                    <td><%= savings_accounts[i].savings_account_id%></td>
+                    <td><%= savings_accounts[i].branch_name%></td>
+                    <td><%= savings_accounts[i].bank_balance%></td>
+                    <td><%= savings_accounts[i].plan_name%></td>
+                    <td><%= savings_accounts[i].no_of_withdrawals_remaining%></td>
+                </tr>
+                <%}%>
+
+                    </tbody>
+                    
+                </table>
+                <form action="/employee/loan" method="GET">
+                    <input type="submit" value="Create a loan">
+                </form>
+                <br>
+                <%} else{%>
+                No savings accounts created.
+                <%}%>
+                <form action="/employee/savings_account" method="GET">
+                    <input type="submit" value="Open New Savings Account">
+                </form>
+                <br>
+    </body>
+</html>
