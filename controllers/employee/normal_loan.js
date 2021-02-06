@@ -40,7 +40,7 @@ const getNormalLoan = async (request, response) => {
 const createNormalLoan = async (request,response) => {
     const { error } = validateNormalLoan(_.pick(request.body,
         ["loan_plan_id", "account_id", "loan_amount"]));
-    if (error) return response.status(404).send(error.details[0].message);
+    if (error) return response.status(400).render('400',{err_msg: error.details[0].message});
     console.log(request.body);
     const loan_plan_id = request.body.loan_plan_id;
     const account_id = request.body.account_id;

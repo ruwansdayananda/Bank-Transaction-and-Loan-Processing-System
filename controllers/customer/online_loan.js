@@ -50,7 +50,7 @@ const createOnlineLoan = async (request,response) => {
         } catch (error) {
             console.log(error.message);
         }
-        return response.status(200).send(request.body);
+        return response.status(200).redirect('/');
 
     }
 

@@ -47,7 +47,9 @@ const getTransactionFormChecking = async (request,response)=>{
             savingsIds:savingsIds
         })
     } catch (error) {
-        response.status(400).send("ERROR");
+        response.status(400).render('400', {
+            err_msg:error
+        });
     }
 
 
@@ -69,10 +71,13 @@ const TranferAmount = async (request,response)=>{
     try {
 
         await Customer.tranferMoneySavings(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
-        response.send(request.body)
+        return response.redirect('/');
         
     } catch (error) {
-        return response.send("ERROR IN TRANSFER")
+        
+        return response.status(500).render("500", {
+            err_msg: error.message
+        });
     }
 
 
@@ -82,21 +87,19 @@ const TranferAmount = async (request,response)=>{
 const TranferAmountChecking = async (request,response)=>{
     const {error} = validateTranasaction(_.pick(request.body, ["initiating_account_id", "receiving_account_id","transaction_amount"]));
 
-    if(error) return response.status(404).send(error.details[0].message);
+    if(error) return response.status(404).render('400',{err_msg: error.details[0].message});
 
     if(request.body.initiating_account_id == request.body.receiving_account_id){
         return response.render('400.ejs',{err_msg:"Account numbers cant be the same"});
     }
     try {
-
-        await Customer.tranferMoneyChecking(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
-        response.send(request.body)
-        
+        await Customer.tranferMoneyChecking(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]));
+        return response.redirect('/');
     } catch (error) {
-        return response.send("ERROR IN TRANSFER")
+        return response.status(500).render("500", {
+            err_msg: error
+        });
     }
-
-
 
 }
 exports.getTransactionForm = getTransactionForm;

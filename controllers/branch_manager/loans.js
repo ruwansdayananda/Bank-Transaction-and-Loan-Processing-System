@@ -27,13 +27,10 @@ const proceedLoan = async(request,response)=>{
             await BranchManager.declineLoan(request.body.loan_id);
             
         } 
-
         response.redirect('back');
-       
-
     } catch (error) {
         console.log(error);
-        response.send("error");
+        return response.status(500).render("500", {err_msg:error});
     }
 
 }
