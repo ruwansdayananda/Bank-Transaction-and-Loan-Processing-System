@@ -16,18 +16,21 @@
     </head>
 
     <body>
-        <h1>Customer (Individual) Log In </h1>
+        <body class="container-fluid" style="margin-left: 20px;">
+            <h2 style="margin-top: 20px; margin-bottom: 20px;">Customer (Individual) Log In </h2>
         <% if (hasError) {%>
             <%=error%>
         <%}%>
         <form action="/login" method="POST">
-            E-mail Address: <input type="email" id="email" name="email" required>
+            <label for="">E-mail Address:</label>
+            <input class="form-control w-25" type="email" id="email" name="email" required>
             <br>
 
-            Password: <input type="password" id="password" name="password" required>
+            <label for="">Password:</label>
+            <input class="form-control w-25" type="password" id="password" name="password" required>
             <br>
             <input type="text" id="privilege_level" name="privilege_level" value='4' hidden>
-            <input type="submit">
+            <input type="submit" class="btn btn-outline-primary" value="Login">
         </form>
 
     </body>

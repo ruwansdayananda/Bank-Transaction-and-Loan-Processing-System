@@ -8,28 +8,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="/bootstrap.min.css">
+        <style>
+            body {
+                background-image: url("paper.gif");
+                background-color: #3793d5;
+            }
+        </style>
 
-        <h1>Starting Page</h1>
     </head>
-    <body>
-        <form method = "GET"  action = "/branch_manager/login">
-            <input type="submit" value="Branch Manager">
-        </form>
-        <br>
-        <form method="GET" action="/employee/login">
-            <input type="submit" value="Employee">
-        </form>
-        <br>
-        <form method="GET" action="/customer/login/corporate">
-            <input type="submit" value="Corporate Customer">
-        </form>
-        <br>
+    <body >
+        <div  class="container position-absolute top-50 start-50 translate-middle">
+            <div class="card" style="width: auto;">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Welcome to Bank A.</h3>
+                    <h4 class="card-subtitle mb-2 text-muted  text-center">Card subtitle</h4>
+                    <p class="card-text  text-center">Some quick example text to build on the card title and make up the
+                        bulk of the
+                        card's content.</p>
+                    <p class="card-text  text-center">
+                    <a href="/branch_manager/login" class="card-link">Login as a branch manager</a>
+                    <a href="/employee/login" class="card-link">Login as an employee</a>
+                    <a href="/customer/login/corporate" class="card-link">Login with your corporate account</a>
+                    <a href="/customer/login/individual" class="card-link">Login with your personal account</a>
+                    </p>
+                </div>
+            </div>
+            </div>
 
-        <form method="GET" action="/customer/login/individual">
-            <input type="submit" value="Individual Customer">
-        </form>
-        <br>
-        <br>
+        </div>
+        
 
         
         <br>
