@@ -3,6 +3,7 @@ OR REPLACE VIEW `all_savings_accounts` AS
 SELECT
   savings_account_id,
   customer_id,
+  branch_id,
   branch_name,
   bank_balance,
   plan_name,
@@ -11,7 +12,7 @@ SELECT
   monthly_addition,
   max_withdrawal_limit,
   no_of_withdrawals_remaining,
-  status 
+  savings_account.status 
 FROM
   (
     savings_account NATURAL
@@ -24,10 +25,11 @@ OR REPLACE VIEW `all_checking_accounts` AS
 SELECT
   checking_account_id,
   customer_id,
+  branch_id,
   started_date,
   branch_name,
   bank_balance,
-  status 
+  checking_account.status 
 FROM
   (checking_account NATURAL JOIN branch);
 
@@ -46,7 +48,7 @@ SELECT
   fixed_deposit.monthly_addition,
   fixed_deposit.savings_account_id,
   bank_balance,
-  status 
+  fixed_deposit.status 
 FROM
   ((
     fixed_deposit NATURAL
