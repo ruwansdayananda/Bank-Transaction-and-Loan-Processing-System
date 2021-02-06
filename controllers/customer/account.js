@@ -86,6 +86,36 @@ const Withdraw = async (req, res) => {
     
     
 }
+const getAllSavingsAccountsForDeposit = async (req, res) => {
+    const customer_id = req.user.customer_id;
+    const accounts = await Customer.getAllSavingsAccounts(customer_id);
+    return res.render('customer/deposit', {
+        accounts: accounts
+    });
+}
+
+const deposit = async (req,res) => {
+
+    req.body.account = JSON.parse(req.body.account_id);
+    req.body.account.date = Lookup.getTodayDate();
+    req.body.account.deposit_amount = req.body.amount;
+
+    if(req.body.amount<=0){
+        console.log("Deposite Amount Should be Positive");
+        return res.render('400');
+    }
+
+    try{
+
+        const result = await Customer.depositMoney(req.body.account.date, req.body.account.savings_account_id, req.body.account.deposit_amount);
+        return res.render('customer/home');
+    }
+    catch(error){
+        console.log(error);
+        return res.render('500');
+    }
+
+}
 
 
 
@@ -95,3 +125,5 @@ module.exports.getAllCheckingAccounts = getAllCheckingAccounts;
 module.exports.getAllFixedDeposits = getAllFixedDeposits;
 module.exports.getAllSavingsAccountsForWithdraw = getAllSavingsAccountsForWithdraw;
 module.exports.Withdraw = Withdraw;
+module.exports.getAllSavingsAccountsForDeposit = getAllSavingsAccountsForDeposit;
+module.exports.deposit =deposit;
