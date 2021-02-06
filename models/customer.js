@@ -164,6 +164,31 @@ class Customer{
         })
         
     }
+
+    static depositMoney(date,account_id,deposit_amount){
+        return new Promise( (resolve,reject) => {
+            const result = pool.query("CALL savings_account_money_deposit (?,?,?)",
+            [
+                date,
+                account_id,
+                deposit_amount
+            ],
+            
+            function (error, results, fields) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    console.log(result.sql);
+                    resolve(console.log("successssss!!!"));
+                }
+                
+            }
+            )
+        })
+    }
+
+
     static getAllSavingsAccountIDs(customerID) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT savings_account_id FROM all_savings_accounts WHERE customer_id=?",
