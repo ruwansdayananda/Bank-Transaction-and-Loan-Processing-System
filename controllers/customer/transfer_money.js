@@ -40,6 +40,9 @@ const TranferAmount = async (request,response)=>{
 
     if(error) return response.status(404).send(error.details[0].message);
 
+    if(request.body.initiating_account_id == request.body.receiving_account_id){
+        return response.render('400.ejs',{err_msg:"Account numbers cant be the same"});
+    }
     try {
 
         await Customer.tranferMoneySavings(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
