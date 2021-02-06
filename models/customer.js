@@ -186,9 +186,10 @@ class Customer{
          
     static getAllCheckingAccountIDs(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT checking_account_id  FROM all_checking_accounts WHERE customer_id=?",
+            const result = pool.query("SELECT checking_account_id  FROM all_checking_accounts WHERE customer_id=? AND status=?",
                 [
-                    customerID
+                    customerID,
+                    "Open"
 
                 ],
                 function (error, results, fields) {
@@ -225,9 +226,10 @@ class Customer{
     //online loans related
     static getAllFixedDepositsIDs(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT fixed_deposit_id,branch_id, deposit_amount FROM all_fixed_deposits WHERE customer_id=?",
+            const result = pool.query("SELECT fixed_deposit_id,branch_id, deposit_amount FROM all_fixed_deposits WHERE customer_id=? AND status=?",
                 [
-                    customerID
+                    customerID,
+                    "Open"
                 ],
                 function (error, results, fields) {
                     if (error) {
@@ -277,9 +279,10 @@ class Customer{
 
     static getAllFixedDeposits(customerID) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM all_fixed_deposits WHERE customer_id=?",
+            const result = pool.query("SELECT * FROM all_fixed_deposits WHERE customer_id=? AND status=?",
                 [
-                    customerID
+                    customerID,
+                    "Open"
                 ],
                 function (error, results, fields) {
                     if (error) {

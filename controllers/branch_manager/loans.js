@@ -7,7 +7,7 @@ const getPendingLoans = async(request,response)=>{
 
     try {
         const loans = await  BranchManager.getPendingLoans(request.user.branch_id);
-
+        console.log(loans);
         response.render('branch_manager/loan_approval',{loans:loans, branch:request.user.branch_id});
 
     } catch (error) {

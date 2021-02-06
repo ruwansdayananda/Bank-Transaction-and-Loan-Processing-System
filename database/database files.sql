@@ -243,13 +243,14 @@ CREATE TABLE `normal_loan` (
     `loan_installment` NUMERIC(12, 2) NOT NULL,
     `created_date` DATE NOT NULL,
     `loan_amount` NUMERIC(12, 2) NOT NULL,
-    `status` ENUM('Pending','Rejected','Approved')  NOT NULL DEFAULT 'Pending',
+    `status` ENUM('Pending','Rejected','Approved','Closed')  NOT NULL DEFAULT 'Pending',
     PRIMARY KEY (`loan_id`),
     FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`branch_id`) REFERENCES branch(`branch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`loan_plan_id`) REFERENCES loan_plan(`loan_plan_id`) ON DELETE CASCADE ON UPDATE CASCADE -- account id links to ??
   );
+
 ALTER TABLE normal_loan AUTO_INCREMENT = 400001;
 ALTER TABLE normal_loan ADD INDEX  (`account_id`);
 ALTER TABLE normal_loan ADD INDEX  (`customer_id`);
@@ -295,9 +296,9 @@ ALTER TABLE loan_installment ADD INDEX  (`status`);
 CREATE TABLE `late_loan_installment` (
     `installment_id` INT NOT NULL,
     `due_month` INT DEFAULT MONTH(CURRENT_DATE),
-    `due_year` INT DEFAULT YEAR(CURRENT_DATE) , ,
+    `due_year` INT DEFAULT YEAR(CURRENT_DATE) , 
     `status` ENUM("Paid", "Not paid") DEFAULT "Not paid",
-    FOREIGN KEY (`installment_id`) REFERENCES loan_installment(`installment_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`installment_id`) REFERENCES loan_installment(`installment_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
   );
 ALTER TABLE late_loan_installment ADD INDEX  (`due_month`);
 ALTER TABLE late_loan_installment ADD INDEX  (`due_year`);

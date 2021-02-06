@@ -97,7 +97,7 @@ class BranchManager {
                         console.log(result.sql);
                         reject(error);
                     };
-               
+                    console.log(result.sql);
                     resolve("Accepted");
                 }
             )

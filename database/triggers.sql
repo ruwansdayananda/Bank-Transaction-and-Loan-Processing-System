@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE TRIGGER `after_branch_manager_approval` AFTER UPDATE ON `normal_loan`
+CREATE OR REPLACE TRIGGER `after_branch_manager_approval` AFTER UPDATE ON `normal_loan`
  FOR EACH ROW BEGIN
 	DECLARE months INT DEFAULT 0;
 	IF (NEW.status!=OLD.status AND NEW.status="Approved") THEN
@@ -8,6 +8,3 @@ CREATE TRIGGER `after_branch_manager_approval` AFTER UPDATE ON `normal_loan`
 	UPDATE savings_account SET bank_balance=bank_balance + NEW.loan_amount WHERE savings_account_id = NEW.account_id;
 	END IF;
 END $$
-
-	-- 
--- 

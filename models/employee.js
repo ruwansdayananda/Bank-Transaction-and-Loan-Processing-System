@@ -41,10 +41,9 @@ class Employee {
 
     static getLoanInformation(loan_id) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT COUNT(*) FROM loan WHERE loan_id = ? AND status=?",
+            const result = pool.query("SELECT COUNT(*) FROM loan WHERE loan_id = ?",
                 [
-                    loan_id,
-                    "Open"
+                    loan_id
                 ],
                 function (error, results, fields) {
                     if (error) {
