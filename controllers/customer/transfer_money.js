@@ -1,6 +1,7 @@
 const { func } = require('joi');
 const Joi = require('joi');
 const _ = require('lodash');
+const { tranferMoneyChecking } = require('../../models/Customer');
 
 const Customer = require('../../models/Customer');
 const Lookup = require('../../models/Lookup');
@@ -20,6 +21,24 @@ const getTransactionForm = async (request,response)=>{
     try {
         const today = await Lookup.getTodayDate();
         const savingsIds = await Customer.getAllSavingsAccountIDs(request.user.customer_id);
+        console.log(savingsIds);
+        response.render('customer/transfer_money.ejs',{
+            today:today,
+            savingsIds:savingsIds
+        })
+    } catch (error) {
+        response.status(400).send("ERROR");
+    }
+
+
+
+
+}
+
+const getTransactionFormChecking = async (request,response)=>{
+    try {
+        const today = await Lookup.getTodayDate();
+        const savingsIds = await Customer.getAllCheckingAccountIDs(request.user.customer_id);
         console.log(savingsIds);
         response.render('customer/transfer_money.ejs',{
             today:today,
@@ -55,5 +74,28 @@ const TranferAmount = async (request,response)=>{
 
 
 }
+
+const TranferAmountChecking = async (request,response)=>{
+    const {error} = validateTranasaction(_.pick(request.body, ["initiating_account_id", "receiving_account_id","transaction_amount"]));
+
+    if(error) return response.status(404).send(error.details[0].message);
+
+    if(request.body.initiating_account_id == request.body.receiving_account_id){
+        return response.render('400.ejs',{err_msg:"Account numbers cant be the same"});
+    }
+    try {
+
+        await Customer.tranferMoneyChecking(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
+        response.send(request.body)
+        
+    } catch (error) {
+        return response.send("ERROR IN TRANSFER")
+    }
+
+
+
+}
 exports.getTransactionForm = getTransactionForm;
 exports.TranferAmount = TranferAmount;
+exports.getTransactionFormChecking = getTransactionFormChecking;
+exports.TranferAmountChecking = TranferAmountChecking;
