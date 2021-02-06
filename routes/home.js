@@ -13,10 +13,10 @@ router.get('/', [isLoggedIn], (request, response) => {
         return response.render('employee/home');
     }
     if (request.user.privilege_level == 3) {
-        return response.render('corporate_customer/home');
+        return response.render('customer/home');
     }
     if (request.user.privilege_level == 4) {
-        return response.render('individual_customer/home');
+        return response.render('customer/home');
     }
 })
 
