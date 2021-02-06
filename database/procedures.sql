@@ -109,7 +109,7 @@ END$$
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `create_online_loan` (
     IN `loan_plan_id` INT ,
-    IN `fixed_deposit_id` INT ,
+    IN `fixed_deposit_id_1` INT ,
     IN `customer_id` INT ,
     IN `branch_id` INT ,
     IN `loan_installment` NUMERIC(12, 2) ,
@@ -118,6 +118,7 @@ CREATE OR REPLACE PROCEDURE `create_online_loan` (
 
 BEGIN
 	  DECLARE id INT DEFAULT 0;
+	  DECLARE savings_id INT DEFAULT 0;
     DECLARE `_rollback` BOOL DEFAULT 0;
     DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
     set AUTOCOMMIT = 0;
@@ -125,7 +126,9 @@ BEGIN
         SELECT AUTO_INCREMENT INTO id FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan'; 
         SELECT id;
         INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
-        INSERT INTO `online_loan` (`loan_plan_id`,`fixed_deposit_id`,`customer_id`,`branch_id`,`loan_installment`,`loan_amount`,`created_date`)  VALUES (loan_plan_id,fixed_deposit_id,customer_id,branch_id,loan_installment,loan_amount,created_date);
+        INSERT INTO `online_loan` (`loan_plan_id`,`fixed_deposit_id`,`customer_id`,`branch_id`,`loan_installment`,`loan_amount`,`created_date`)  VALUES (loan_plan_id,fixed_deposit_id_1,customer_id,branch_id,loan_installment,loan_amount,created_date);
+        SELECT savings_account_id INTO savings_id FROM all_fixed_deposits WHERE fixed_deposit_id = fixed_deposit_id_1;
+        
         IF `_rollback` THEN
             ROLLBACK;
         ELSE

@@ -86,7 +86,7 @@ const Withdraw = async (req, res) => {
     else {
         console.log("Insufficient bank balance");
         return response.render('400', {
-            err_msg: error
+            err_msg: "Insufficient bank balance"
         });
     }
     
