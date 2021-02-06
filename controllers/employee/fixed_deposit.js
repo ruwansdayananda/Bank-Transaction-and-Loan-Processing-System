@@ -33,7 +33,9 @@ const getFixedDepositForm = async (request, response) => {
             date: date
         });
     } catch (error) {
-        return response.status(500).send(error.message);
+        return response.render('500', {
+            err_msg: error
+        });
     }
 };
 
@@ -42,7 +44,9 @@ const getFixedDepositForm = async (request, response) => {
 const createFixedDeposit = async (request,response)=>{
     const {error} = validateFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","started_date"]));
     if(error){
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
     const interest_rates = request.body.interest_rate;
     const interest_rate = parseFloat(interest_rates[parseInt(request.body.fixed_deposit_plan_id)-1]);
@@ -51,15 +55,14 @@ const createFixedDeposit = async (request,response)=>{
     try {
         await Employee.enterFixedDeposit(_.pick(request.body, ["fixed_deposit_plan_id", "branch_id", "savings_account_id", "customer_id","deposit_amount","monthly_addition","started_date"]));
     } catch (error) {
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error.message
+        });
     }
     return response.render('employee/customer_profile_and_functions', {
         customerExists: true,
         profile: request.session.profile,
-        privilege_level: request.session.privilege_level,
-        savings_accounts: request.session.savings_accounts,
-        fixed_deposits: await Customer.getAllFixedDeposits(request.session.customer_id),
-        checking_accounts: request.session.checking_accounts,
+        privilege_level: request.session.privilege_level
     });
 
 };

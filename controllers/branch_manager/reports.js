@@ -14,7 +14,9 @@ const generateTransactionsReport = async (request, response) => {
         });
     }
     catch (error) {
-        return response.status(500).render("500");
+        return response.render('500', {
+            err_msg: error
+        });
     }
     
 };
@@ -29,7 +31,9 @@ const generateLateLoanInstallments = async (request, response) => {
             installments: results
         });
     } catch (error) {
-        return response.status(500).render("500");
+        return response.render('500', {
+            err_msg: error
+        });
     }
 };
 
@@ -45,7 +49,9 @@ const generateReport = async (request, response) => {
                 transactions: results
             });
         } catch (error) {
-            return response.status(500).render("500");
+            return response.render('500', {
+                err_msg: error
+            });
         }
     }
     else if (request.body.type == "Generate Late Loan Installment Report") {
@@ -57,7 +63,9 @@ const generateReport = async (request, response) => {
                 installments: results
             });
         } catch (error) {
-            return response.status(500).render("500");
+            return response.render('500', {
+                err_msg: error
+            });
         }
     }
 }

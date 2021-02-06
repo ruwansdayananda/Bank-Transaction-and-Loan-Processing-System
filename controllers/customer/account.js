@@ -61,7 +61,9 @@ const Withdraw = async (req, res) => {
     if (error)
     {
         console.log(error);
-        return res.render('400');
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
 
     req.body.account.date = Lookup.getTodayDate();
@@ -76,12 +78,16 @@ const Withdraw = async (req, res) => {
         }
         catch (error) {
         console.log(error);
-        return res.render('500');
+        return response.render('500', {
+            err_msg: error
+        });
         }
     } 
     else {
         console.log("Insufficient bank balance");
-        return res.render('400');
+        return response.render('400', {
+            err_msg: error
+        });
     }
     
     

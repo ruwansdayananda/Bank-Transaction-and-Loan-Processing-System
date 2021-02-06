@@ -76,7 +76,9 @@ const createIndividualCustomer = async (request, response) => {
 
     } catch (error) {
         console.log(error);
-        return response.status(400).send(error);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
     return response.status(200).redirect('/employee');
 };
@@ -109,7 +111,9 @@ const createCorporateCustomer =  async (request, response) => {
             ["company_registration_number", "company_name", "corporate_email", "address", "date_of_establishment", "contact_no", "date_joined", "correspondent", "correspondent_email", "password"]));
 
     } catch (error) {
-        return response.status(400).send(error.sql);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
     return response.status(200).redirect('/employee');
 };
@@ -132,7 +136,9 @@ const searchForCustomer = async (request, response) => {
     }
     catch (error) {
         console.log(error);
-        return response.status(500).send("Internal Server Error");
+        return response.render('500', {
+            err_msg: error
+        });
     }
 }
 
@@ -142,9 +148,6 @@ const findCustomerProfile = async (req, res) => {
     req.session.customer_id = req.body.customer_id;
     req.session.privilege_level = privilege_level;
     const profile = await Customer.getProfileInformation(req.body.customer_id,privilege_level);
-    const savings_accounts = await Customer.getAllSavingsAccounts(req.body.customer_id);
-    const checking_accounts = await Customer.getAllCheckingAccounts(req.body.customer_id);
-    const fixed_deposits = await Customer.getAllFixedDeposits(req.body.customer_id);
     console.log("Profile");
     console.log(profile);
     if (!profile || profile.length == 0) {
@@ -153,21 +156,44 @@ const findCustomerProfile = async (req, res) => {
         });
     }
     req.session.profile = profile;
-    req.session.savings_accounts = savings_accounts;
-    req.session.checking_accounts = checking_accounts;
-    req.session.fixed_deposits = fixed_deposits;
     return res.render('employee/customer_profile_and_functions', {
         customerExists: true,
         profile: profile,
         privilege_level:privilege_level,
-        savings_accounts: savings_accounts,
-        fixed_deposits: fixed_deposits,
-        checking_accounts:checking_accounts
     }
     );
 }
 
+const getCustomerSavingsAccounts = async (req, res) => {
+    const customer_id = req.session.customer_id;
+    const savings_accounts = await Customer.getAllSavingsAccounts(customer_id);
+    return res.render('employee/view_customer_savings_accounts', {
+        savings_accounts: savings_accounts,
+    });
+    
+}
 
+const getCustomerCheckingAccounts = async (req, res) => {
+    const customer_id = req.session.customer_id;
+    const checking_accounts = await Customer.getAllCheckingAccounts(customer_id);
+    return res.render('employee/view_customer_checking_accounts', {
+        checking_accounts: checking_accounts,
+    });
+
+}
+
+const getCustomerFixedDeposits = async (req, res) => {
+    const customer_id = req.session.customer_id;
+    const fixed_deposits = await Customer.getAllFixedDeposits(customer_id);
+    return res.render('employee/view_customer_fixed_deposits', {
+        fixed_deposits: fixed_deposits,
+    });
+
+}
+
+module.exports.getCustomerSavingsAccounts = getCustomerSavingsAccounts;
+module.exports.getCustomerCheckingAccounts = getCustomerCheckingAccounts;
+module.exports.getCustomerFixedDeposits = getCustomerFixedDeposits;
 module.exports.createCorporateCustomer = createCorporateCustomer;
 module.exports.findCustomerProfile = findCustomerProfile;
 module.exports.createIndividualCustomer = createIndividualCustomer;

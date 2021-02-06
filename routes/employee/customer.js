@@ -8,7 +8,10 @@ const Lookup = require('../../models/Lookup');
 const {
     createCorporateCustomer,
     createIndividualCustomer,
-    findCustomerProfile
+    findCustomerProfile,
+    getCustomerSavingsAccounts,
+    getCustomerCheckingAccounts,
+    getCustomerFixedDeposits
 } = require('../../controllers/employee/customer');
 
 // GET REQUESTS
@@ -50,6 +53,12 @@ router.post('/individual', [isLoggedIn, isEmployee], createIndividualCustomer);
 router.post('/corporate', [isLoggedIn, isEmployee], createCorporateCustomer);
 
 router.post('/find_customer_profile', [isLoggedIn, isEmployee], findCustomerProfile);
+
+router.get('/view_all_savings_accounts', [isLoggedIn, isEmployee], getCustomerSavingsAccounts);
+
+router.get('/view_all_checking_accounts', [isLoggedIn, isEmployee], getCustomerCheckingAccounts);
+
+router.get('/view_all_fixed_deposits', [isLoggedIn, isEmployee], getCustomerFixedDeposits);
 
 // http://localhost:3000/employee/customer/functions
 router.get('/functions', [isLoggedIn, isEmployee], (request, response) => {

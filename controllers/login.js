@@ -120,7 +120,9 @@ const login = async (request, response) => {
             
         } catch (error) {
             console.log(error.message);
-            return response.status(500).send(error);
+            return response.render('500', {
+                err_msg: error
+            });
         }
 }
 exports.validateLogIn = validateLogIn;

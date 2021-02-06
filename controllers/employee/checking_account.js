@@ -34,7 +34,9 @@ const getCheckingAccountForm =async (request, response) => {
         date:date
     });
     }catch (error) {
-        return response.status(500).send(error.message);
+        return response.render('500', {
+            err_msg: error
+        });
     }
     
 }
@@ -43,23 +45,24 @@ const getCheckingAccountForm =async (request, response) => {
 const createCheckingAccount = async (request,response)=>{
     const {error} = validateCheckingAccountForm(request.body);
     if(error){
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
 
     try {
         await Employee.enterCheckingAccount(_.pick(request.body, ["customer_id", "started_date", "bank_balance", "branch_id"]));
     }
     catch (error) {
-        return response.status(400).send(error.message);
+        return response.status(400).render('400', {
+            err_msg: error
+        });
     }
 
     return response.render('employee/customer_profile_and_functions', {
         customerExists: true,
         profile: request.session.profile,
-        privilege_level: request.session.privilege_level,
-        savings_accounts: request.session.savings_accounts,
-        fixed_deposits: request.session.fixed_deposits,
-        checking_accounts: await Customer.getAllCheckingAccounts(request.session.customer_id)
+        privilege_level: request.session.privilege_level
     });
 
 

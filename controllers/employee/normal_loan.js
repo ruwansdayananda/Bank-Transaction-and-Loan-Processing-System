@@ -30,7 +30,9 @@ const getNormalLoan = async (request, response) => {
         });
     }
     catch (error) {
-        return response.status(500).send("Internal Server Error");
+        return response.render('500', {
+            err_msg: error
+        });
     }
     
 };
@@ -56,7 +58,9 @@ const createNormalLoan = async (request,response) => {
     try {
         await Employee.enterNormalLoan(loan_plan_id, account_id, request.session.customer_id, request.user.branch_id, request.body.loan_installment, created_date, loan_amount);
     } catch (error) {
-                return response.status(400).send(error);
+                return response.status(400).render('400', {
+                    err_msg: error
+                });
     }
 
     return response.render('employee/customer_profile_and_functions', {
@@ -84,7 +88,9 @@ const searchNormalLoan = async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        return res.render('404');
+        return response.status(500).render('500', {
+            err_msg: error
+        });;
     }
 }
 

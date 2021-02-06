@@ -13,7 +13,8 @@ module.exports = function (request, response, next) {
         next(); //calls the route handler
     } catch (error) {
         console.log(token);
-        response.status(400).send("Invalid token");
-        return;
+        return response.status(400).render('400', {
+            err_msg: "Invalid Token"
+        });
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!-- Fixed Deposits -->
+        <h2>Fixed Deposits</h2>
+
+        <% if (fixed_deposits.length>0) {%>
+        <table>
+            <thead>
+                <th>Fixed Deposit ID</th>
+                <th>Linked Savings Account ID</th>
+                <th>Branch Name</th>
+                <th>Deposited Amount</th>
+                <th>Plan Name</th>
+                <th>Account Period (in Months) </th>
+                <th>Interest Rate</th>
+
+            </thead>
+            <tbody>
+                <% for(var i=0; i<fixed_deposits.length;i++) {%>
+                <tr>
+                    <td><%= fixed_deposits[i].fixed_deposit_id%></td>
+                    <td><%= fixed_deposits[i].savings_account_id%></td>
+                    <td><%= fixed_deposits[i].branch_name%></td>
+                    <td><%= fixed_deposits[i].deposit_amount%></td>
+                    <td><%= fixed_deposits[i].plan_name%></td>
+                    <td><%= fixed_deposits[i].account_period_in_months%></td>
+                    <td><%= fixed_deposits[i].interest_rate%></td>
+                </tr>
+                <%}%>
+
+                    </tbody>
+                </table>
+                
+                <%} else{%>
+                No fixed deposits created.
+
+                <%}%>
+                    <form action="/employee/fixed_deposit" method="GET">
+                        <input type="submit" value="Open New Fixed Deposit">
+                    </form>
+                    <br>
+    </body>
+</html>
