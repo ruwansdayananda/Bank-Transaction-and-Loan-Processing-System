@@ -23,8 +23,6 @@ function generateAuthToken(payload) {
 }
 
 const login = async (request, response) => {
-    // if (!(request.session.token))
-    // {
     
     var table;
     var error_1;
