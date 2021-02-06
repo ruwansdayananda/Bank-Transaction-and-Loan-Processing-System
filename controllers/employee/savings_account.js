@@ -54,7 +54,8 @@ const getSavingsAccountForm = async (request, response) => {
             customer_id: request.session.customer_id,
             id: id[0].AUTO_INCREMENT,
             branch_id: request.user.branch_id,
-            date:date
+            date:date,
+            level: request.session.privilege_level
         });
     } catch (error) {
         return response.render('500', {
