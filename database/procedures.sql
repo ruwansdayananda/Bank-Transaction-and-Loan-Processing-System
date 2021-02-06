@@ -128,7 +128,7 @@ BEGIN
         INSERT INTO `loan`(`loan_id`,`loan_type`) VALUES (id, "Online");
         INSERT INTO `online_loan` (`loan_plan_id`,`fixed_deposit_id`,`customer_id`,`branch_id`,`loan_installment`,`loan_amount`,`created_date`)  VALUES (loan_plan_id,fixed_deposit_id_1,customer_id,branch_id,loan_installment,loan_amount,created_date);
         SELECT savings_account_id INTO savings_id FROM all_fixed_deposits WHERE fixed_deposit_id = fixed_deposit_id_1;
-        
+        UPDATE savings_account SET bank_balance = bank_balance+loan_amount WHERE savings_account_id = savings_id;
         IF `_rollback` THEN
             ROLLBACK;
         ELSE
