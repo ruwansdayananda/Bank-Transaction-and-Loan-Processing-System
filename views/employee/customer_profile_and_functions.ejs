@@ -24,7 +24,7 @@
                 Date Joined:<%= (JSON.stringify(profile[0].date_joined)).toString().substr(1,10)%>
                 <br>
                 Email Address:<%= profile[0].email%> <br>
-            <%} else if (corporate) {%>
+            <%} else if (privilege_level==3) {%>
                 <!-- corporate customer -->
                 Company Registration Number: <%= profile[0].company_registration_number%> <br>
                 Company Name: <%= profile[0].company_name%> <br>
