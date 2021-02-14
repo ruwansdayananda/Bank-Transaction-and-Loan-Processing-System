@@ -11,22 +11,30 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="/bootstrap.min.css">
+        <link  rel="stylesheet" href="/custom_style.css">
 
     </head>
-    <body>
-        <h1>Employee Log In </h1>
+    <body class="background">
+        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto">
+            <div class="card-content" style="width:600px">
+                <div class="card-header-blue">
+                    <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
+                    <div class="card-header-title">Employee Log In </div>
+                    </div>
+        <div class="card-body">
         <% if (hasError) {%>
             <%=error%>
         <%}%>
             <form action="/login" method="POST">
-                E-mail Address: <input type="email" id="email" name="email" required>
+                E-mail Address: <input class="form-control w-100" type="email" id="email" name="email" required>
                 <br>
 
-                Password: <input type="password" id="password" name="password" required>
+                Password: <input class="form-control w-100" type="password" id="password" name="password" required>
                 <br>
                 <input type="text" id="privilege_level" name="privilege_level" value='2' hidden>
-                <input type="submit">
+                <input type="submit" class="button" style="width: 100px;">
             </form>
+        </div></div></div>
     </body>
 
 </html>

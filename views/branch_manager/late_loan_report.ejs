@@ -6,12 +6,19 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="/bootstrap.min.css">
+        <link  rel="stylesheet" href="/custom_style.css">
     </head>
-    <body>
-        <h1>Installments Report</h1>
+    <body class="background">
+        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 30px;">
+            <div class="card-content" style="width: 1000px;">
+                <div class="card-header-blue">
+                    <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
+                    <div class="card-header-title">Installments Report</div>
+                    </div>
+                <div class="card-body">
         <% const months = ['January','February','March','April','May','June','July','August','September','October','November','December']%>
-        <h2>Late Loan Report Installments for <%= months[parseInt(month) -1] %>
+        <h2 style="color: #113F86;">Late Loan Report Installments for <%= months[parseInt(month) -1] %>
             of <%=year%></h2>
         <% if (installments.length>0) {%>
             
@@ -39,7 +46,8 @@
                 <%} %>
 
                 <form action="/" method="GET">
-                    <input type="submit" value="Home">
+                    <input type="submit" value="Home" class="button" style="width: 200px; background-color:#ff1744;">
                 </form>
+                </div></div></div>
     </body>
 </html>

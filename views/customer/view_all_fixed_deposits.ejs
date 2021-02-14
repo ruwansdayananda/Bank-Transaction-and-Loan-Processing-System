@@ -6,18 +6,26 @@
         <title>Fixed Deposits</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <h1>Fixed Deposits</h1>
+        <link rel="stylesheet" href="/bootstrap.min.css">
+        <link  rel="stylesheet" href="/custom_style.css">
+        
     </head>
 
-    <body>
+    <body class="background">
+        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 30px;">
+            <div class="card-content" style="width: 1000px;">
+                <div class="card-header-blue">
+                    <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
+                    <div class="card-header-title">Fixed Deposits</div>
+                    </div>
+                <div class="card-body">
         <%if (accounts.length==0){%>
-        You do not have any fixed deposits. 
+        <div class="text-box-label">You do not have any fixed deposits. </div>
         Please visit your nearest Bank A branch to open a fixed deposit.
         <%} else{%>
                 <% for(var i=0; i < accounts.length; i++) { %>
                    
-                     <h3><%= accounts[i].plan_name  %></h3>
+                     <h3 style="color: #113F86;"><%= accounts[i].plan_name  %></h3>
                      <br>
                      Branch Name:<%= accounts[i].branch_name  %>
                      <br>
@@ -32,7 +40,7 @@
              <%}%>
         <%}%>
         <form action="/" method="GET">
-            <input type="submit" value="Home">
+            <input type="submit" value="Home" class="button" style="width: 200px; background-color:#ff1744;">
         </form>
         
     </body>

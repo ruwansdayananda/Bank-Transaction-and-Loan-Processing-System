@@ -11,12 +11,20 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/bootstrap.min.css">
+        <link  rel="stylesheet" href="/custom_style.css">
     </head>
-    <body>
-        <h2>Savings Accounts</h2>
+    <body class="background">
+        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 100px;">
+            <div class="card-content" style="width: 1000px;">
+                <div class="card-header-blue">
+                    <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
+                    <div class="card-header-title">Savings Accounts</div>
+                    </div>
+                <div class="card-body">
+        
 
         <% if (savings_accounts.length>0) {%>
-        <table>
+        <table class="table table-bordered">
             <thead>
                 <th>Savings Account ID</th>
                 <th>Branch Name</th>
@@ -40,19 +48,21 @@
                     
                 </table>
                 <form action="/employee/loan" method="GET">
-                    <input type="submit" value="Create a loan">
+                    <input type="submit" value="Create a loan" class="button" style="width: 300px;">
                 </form>
                 <br>
                 <%} else{%>
-                No savings accounts created.
+                <div class="text-box-label">No savings accounts created.</div>
                 <%}%>
+                <br>
                 <form action="/employee/savings_account" method="GET">
-                    <input type="submit" value="Open New Savings Account">
+                    <input type="submit" value="Open New Savings Account" class="button" style="width: 300px;">
                 </form>
                 <br>
 
                 <form action="/" method="GET">
-                    <input type="submit" value="Home">
+                    <input type="submit" value="Home" class="button" style="width: 200px; background-color:#ff1744;">
                 </form>
+                </div></div></div>
     </body>
 </html>
