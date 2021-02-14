@@ -12,7 +12,7 @@
     </head>
 
     <body class="background">
-        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 30px;">
+        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 200px;">
             <div class="card-content" style="width: 1000px;">
                 <div class="card-header-blue">
                     <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
@@ -20,13 +20,14 @@
                     </div>
                 <div class="card-body">
         <%if (accounts.length==0){%>
-        <div class="text-box-label">You do not have any fixed deposits. </div>
-        Please visit your nearest Bank A branch to open a fixed deposit.
+
+        <h5 style="color:#ff1744; "> You do not have any fixed deposits.
+            <br> Please visit your nearest branch to open a fixed deposit. </h5>
+ 
         <%} else{%>
                 <% for(var i=0; i < accounts.length; i++) { %>
                    
-                     <h3 style="color: #113F86;"><%= accounts[i].plan_name  %></h3>
-                     <br>
+                     <h6 style="color: #113F86;"><%= accounts[i].plan_name  %></h6>
                      Branch Name:<%= accounts[i].branch_name  %>
                      <br>
                      Deposit Amount:<%= accounts[i].deposit_amount  %>

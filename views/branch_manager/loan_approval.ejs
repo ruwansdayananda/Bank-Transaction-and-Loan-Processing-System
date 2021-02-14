@@ -32,6 +32,7 @@
                 <th>Monthly Installment</th>
                 <th></th>
                 <th></th>
+                <th hidden></th>
             
                 
             
@@ -47,9 +48,9 @@
                     <td><%= loans[i].customer_id%></td>
                     <td><%= loans[i].account_id %></td>
                     <td> Rs. <%= loans[i].loan_installment%></td>
-                    <td><input type="number" name="loan_id" value="<%= loans[i].loan_id %>" hidden></td>
-                    <td> <input type="submit" value="Approve" name="type"></td>
-                    <td> <input type="submit" value="Reject" name="type"></td>
+                    <td> <input type="submit" value="Approve" name="type" class="button" style="width: 90px;"></td>
+                    <td> <input type="submit" value="Reject" name="type" class="button" style="width: 90px;"></td>
+                    <td hidden><input type="number" name="loan_id" value="<%= loans[i].loan_id %>" hidden></td>
                 </form>
                 </tr>
                 

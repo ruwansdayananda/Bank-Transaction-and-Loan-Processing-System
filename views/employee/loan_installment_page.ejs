@@ -17,7 +17,7 @@
                     <div class="card-header-title">Loan Installments</div>
                     </div>
                 <div class="card-body">
-        Loan installments for <%= loan_id %> 
+        <h5 style="color:#113F86;"> Loan installments for <%= loan_id %> </h5>
        
             <% if (is_late ) {%>
         <form action = "/employee/loan_installments/late" method="POST">

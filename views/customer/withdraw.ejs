@@ -20,7 +20,7 @@
                 <div class="card-body">
         <form action="" method="post" id="withdraw">
             <label for="account" class="text-box-label">Select your Account</label>
-            <select class="form-select"  name='account_id' form="withdraw" class="form-control w-50" style="border-color: #113F86;">
+            <select class="form-select"  name='account_id' form="withdraw" class="form-control " style="border-color: #113F86;">
                 <% for(var j=0; j< accounts.length; j++) {%> 
                 <option value="<%=JSON.stringify(accounts[j])  %>"> <%= accounts[j].savings_account_id %>
                 </option>

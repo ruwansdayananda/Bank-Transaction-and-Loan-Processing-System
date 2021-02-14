@@ -18,7 +18,7 @@
                     </div>
                 <div class="card-body">
         <% if (transactions.length>0) {%>
-        <table>
+        <table class="table table-bordered">
             <thead>
                 <th>Transaction ID</th>
                 <th>Date</th>
@@ -41,7 +41,7 @@
             </table>
                 <%} %>
 
-                <form action="/" method="GET">
+                <form action="/" method="GET" style="margin-top: 40px;">
                     <input type="submit" value="Home" class="button" style="width: 200px; background-color:#ff1744;">
                 </form>
                 </div></div></div>
