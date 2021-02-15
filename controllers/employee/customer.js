@@ -83,7 +83,8 @@ const createIndividualCustomer = async (request, response) => {
     return response.status(200).redirect('/employee');
 };
 
-const createCorporateCustomer =  async (request, response) => {
+const createCorporateCustomer = async (request, response) => {
+    console.log(request.body);
     const {error} = validateCorporate(request.body);
     if (error) {
         console.log(error);
@@ -95,7 +96,7 @@ const createCorporateCustomer =  async (request, response) => {
         });
     }
 
-    if (await Customer.isCorporateEmailRegistered(request.body.email)) {
+    if (await Customer.isCorporateEmailRegistered(request.body.corporate_email)) {
         var err_msg = "This email address has already been registered";
         return response.render('employee/corporate_error', {
             error_msg: err_msg,

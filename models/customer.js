@@ -29,6 +29,8 @@ class Customer{
                     if (error) {
                         reject(new Error(error.message));
                     }
+                    console.log(result.sql);
+                    console.log(results);
                     resolve(results);
                 }
             )
