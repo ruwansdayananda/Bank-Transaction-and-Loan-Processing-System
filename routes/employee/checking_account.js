@@ -8,7 +8,7 @@ const {createCheckingAccount, getCheckingAccountForm} = require('../../controlle
 router.get('/', [isLoggedIn, isEmployee], getCheckingAccountForm);
 
 // route to create new checking account
-// URL localhost:3000/employee/checking_account
+// http://localhost:3000/employee/checking_account
 router.post('/', [isLoggedIn, isEmployee], createCheckingAccount);
 
 module.exports = router;

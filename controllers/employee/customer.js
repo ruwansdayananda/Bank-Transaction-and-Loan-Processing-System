@@ -119,29 +119,6 @@ const createCorporateCustomer = async (request, response) => {
     return response.status(200).redirect('/employee');
 };
 
-const searchForCustomer = async (request, response) => {
-    try {
-        const savingsAccounts = await Employee.findCustomerSavingsAccount(request.params.id);
-        if ((!(savingsAccounts)) || savingsAccounts.length == 0) {
-            return response.render('employee/savings_account', {
-                hasErrors: true,
-                error_message: "This customer has no savings accounts created. Open a savings account before creating a fixed deposit"
-            });
-        }
-        else {
-            return response.render('employee/savings_account', {
-                hasErrors: false,
-                accounts: savingsAccounts
-            });
-        }
-    }
-    catch (error) {
-        console.log(error);
-        return response.render('500', {
-            err_msg: error
-        });
-    }
-}
 
 const findCustomerProfile = async (req, res) => {
     console.log(req.body);

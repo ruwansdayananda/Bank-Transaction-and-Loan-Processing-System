@@ -68,7 +68,7 @@ class BranchManager {
 
     static getPendingLoans(branch_id) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM normal_loan WHERE normal_loan.status = 'Pending' AND normal_loan.branch_id = ?",
+            const result = pool.query("SELECT * FROM normal_loan NATURAL JOIN loan_plan WHERE normal_loan.status = 'Pending' AND normal_loan.branch_id = ?",
                 [
                     branch_id,
                 ],

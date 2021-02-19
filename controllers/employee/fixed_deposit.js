@@ -22,13 +22,14 @@ function validateFixedDeposit(account) {
 const getFixedDepositForm = async (request, response) => {
     try {
         const plans = await Employee.getAllFixedDepositPlans();
-        const id = await Employee.getFixedDepositID();
+        const fd_id = await Employee.getFixedDepositID();
+        const sa_id = await Customer.getAllSavingsAccountIDs(request.session.customer_id);
         const date = Lookup.getTodayDate();
-        console.log(id);
         return response.status(200).render('employee/fixed_deposit', {
             customer_id: request.session.customer_id,
             plans: plans,
-            id: id[0].AUTO_INCREMENT,
+            id: fd_id[0].AUTO_INCREMENT,
+            savingsIds: sa_id,
             branch_id: request.user.branch_id,
             date: date
         });

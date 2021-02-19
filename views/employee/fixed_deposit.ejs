@@ -21,7 +21,7 @@
                     </div>
                 <div class="card-body">
         <div>
-        <form action="/employee/fixed_deposit" method="POST">
+        <form action="/employee/fixed_deposit" method="POST" id = "fixed_deposit">
             <table class="table table-bordered">
                 <thead>
                     <th scope="col">Select:</th>
@@ -62,8 +62,12 @@
             
 
             <label for="" class="text-box-label">Linked Savings Account </label>
-            <input type="text" id="savings_account_id" name="savings_account_id" class="form-control w-50" style="border-color: #113F86;" required>
-            
+            <select class="form-select" name="savings_account_id" form="fixed_deposit" class="form-control w-50"
+                style="border-color: #113F86;">
+                <% for(var j=0; j< savingsIds.length; j++) {%> 
+                <option value="<%= savingsIds[j].savings_account_id%>" > <%= savingsIds[j].savings_account_id%> </option>
+                <% } %> 
+            </select>
 
             <label for="" class="text-box-label">Deposit</label>
             <input type="number" id="deposit_amount" name="deposit_amount" class="form-control w-50" style="border-color: #113F86;" required>

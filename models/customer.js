@@ -1,5 +1,4 @@
-const { reject } = require('lodash');
-const { resolve } = require('path');
+
 const { pool } = require('../startup/mysql_database');
 
 class Customer{
@@ -60,29 +59,6 @@ class Customer{
         })
     }
 
-    static enterOnlineLoan(body) {
-        return new Promise((resolve, reject) => {
-            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
-                [
-                    body.loan_plan_id,
-                    body.fixed_deposit_id,
-                    body.customer_id,
-                    body.branch_id,
-                    body.loan_installment,
-                    body.loan_amount,
-                    body.created_date,
-
-                ],
-                function (error, results, fields) {
-                    if (error) {
-                        reject(error);
-                    };
-                    resolve(console.log("succesful"));
-                }
-            )
-        })
-    }
-
     static createOnlineLoan(body) {
         return new Promise((resolve, reject) => {
             const result = pool.query("CALL create_online_loan (?,?,?,?,?,?)",
@@ -125,27 +101,6 @@ class Customer{
         })
         
     }
-
-
-    // static async getMaximumWithdrawAmount(body){
-    //     return await new Promise((resolve,reject) => {
-    //         const result = pool.query("SELECT max_withdrawal_limit,no_of_withdrawals_remaining FROM savings_account WHERE savings_account_id=?",
-    //         [
-    //             body.account_id
-    //         ],
-            
-    //         function (error, results, fields) {
-    //             if (error) {
-    //                 console.log(error);
-    //                 reject(error);
-    //             };
-    //             console.log(results);
-    //             resolve(results);
-    //         },
-            
-    //         )
-    //     })
-    // }
 
     static getAllSavingsAccountsForWithdraw(customerID) {
         return new Promise((resolve, reject) => {

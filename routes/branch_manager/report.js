@@ -12,11 +12,11 @@ routes.get('/request', [isLoggedIn, isBranchManager], (req, res) => {
     return res.render('branch_manager/request_report');
 });
 
-// // http://localhost:3000/branch_manager/report/transactions
+// http://localhost:3000/branch_manager/report/transactions
 // routes.post('/transactions', [isLoggedIn, isBranchManager], (generateTransactionsReport));
 
 
-// // http://localhost:3000/branch_manager/report/late_loan_installments
+// http://localhost:3000/branch_manager/report/late_loan_installments
 // routes.post('/late_loan_installments', [isLoggedIn, isBranchManager], generateLateLoanInstallments);
 
 // http://localhost:3000/branch_manager/report

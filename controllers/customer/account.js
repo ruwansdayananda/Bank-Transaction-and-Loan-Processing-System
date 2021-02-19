@@ -61,8 +61,8 @@ const Withdraw = async (req, res) => {
     if (error)
     {
         console.log(error);
-        return response.status(400).render('400', {
-            err_msg: error
+        return res.status(400).render('400', {
+            err_msg: `You tried to withdraw more than your maximum allowed limit of ${maxAmount}`
         });
     }
 
@@ -73,7 +73,7 @@ const Withdraw = async (req, res) => {
     if (parseFloat(req.body.account.withdrawal_amount) <= parseFloat(req.body.account.bank_balance) && limit - 1 >= 0 && parseFloat(req.body.amount) <= parseFloat(maxAmount))
     {
         try {
-            const result = await Customer.withdrawMoney(req.body.account.date, req.body.account.savings_account_id, req.body.account.withdrawal_amount);
+            await Customer.withdrawMoney(req.body.account.date, req.body.account.savings_account_id, req.body.account.withdrawal_amount);
             return res.render('customer/home');
         }
         catch (error) {
