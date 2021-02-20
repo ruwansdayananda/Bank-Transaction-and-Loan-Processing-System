@@ -204,7 +204,7 @@ class Customer{
             )
         })
     }
-
+f
     //online loans related
     static getAllFixedDepositsIDs(customerID) {
         return new Promise((resolve, reject) => {
@@ -321,7 +321,10 @@ class Customer{
                         console.log(result.sql);
                         reject(error);
                     };
-                    resolve(console.log("succesful"));
+                    console.log(result.sql);
+                    console.log(results);
+                    console.log(results.changedRows);
+                    resolve(results.changedRows);
                 }
             )
         })
@@ -341,7 +344,8 @@ class Customer{
                         console.log(result.sql);
                         reject(error);
                     };
-                    resolve(console.log("succesful"));
+                resolve(results.changedRows);
+
                 }
             )
         })

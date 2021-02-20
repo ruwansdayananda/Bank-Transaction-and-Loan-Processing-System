@@ -63,9 +63,8 @@ const TranferAmount = async (request,response)=>{
     }
     try {
 
-        await Customer.tranferMoneySavings(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
-        return response.redirect('/');
-        
+        const result = await Customer.tranferMoneySavings(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]))
+            return response.redirect('/');
     } catch (error) {
         
         return response.status(500).render("500", {
@@ -86,11 +85,12 @@ const TranferAmountChecking = async (request,response)=>{
         return response.render('400.ejs',{err_msg:"Account numbers cant be the same"});
     }
     try {
-        await Customer.tranferMoneyChecking(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]));
-        return response.redirect('/');
+        const result = await Customer.tranferMoneyChecking(_.pick(request.body, ["initiating_account_id", "receiving_account_id", "transaction_amount"]));
+        
+            return response.redirect('/');
     } catch (error) {
         return response.status(500).render("500", {
-            err_msg: error
+            err_msg: "Insufficient bank balance"
         });
     }
 
