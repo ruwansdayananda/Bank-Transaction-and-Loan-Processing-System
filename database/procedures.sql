@@ -643,9 +643,6 @@ BEGIN
       SET status = "Approved"
       WHERE loan_id = loan_id_1;
 
-      INSERT INTO loan_installment (`loan_id`, `due_date`, `loan_installment`, `remaining_no_of_installments`) VALUES
-      (loan_id_1, CURRENT_DATE + INTERVAL 30 DAY,loan_installment_1,no_of_installments);
-
       IF `_rollback` THEN
               ROLLBACK;
           ELSE
@@ -675,3 +672,6 @@ BEGIN
       END IF;
 END$$
 
+
+      INSERT INTO loan_installment (`loan_id`, `due_date`, `loan_installment`, `remaining_no_of_installments`) VALUES
+      (loan_id_1, CURRENT_DATE + INTERVAL 30 DAY,loan_installment_1,no_of_installments);
