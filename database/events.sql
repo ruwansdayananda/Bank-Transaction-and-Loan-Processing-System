@@ -29,8 +29,6 @@ SET
   bank_balance = bank_balance + monthly_addition
   WHERE
   CEIL(DATEDIFF(NOW(), started_date) / 30) = DATEDIFF(NOW(), started_date) / 30;
-  
-
 
 -- TODO:  ADD an event to reset the withdrawal limit of savings accounts
 
@@ -59,7 +57,7 @@ BEGIN
   set AUTOCOMMIT = 0;
   START TRANSACTION;
   INSERT INTO `late_loan_installment` (`installment_id`) SELECT `installment_id` FROM `loan_installment` WHERE `due_date`<CURRENT_DATE;
-  UPDATE loan_installment SET due_date = due_date+INTERVAL 30 DAY;
+  UPDATE loan_installment SET due_date = due_date+INTERVAL 30 DAY WHERE `due_date`<CURRENT_DATE;
   IF `_rollback` THEN
         ROLLBACK;
     ELSE
