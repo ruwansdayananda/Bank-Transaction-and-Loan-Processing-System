@@ -83,7 +83,8 @@ const createIndividualCustomer = async (request, response) => {
     return response.status(200).redirect('/employee');
 };
 
-const createCorporateCustomer =  async (request, response) => {
+const createCorporateCustomer = async (request, response) => {
+    console.log(request.body);
     const {error} = validateCorporate(request.body);
     if (error) {
         console.log(error);
@@ -95,7 +96,7 @@ const createCorporateCustomer =  async (request, response) => {
         });
     }
 
-    if (await Customer.isCorporateEmailRegistered(request.body.email)) {
+    if (await Customer.isCorporateEmailRegistered(request.body.corporate_email)) {
         var err_msg = "This email address has already been registered";
         return response.render('employee/corporate_error', {
             error_msg: err_msg,
@@ -118,29 +119,6 @@ const createCorporateCustomer =  async (request, response) => {
     return response.status(200).redirect('/employee');
 };
 
-const searchForCustomer = async (request, response) => {
-    try {
-        const savingsAccounts = await Employee.findCustomerSavingsAccount(request.params.id);
-        if ((!(savingsAccounts)) || savingsAccounts.length == 0) {
-            return response.render('employee/savings_account', {
-                hasErrors: true,
-                error_message: "This customer has no savings accounts created. Open a savings account before creating a fixed deposit"
-            });
-        }
-        else {
-            return response.render('employee/savings_account', {
-                hasErrors: false,
-                accounts: savingsAccounts
-            });
-        }
-    }
-    catch (error) {
-        console.log(error);
-        return response.render('500', {
-            err_msg: error
-        });
-    }
-}
 
 const findCustomerProfile = async (req, res) => {
     console.log(req.body);

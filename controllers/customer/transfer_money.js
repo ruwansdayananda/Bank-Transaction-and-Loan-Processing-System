@@ -32,9 +32,6 @@ const getTransactionForm = async (request,response)=>{
         });
     }
 
-
-
-
 }
 
 const getTransactionFormChecking = async (request,response)=>{
@@ -51,10 +48,6 @@ const getTransactionFormChecking = async (request,response)=>{
             err_msg:error
         });
     }
-
-
-
-
 }
 
 

@@ -14,8 +14,6 @@ router.get('/', [isLoggedIn, isEmployee], getFixedDepositForm);
 // route to create new savings account
 router.post('/',[isLoggedIn,isEmployee], createFixedDeposit);
 
-// router.post('/findSavingsAccounts', searchForCustomer);
-
 module.exports = router;
 
 

@@ -25,10 +25,10 @@
             <thead>
                 <th>Initiated Date</th>
                 <th>Loan ID</th>
-                <th>Loan Plan ID</th>
+                <th>Loan Plan Chosen</th>
                 <th>Loan Amount</th>
                 <th>Customer ID</th>
-                <th>Savings  Account</th>
+                <th>Linked Savings  Account</th>
                 <th>Monthly Installment</th>
                 <th></th>
                 <th></th>
@@ -43,7 +43,7 @@
                     <form action="" method="POST">
                     <td><%=(JSON.stringify(loans[i].created_date)).toString().substr(1,10) %></td>
                     <td><%= loans[i].loan_id %></td>
-                    <td><%= loans[i].loan_plan_id %></td>
+                    <td><%= loans[i].plan_name %></td>
                     <td><%= loans[i].loan_amount%></td>
                     <td><%= loans[i].customer_id%></td>
                     <td><%= loans[i].account_id %></td>

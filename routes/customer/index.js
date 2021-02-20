@@ -8,7 +8,6 @@ routes.use('/profile', require('./profile'));
 
 const isCustomer = require('../../middleware/employee');
 const isLoggedIn = require('../../middleware/login');
-const router = require('./online_loan');
 
 routes.get('/', [isLoggedIn, isCustomer], (request, response) => {
     return response.render('customer/home');

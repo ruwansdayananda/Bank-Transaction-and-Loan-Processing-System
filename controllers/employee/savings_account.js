@@ -11,7 +11,7 @@ function validateSavingsAccountForm(account) {
         "branch_id": Joi.number().integer().required(),
         "customer_id": Joi.number().integer().required(),
         "savings_plan_id": Joi.number().integer().required(),
-        "source_of_funds": Joi.string().required().alphanum().max(20),
+        "source_of_funds": Joi.string().required().max(20),
         "started_date": Joi.date().required(),
         "bank_balance": Joi.number().positive().precision(2),
         "no_of_withdrawals_remaining": Joi.number().integer().required().max(5).min(0),

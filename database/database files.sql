@@ -291,7 +291,6 @@ CREATE TABLE `loan_installment` (
     FOREIGN KEY (`loan_id`) REFERENCES loan(`loan_id`) ON DELETE CASCADE ON UPDATE CASCADE
   );
 ALTER TABLE loan_installment AUTO_INCREMENT = 30000001;
-ALTER TABLE loan_installment ADD INDEX  (`status`);
 
 CREATE TABLE `late_loan_installment` (
     `installment_id` INT NOT NULL,

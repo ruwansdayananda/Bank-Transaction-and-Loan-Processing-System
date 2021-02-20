@@ -7,7 +7,7 @@ const isCustomer = require('../../middleware/customer');
  * @todo: html file
  */
 
- //localhost:3000/customer/loan/online
+ //http://localhost:3000/customer/loan/online
 router.get('/online',[isLoggedIn,isCustomer],loadOnlineLoanForm );
 
 router.post('/online', createOnlineLoan);

@@ -53,12 +53,11 @@ const login = async (request, response) => {
     }
     const { error} = validateLogIn(request.body);
      if (error) {
-         return response.status(400).render(error, {
+         return response.status(400).render(error_1, {
              hasError: true,
-             error: error
+             error: "Invalid email or password"
          });
      }
-    
 
         try {
             result = await getPassword(request.body.email, table);
@@ -117,7 +116,6 @@ const login = async (request, response) => {
             return response.status(200).render(redirect);
             
         } catch (error) {
-            console.log(error.message);
             return response.render('500', {
                 err_msg: error
             });
