@@ -6,7 +6,15 @@ const Lookup = require('../../models/Lookup');
 const getPendingLoans = async(request,response)=>{
 
     try {
-        const loans = await  BranchManager.getPendingLoans(request.user.branch_id);
+        let loans;
+        if(request.user.branch_id ==1 ){
+             loans = await  BranchManager.getAllPendingLoans();
+
+        }
+        else{
+            loans = await  BranchManager.getPendingLoans(request.user.branch_id);
+        }
+        
         console.log(loans);
         response.render('branch_manager/loan_approval',{loans:loans, branch:request.user.branch_id});
 

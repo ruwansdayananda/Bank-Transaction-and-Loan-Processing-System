@@ -85,6 +85,22 @@ class BranchManager {
         })
     }
 
+    static getAllPendingLoans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM normal_loan NATURAL JOIN loan_plan WHERE normal_loan.status = 'Pending'",
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    console.log(result.sql);
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
     static approveLoan(loan_id) {
         return new Promise((resolve, reject) => {
             const result = pool.query("UPDATE `normal_loan` SET normal_loan.status = ? WHERE normal_loan.loan_id = ?",
