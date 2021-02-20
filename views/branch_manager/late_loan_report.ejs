@@ -15,8 +15,17 @@
             <div class="card-content" style="width: 1000px;">
                 <div class="card-header-blue">
                     <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
-                    <div class="card-header-title">Late Loans Report</div>
-                </div>
+                    <div class="card-header-title">Installments Report</div>
+                    <div class="card-header-secondary-text">
+                        <%if(branch ==1){%>
+                            Head Office
+                        <% } else{%> 
+
+                            Branch ID: <%= branch %> 
+                        <% } %> 
+                         </div>
+
+                    </div>
                 <div class="card-body" style="height:400px; overflow-y:auto;">
         <% const months = ['January','February','March','April','May','June','July','August','September','October','November','December']%>
         <h2 style="color: #113F86;">Late Loan Report Installments for <%= months[parseInt(month) -1] %>
@@ -26,6 +35,9 @@
         <table class="table table-bordered">
             <thead>
                 <th>Installment ID</th>
+                <%if(branch ==1){%>
+                    <th>Branch ID</th>
+                <% } %> 
                 <th>Loan ID</th>
                 <th>Installment </th>
                 <th>Remaining Installment</th>
@@ -36,6 +48,9 @@
                 <% for(var i=0; i<installments.length;i++) {%>
                 <tr>
                     <td><%= installments[i].installment_id%></td>
+                    <%if(branch ==1){%>
+                        <td> <%= installments[i].branch_id%> </td>
+                    <% } %> 
                     <td><%= installments[i].loan_id%></td>
                     <td><%= installments[i].loan_installment%></td>
                     <td><%= installments[i].remaining_no_of_installments%></td>

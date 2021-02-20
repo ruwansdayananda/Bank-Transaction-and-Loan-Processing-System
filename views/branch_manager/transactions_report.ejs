@@ -15,12 +15,23 @@
             <div class="card-content" style="width: 1000px;">
                 <div class="card-header-blue">
                     <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
-                    <div class="card-header-title">Transactions Report</div>
-                </div>
-                <div class="card-body" style="height:400px; overflow-y:auto;">
+                    <div class="card-header-title">Transactions</div>
+                    <div class="card-header-secondary-text">
+                        <% if(branch ==1) {%> 
+                             Head Office
+                        <% }else { %> 
+                            Branch ID: <%= branch %>
+                         <%}%>      
+                         </div>
+                    </div>
+                <div class="card-body"  style="height:400px; overflow-y:auto;">
+
         <% if (transactions.length>0) {%>
         <table class="table table-bordered">
             <thead>
+                <% if(branch ==1) {%>  
+                <th>Branch ID</th>
+                <% } %> 
                 <th>Transaction ID</th>
                 <th>Date</th>
                 <th>Initiating Account</th>
@@ -31,6 +42,9 @@
             <tbody>
                 <% for(var i=0; i<transactions.length;i++) {%>
                 <tr>
+                    <% if( branch ==1) {%>  
+                        <td><%= transactions[i].branch_id%></td>
+                        <% } %> 
                     <td><%= transactions[i].transaction_id%></td>
                     <td><%=(JSON.stringify(transactions[i].date)).toString().substr(1,10) %></td>
                     <td><%= transactions[i].initiating_account_id%></td>

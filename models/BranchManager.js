@@ -25,6 +25,26 @@ class BranchManager {
         })
     }
 
+    static getAllTransationsHO(month, year) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM transaction_information WHERE EXTRACT(MONTH FROM date) = ? AND EXTRACT(YEAR FROM date) = ? ",
+                [
+                    month,
+                    year
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    console.log(result.sql);
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
     static getAllTransations(branch_id,month, year) {
         return new Promise((resolve, reject) => {
             const result = pool.query("SELECT * FROM transaction_information WHERE EXTRACT(MONTH FROM date) = ? AND EXTRACT(YEAR FROM date) = ? AND branch_id = ?",
@@ -48,10 +68,35 @@ class BranchManager {
 
     static getLateLoanInstallments(branch_id, month, year) {
         return new Promise((resolve, reject) => {
-            const result = pool.query("SELECT * FROM late_loan_information WHERE due_month = ? AND due_year = ?",
+            const result = pool.query("SELECT * FROM late_loan_information WHERE due_month = ? AND due_year = ? AND branch_id=?",
                 [
                     month,
-                    year
+                    year,
+                    branch_id
+                    
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    console.log(result.sql);
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
+    static getLateLoanInstallmentsHO( month, year) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM late_loan_information WHERE due_month = ? AND due_year = ? ",
+                [
+                    month,
+                    year,
+                    
+
                 ],
                 function (error, results, fields) {
                     if (error) {
