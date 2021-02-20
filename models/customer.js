@@ -1,39 +1,395 @@
-const Joi = require('joi');
+const { reject } = require('lodash');
+const { resolve } = require('path');
+const { pool } = require('../startup/mysql_database');
 
-function validateIndividual(customer) {
-    const now = Date.now();
-    const cutoffDate = new Date(now - (1000 * 60 * 60 * 24 * 365 * 18));
+class Customer{
 
-    const schema = Joi.object({
-        "full_name"                 : Joi.string().pattern(new RegExp('^[a-z]+(?: [a-z]+)+$')).required().min(5),    //the name must have at least two words seperated by a space
-        "address"                   : Joi.string().required(),
-        "national_ID"               : Joi.string().required().min(10),
-        "date_of_birth"             : Joi.date().greater('1974-01-01').less(cutoffDate).required(),
-        "residential_contact_no"    : Joi.string().required().min(10),
-        "personal_contact_no"       : Joi.string().required().min(10),
-        "date_joined"               : Joi.string().required(),
-        "email"                     : Joi.string().email().required(),
-        "password"                  : Joi.string().min(5).max(1024).required(),
-    });
-    return schema.validate(customer);
-}
+    static async isIndividualEmailRegistered(email) {
+        var result = await new Promise((resolve, reject) => {
+            const result = pool.query('SELECT customer_id FROM individual_customer WHERE email = ?',
+                [email],
+                function (error, results) {
+                    if (error) {
+                        reject(new Error(error.message));
+                    }
+                    resolve(results);
+                }
+            )
+        })
 
-function validateCorporate(company) {
-    const schema = Joi.object({
-        "company_registration_number"   : Joi.string().required(),
-        "company_name"                  : Joi.string().min(3).required(),
-        "company_email"                 : Joi.string().email().required(),
-        "address"                       : Joi.string().required(),
-        "date_of_establishment"         : Joi.date().required(),    //Constranins must be checked
-        "contact_no"                    : Joi.string().required().min(10),
-        "date_joined"                   : Joi.date().required(),     // Constraints must be checked
-        "correspondent"                 : Joi.string().alphanum().required(),
-        "correspondent_email"           : Joi.string().email().required(),
-        "password"                      : Joi.string().min(5).max(1024).required(),
+        return result.length != 0;
+    }
+
+
+    static async isCorporateEmailRegistered(email) {
+        var result = await new Promise((resolve, reject) => {
+            const result = pool.query('SELECT customer_id FROM corporate_customer WHERE corporate_email = ?',
+                [email],
+                function (error, results) {
+                    if (error) {
+                        reject(new Error(error.message));
+                    }
+                    resolve(results);
+                }
+            )
+        })
+
+        return result.length != 0;
+    }
+
+    static withdrawMoney(date, savings_account_id, withdrawal_amount) {
+        return new Promise((resolve,reject) => {
+            const result = pool.query("CALL savings_account_money_withdrawal(?,?,?)",
+            [
+                date, savings_account_id, withdrawal_amount
+            ],
+
+            function (error, results, fields) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    console.log(result.sql);
+                    resolve(console.log("successssss!!!"));
+                }
+                
+            }
+            )
+        })
+    }
+
+    static enterOnlineLoan(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount,
+                    body.created_date,
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
+
+    static createOnlineLoan(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL create_online_loan (?,?,?,?,?,?)",
+                [
+                    body.loan_plan_id,
+                    body.fixed_deposit_id,
+                    body.customer_id,
+                    body.branch_id,
+                    body.loan_installment,
+                    body.loan_amount
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
+
+    static getAllSavingsAccounts(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM all_savings_accounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
         
-    });
-    return schema.validate(company);
+    }
+
+
+    // static async getMaximumWithdrawAmount(body){
+    //     return await new Promise((resolve,reject) => {
+    //         const result = pool.query("SELECT max_withdrawal_limit,no_of_withdrawals_remaining FROM savings_account WHERE savings_account_id=?",
+    //         [
+    //             body.account_id
+    //         ],
+            
+    //         function (error, results, fields) {
+    //             if (error) {
+    //                 console.log(error);
+    //                 reject(error);
+    //             };
+    //             console.log(results);
+    //             resolve(results);
+    //         },
+            
+    //         )
+    //     })
+    // }
+
+    static getAllSavingsAccountsForWithdraw(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT savings_account_id,customer_id,no_of_withdrawals_remaining,max_withdrawal_limit,bank_balance FROM all_savings_accounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+
+    static depositMoney(date,account_id,deposit_amount){
+        return new Promise( (resolve,reject) => {
+            const result = pool.query("CALL savings_account_money_deposit (?,?,?)",
+            [
+                date,
+                account_id,
+                deposit_amount
+            ],
+            
+            function (error, results, fields) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    console.log(result.sql);
+                    resolve(console.log("successssss!!!"));
+                }
+                
+            }
+            )
+        })
+    }
+
+
+    static getAllSavingsAccountIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT savings_account_id FROM all_savings_accounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+         
+    static getAllCheckingAccountIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT checking_account_id  FROM all_checking_accounts WHERE customer_id=? AND status=?",
+                [
+                    customerID,
+                    "Open"
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
+    static getAllCheckingAccounts(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM all_checking_accounts WHERE customer_id=?",
+                [
+                    customerID
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+    }
+
+    //online loans related
+    static getAllFixedDepositsIDs(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT fixed_deposit_id,branch_id, deposit_amount FROM all_fixed_deposits WHERE customer_id=? AND status=?",
+                [
+                    customerID,
+                    "Open"
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+    static getAllLoanPlans() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM loan_plan",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+        
+    }
+    
+    static getOnlineLoanID() {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'bank' AND TABLE_NAME = 'online_loan'",
+                [],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(result);
+                    };
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    
+
+    static getAllFixedDeposits(customerID) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("SELECT * FROM all_fixed_deposits WHERE customer_id=? AND status=?",
+                [
+                    customerID,
+                    "Open"
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+    static getProfileInformation(customerID, privilege_level) {
+        let query;
+        if (privilege_level == 3) {
+            query = "SELECT * FROM corporate_customer WHERE customer_id=?"
+        }
+        else {
+            query = "SELECT * FROM individual_customer WHERE customer_id=?"
+        }
+
+        return new Promise((resolve, reject) => {
+            const result = pool.query(query,
+                [
+                    customerID
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(error);
+                        reject(error);
+                    };
+                    console.log(results);
+                    resolve(results);
+                }
+            )
+        })
+
+    }
+
+
+    static tranferMoneySavings(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL savings_account_money_transfer (?,?,?)",
+                [
+                    body.initiating_account_id,
+                    body.receiving_account_id,
+                    body.transaction_amount
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
+
+    static tranferMoneyChecking(body) {
+        return new Promise((resolve, reject) => {
+            const result = pool.query("CALL checking_account_money_transfer (?,?,?)",
+                [
+                    body.initiating_account_id,
+                    body.receiving_account_id,
+                    body.transaction_amount
+
+                ],
+                function (error, results, fields) {
+                    if (error) {
+                        console.log(result.sql);
+                        reject(error);
+                    };
+                    resolve(console.log("succesful"));
+                }
+            )
+        })
+    }
 }
 
-exports.validateIndividual = validateIndividual;
-exports.validateCorporate = validateCorporate;
+
+module.exports = Customer;

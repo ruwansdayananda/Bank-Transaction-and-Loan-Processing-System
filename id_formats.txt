@@ -23,5 +23,10 @@ checking account - 7 + 5 digits  =  700001
 fixed deposit - 8 + 5 digits  = 800001
 
 
+
+deposit id - 9 + 7 digits   = 70000001
+
+withdrawal id - 9 + 7 digits   = 80000001
+
 transaction id - 9 + 7 digits   = 90000001
 
