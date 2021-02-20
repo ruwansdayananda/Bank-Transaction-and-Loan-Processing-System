@@ -5,11 +5,6 @@ const {getTransactionForm,TranferAmount,getTransactionFormChecking,TranferAmount
 const isLoggedIn = require('../../middleware/login');
 const isCustomer = require('../../middleware/customer');
 
-  /**
-     * @todo
-     * incomplete 
-     * load alll the account of customer 
-     */
     
 router.get('/savings_account',[isLoggedIn,isCustomer],getTransactionForm);
 router.post('/savings_account',[isLoggedIn,isCustomer],TranferAmount);
