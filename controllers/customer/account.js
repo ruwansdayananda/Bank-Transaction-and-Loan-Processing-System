@@ -78,14 +78,14 @@ const Withdraw = async (req, res) => {
         }
         catch (error) {
         console.log(error);
-        return response.render('500', {
+        return res.render('500', {
             err_msg: error
         });
         }
     } 
     else {
         console.log("Insufficient bank balance");
-        return response.render('400', {
+        return res.render('400', {
             err_msg: "Insufficient bank balance"
         });
     }
@@ -108,7 +108,9 @@ const deposit = async (req,res) => {
 
     if(req.body.amount<=0){
         console.log("Deposite Amount Should be Positive");
-        return res.render('400');
+        return res.render('400', {
+            err_msg: "Deposit amount Should be positive"
+        });
     }
 
     try{
@@ -117,8 +119,9 @@ const deposit = async (req,res) => {
         return res.render('customer/home');
     }
     catch(error){
-        console.log(error);
-        return res.render('500');
+        return res.render('500', {
+            err_msg: error
+        });
     }
 
 }

@@ -8,10 +8,7 @@ function validateNormalLoan(NormalLoan) {
 
     const schema = Joi.object({
         "loan_plan_id": Joi.number().integer().required(),
-        /**
-         * @todo account id for normal loans to be restricted to just savings accounts or not?
-         */
-        "account_id": Joi.number().integer().required(),
+        "account_id": Joi.number().integer().min(600001).required(),
         "loan_amount": Joi.number().positive().precision(2).required()
     });
 
@@ -48,12 +45,8 @@ const createNormalLoan = async (request,response) => {
     const loan_amount = request.body.loan_amount;
     const months = parseInt(request.body.loan_period_in_months[parseInt(loan_plan_id)-1]);
     const interest = parseInt(request.body.interest_rate[parseInt(loan_plan_id)-1])
-    
-    
-
     let total_installment = parseFloat(loan_amount)*(interest/100)*(months/12);
     request.body.loan_installment = (total_installment+parseFloat(loan_amount))/months;
-
 
     try {
         await Employee.enterNormalLoan(loan_plan_id, account_id, request.session.customer_id, request.user.branch_id, request.body.loan_installment, created_date, loan_amount);
