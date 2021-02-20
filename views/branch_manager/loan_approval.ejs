@@ -15,16 +15,24 @@
             <div class="card-content" style="width: 1000px;">
                 <div class="card-header-blue">
                     <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
-                    <div class="card-header-title">Savings Accounts</div>
-                </div>
-                <div class="card-body" style="height:400px; overflow-y:auto;">
-        
+                    <div class="card-header-title">Pending Loans</div>
+                    </div>
+                <div class="card-body">
+
+        <% if(branch == 1){ %> 
+            <h2>Branch : Head Office</h2>
+
+        <% } else{%>
         <h2>Branch ID: <%= branch%></h2>
-       
+        <% } %> 
+       <br>
        
         <table class="table table-bordered">
             <thead>
                 <th>Initiated Date</th>
+                <% if(branch == 1){ %> 
+                 <th>Branch ID</th>   
+                 <% } %> 
                 <th>Loan ID</th>
                 <th>Loan Plan Chosen</th>
                 <th>Loan Amount</th>
@@ -43,6 +51,10 @@
                 <tr>
                     <form action="" method="POST">
                     <td><%=(JSON.stringify(loans[i].created_date)).toString().substr(1,10) %></td>
+
+                    <% if(branch == 1){ %> 
+                        <td> <%= loans[i].branch_id %></td>   
+                    <% } %> 
                     <td><%= loans[i].loan_id %></td>
                     <td><%= loans[i].plan_name %></td>
                     <td><%= loans[i].loan_amount%></td>
