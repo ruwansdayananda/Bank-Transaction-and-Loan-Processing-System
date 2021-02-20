@@ -10,13 +10,14 @@
         <link  rel="stylesheet" href="/custom_style.css">
     </head>
     <body class="background">
-        <div  class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto "  style="margin-top: 100px;">
-            <div class="card-content" style="width: 1200px;">
+        <div class="card position-absolute top-50 start-50 translate-middle shadow mb-5 bg-white width-auto"
+            style="margin-top: 20px;">
+            <div class="card-content" style="width: 1000px;">
                 <div class="card-header-blue">
                     <div class="card-header-secondary-text">Mineski Bank - Seychelles </div>
-                    <div class="card-header-title">Pending Loans</div>
-                    </div>
-                <div class="card-body">
+                    <div class="card-header-title">Savings Accounts</div>
+                </div>
+                <div class="card-body" style="height:400px; overflow-y:auto;">
         
         <h2>Branch ID: <%= branch%></h2>
        
@@ -58,10 +59,15 @@
                 </tbody>
             </table>
         <br>
-        <form action="/" method="GET">
-            <input type="submit" value="Home" class="button" style="background-color: #ff1744; width:200px;"    >
-        </form>
-        </div></div></div>
+        </div>
+        <div class="container" style="margin-bottom: 10px;">
+            <form action="/" method="GET">
+                <input type="submit" value="Home" class="button" style="background-color: #ff1744; width:200px;">
+            </form>
+        </div>
+
+        </div>
+        </div>
                 
     </body>
 </html>
