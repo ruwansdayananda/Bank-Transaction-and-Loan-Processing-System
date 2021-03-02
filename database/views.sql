@@ -56,6 +56,17 @@ FROM
   ) NATURAL
   JOIN branch) JOIN savings_account ON (savings_account.savings_account_id = fixed_deposit.savings_account_id);
 
+CREATE OR REPLACE VIEW `normal_loan_installment_information` AS
+SELECT * FROM `normal_loan` NATURAL JOIN `loan_installment`;
+
+CREATE OR REPLACE VIEW `online_loan_installment_information` AS
+SELECT * FROM `online_loan` NATURAL JOIN `loan_installment`;
+
+CREATE OR REPLACE VIEW `late_loan_information_more` AS
+SELECT `loan_id`,`branch_id` FROM online_loan
+UNION
+SELECT `loan_id`,`branch_id` FROM normal_loan;
+
 
 -- Not used anywhere
 CREATE OR REPLACE VIEW `normal_loan_information` AS 
@@ -71,16 +82,5 @@ SELECT  `loan_installment`.`installment_id`, loan_installment.loan_id, `due_date
 FROM loan_installment JOIN late_loan_installment 
 ON (loan_installment.installment_id = late_loan_installment.installment_id) JOIN late_loan_information_more ON (loan_installment.loan_id = late_loan_information_more.loan_id);
 
-
-CREATE OR REPLACE VIEW `normal_loan_installment_information` AS
-SELECT * FROM `normal_loan` NATURAL JOIN `loan_installment`;
-
-CREATE OR REPLACE VIEW `online_loan_installment_information` AS
-SELECT * FROM `online_loan` NATURAL JOIN `loan_installment`;
-
-CREATE OR REPLACE VIEW `late_loan_information_more` AS
-SELECT `loan_id`,`branch_id` FROM online_loan
-UNION
-SELECT `loan_id`,`branch_id` FROM normal_loan;
 
 
