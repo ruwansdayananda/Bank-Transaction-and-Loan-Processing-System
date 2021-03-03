@@ -532,50 +532,28 @@ END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `branch_manager_loan_approval` (
-  IN `loan_id_1` INT,
-  IN `loan_installment_1` NUMERIC(12, 2),
-  IN `no_of_installments` INT)
+  IN `loan_id_1` INT,)
 BEGIN
-    DECLARE `_rollback` BOOL DEFAULT 0;
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
-    
     set AUTOCOMMIT = 0;
-  
-    START TRANSACTION;
-
       UPDATE normal_loan
       SET status = "Approved"
       WHERE loan_id = loan_id_1;
-
-      IF `_rollback` THEN
-              ROLLBACK;
-          ELSE
-              COMMIT;
-        END IF;
+      COMMIT;
 END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `branch_manager_loan_rejection` (
   IN `loan_id_1` INT)
 BEGIN
-    DECLARE `_rollback` BOOL DEFAULT 0;
-    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET `_rollback` = 1;
-    
-    set AUTOCOMMIT = 0;
-  
-    START TRANSACTION;
-
+      set AUTOCOMMIT = 0;
       UPDATE normal_loan
       SET status = "Rejected"
       WHERE loan_id = loan_id_1;
-
-      IF `_rollback` THEN
-              ROLLBACK;
-          ELSE
-              COMMIT;
-      END IF;
+      COMMIT;
 END$$
 
 
-      INSERT INTO loan_installment (`loan_id`, `due_date`, `loan_installment`, `remaining_no_of_installments`) VALUES
-      (loan_id_1, CURRENT_DATE + INTERVAL 30 DAY,loan_installment_1,no_of_installments);
+
+
+INSERT INTO loan_installment (`loan_id`, `due_date`, `loan_installment`, `remaining_no_of_installments`) VALUES
+    (loan_id_1, CURRENT_DATE + INTERVAL 30 DAY,loan_installment_1,no_of_installments);
