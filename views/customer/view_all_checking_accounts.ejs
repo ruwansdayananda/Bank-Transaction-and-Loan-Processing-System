@@ -29,9 +29,11 @@
                    
                      <h3><%= accounts[i].checking_account_id  %></h3>
                      <br>
-                     Branch Name:<%= accounts[i].branch_name  %>
+                     Branch Name : <%= accounts[i].branch_name  %>
                      <br>
-                     Bank Balance: Rs.<%= accounts[i].bank_balance  %>
+                     Bank Balance : Rs.<%= accounts[i].bank_balance  %>
+                     <br>
+                     Started Date : <%=(JSON.stringify(accounts[i].started_date)).toString().substr(1,10) %>
                      <br>
                      <br>
                      <br>
