@@ -48,7 +48,7 @@ CALL update_savings_account_balance();
 
 -- TODO:  ADD an event to reset the withdrawal limit of savings accounts
 
--- 4
+-- 5
 CREATE EVENT `reset_savings_account_withdrawal_limit` ON SCHEDULE EVERY 30 DAY STARTS '2020-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO
 UPDATE
   all_savings_accounts
