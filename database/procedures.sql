@@ -532,7 +532,7 @@ END$$
 
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE `branch_manager_loan_approval` (
-  IN `loan_id_1` INT,)
+  IN `loan_id_1` INT)
 BEGIN
     set AUTOCOMMIT = 0;
       UPDATE normal_loan
