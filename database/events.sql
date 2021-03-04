@@ -36,23 +36,25 @@ BEGIN
     END IF;
 END$$
 
-
--- MONTHLY EVENTS
--- happens monthly on a date we pick (like the 27th)
--- happens after amount added to each account
--- EVENT
-
 -- 4
-CREATE EVENT `update_savings_account_balance_monthly` ON SCHEDULE EVERY 30 DAY STARTS '2020-01-25 22:00:00' ON COMPLETION NOT PRESERVE ENABLE DO
-CALL update_savings_account_balance();
-
--- TODO:  ADD an event to reset the withdrawal limit of savings accounts
-
--- 5
-CREATE EVENT `reset_savings_account_withdrawal_limit` ON SCHEDULE EVERY 30 DAY STARTS '2020-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO
+CREATE EVENT `reset_savings_account_withdrawal_limit` ON SCHEDULE EVERY 1 DAY STARTS '2020-01-25 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO
 UPDATE
   all_savings_accounts
 SET
   no_of_withdrawals_remaining = 5
 WHERE
   CEIL(DATEDIFF(NOW(), started_date) / 30) = DATEDIFF(NOW(), started_date) / 30;
+
+
+-- MONTHLY EVENTS
+-- happens monthly on a date we pick (like the 27th)
+-- happens after amount added to each account
+-- EVENT
+
+-- 5
+CREATE EVENT `update_savings_account_balance_monthly` ON SCHEDULE EVERY 30 DAY STARTS '2020-01-25 22:00:00' ON COMPLETION NOT PRESERVE ENABLE DO
+CALL update_savings_account_balance();
+
+-- TODO:  ADD an event to reset the withdrawal limit of savings accounts
+
+
