@@ -11,3 +11,6 @@ If any code doesn't work in the VSCode integrated terminal (like when setting en
 DATABASE INFORMATION
 
 Database used: MySQL
+
+
+==========================
