@@ -76,6 +76,8 @@ class Customer{
                         console.log(result.sql);
                         reject(error);
                     };
+                        console.log(result.sql);
+
                     resolve(console.log("succesful"));
                 }
             )
